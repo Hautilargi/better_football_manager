@@ -1,18 +1,36 @@
-# Node 20 (LTS) slim
-FROM node:20-slim
+# ---------- Frontend Build ----------
+FROM node:20 AS frontend-build
+WORKDIR /frontend
+COPY frontend/package.json ./
+RUN npm install
+COPY frontend ./
+RUN npm run build
 
-# Arbeitsverzeichnis
-WORKDIR /usr/src/app
 
-# Abhängigkeiten kopieren und installieren
-COPY package*.json ./
-RUN npm ci --only=production
+# ---------- Backend Build ----------
+FROM maven:3.9-eclipse-temurin-21 AS backend-build
+WORKDIR /backend
+COPY backend/pom.xml ./
+RUN mvn dependency:go-offline
+COPY backend ./
+RUN mvn package -DskipTests
 
-# App-Code
-COPY . .
 
-# Port-Expose (nur Dokumentation, runtime nutzt ENV PORT)
-EXPOSE 3000
+# ---------- Runtime ----------
+FROM eclipse-temurin:21-jre
+WORKDIR /app
 
-# Startkommando
-CMD ["node", "server.js"]
+
+# Spring Boot JAR
+COPY --from=backend-build /backend/target/*.jar app.jar
+
+
+# React Build als statische Ressourcen
+COPY --from=frontend-build /frontend/build /app/static
+
+
+ENV SPRING_WEB_RESOURCES_STATIC_LOCATIONS=classpath:/static/,file:/app/static/
+
+
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -1,8 +1,10 @@
 # ---------- Frontend Build ----------
 FROM node:20 AS frontend-build
 WORKDIR /frontend
-COPY frontend/package.json ./
+# Abhängigkeiten installieren
+COPY frontend/package.json frontend/package-lock.json* ./
 RUN npm install
+# Frontend-Code kopieren & bauen
 COPY frontend ./
 RUN npm run build
 
@@ -25,8 +27,8 @@ WORKDIR /app
 COPY --from=backend-build /backend/target/*.jar app.jar
 
 
-# React Build als statische Ressourcen
-COPY --from=frontend-build /frontend/build /app/static
+# Vite Build → Spring Boot Static Resources
+COPY --from=frontend-build /frontend/dist /app/static
 
 
 ENV SPRING_WEB_RESOURCES_STATIC_LOCATIONS=classpath:/static/,file:/app/static/

@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - ./server/.env    # lade Umgebungsvariablen
+    ports:
+      - "${PORT:-3000}:3000"
+    volumes:
+      - db_data:/usr/src/app/database.db    # persistente DB-Datei
+    restart: unless-stopped
+
+volumes:
+  db_data:
+    name: projekt_db_data

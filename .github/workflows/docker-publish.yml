@@ -18,7 +18,7 @@ jobs:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ github.ref_name }}
+      name: main
     permissions:
       packages: write
       contents: read

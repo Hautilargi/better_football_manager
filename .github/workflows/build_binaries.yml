@@ -23,12 +23,15 @@ jobs:
         node-version: '24'
     - name: Build frontend
       working-directory: frontend
-      run: >
+      run: |
         npm ci
         npm run build
         cd ..
-        if [ -d frontend/dist ]; then zip -r frontend-dist.zip
-        frontend/dist; else echo "no dist folder"; fi  
+        if [ -d frontend/dist ]; then
+          zip -r frontend-dist.zip frontend/dist
+        else
+          echo "no dist folder"
+        fi
     - name: Upload frontend zip to release
       uses: actions/upload-release-asset@v1
       with:
@@ -75,7 +78,7 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./backend/target/*.jar
+        asset_path: ./target/*.jar
         asset_name: backend.jar
         asset_content_type: application/java-archive
       env:

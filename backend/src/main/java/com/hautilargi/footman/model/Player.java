@@ -3,6 +3,8 @@ package com.hautilargi.footman.model;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @jakarta.persistence.Entity
 public class Player {
@@ -13,20 +15,28 @@ public class Player {
 
     private String lastname;
     private String firstName;
+    private int skillLevel;
+       
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
-    private float skillLevel;
-
-
-    
     public Player() {
     }
 
-    public Player( String lastname, String firstName, float skillLevel) {
+    public Player( String lastname, String firstName, int skillLevel) {
         this.lastname = lastname;
         this.firstName = firstName;
         this.skillLevel = skillLevel;
     }
 
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Team getTeam() {
+        return this.team;
+    }
 
     public Long getId() {
         return id;
@@ -48,10 +58,10 @@ public class Player {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }   
-    public float getSkillLevel() {
+    public int getSkillLevel() {
         return skillLevel;
     }
-    public void setSkillLevel(float skillLevel) {
+    public void setSkillLevel(int skillLevel) {
         this.skillLevel = skillLevel;
     }
 

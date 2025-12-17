@@ -13,6 +13,15 @@
     <name>footman_backend</name>
     <description>Backend for /hautilargi/footman based on Springboot</description>
 
+     <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+            <spring-boot.run.profiles>local</spring-boot.run.profiles>
+            </properties>
+        </profile>
+    </profiles>
+
     <!-- Spring Boot Parent -->
     <parent>
         <groupId>org.springframework.boot</groupId>

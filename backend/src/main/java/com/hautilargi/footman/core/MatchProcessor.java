@@ -1,8 +1,12 @@
 package com.hautilargi.footman.core;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import com.hautilargi.footman.model.MatchEvent;
+import com.hautilargi.footman.model.MatchResult;
 import com.hautilargi.footman.model.Player;
 import com.hautilargi.footman.model.Team;
 
@@ -10,41 +14,68 @@ public class MatchProcessor {
 
    private static final Random RANDOM = new Random();
 
-    public static int[] processMatch(Team teamA,Team teamB, boolean heimvorteilA) {
-        double staerkeA = durchschnittsStaerke(teamA);
-        double staerkeB = durchschnittsStaerke(teamB);
+    public static MatchResult processMatch(Team home,Team away) {
+        List<MatchEvent> events = new ArrayList<>();
+        int goalsHome = 0;
+        int goalsAway = 0;
 
-        if (heimvorteilA) {
-            staerkeA *= 1.05; // +5% Heimvorteil
-        }
+        for (int minute = 1; minute <= 90; minute++) {
 
-        int toreA = berechneTore(staerkeA, staerkeB);
-        int toreB = berechneTore(staerkeB, staerkeA);
 
-        return new int[]{toreA, toreB};
-    }
+            maybeCard(minute, home, events);
+            maybeCard(minute, away, events);
 
-    private static int berechneTore(double eigeneStaerke, double gegnerStaerke) {
-        int chancen = 5 + RANDOM.nextInt(6); // 5–10 Torchancen
-        int tore = 0;
+            if (maybeGoal(home, away)) {
+                Player scorer = home.getPlayers().get(RANDOM.nextInt(0,10));
+                //scorer.scoreGoal();
+                goalsHome++;
+                events.add(new MatchEvent(minute, MatchEvent.Type.GOAL, scorer, "Goal by " + scorer.getFirstName() + " " + scorer.getLastName() + " for " + home.getName()));
+            }
 
-        for (int i = 0; i < chancen; i++) {
-            double basisWahrscheinlichkeit = eigeneStaerke / (eigeneStaerke + gegnerStaerke);
-            double zufall = RANDOM.nextDouble() * 0.4 + 0.8; // Upset-Faktor (0.8–1.2)
-
-            if (basisWahrscheinlichkeit * zufall > 0.55) {
-                tore++;
+            if (maybeGoal(away, home)) {
+                Player scorer = away.getPlayers().get(RANDOM.nextInt(0,10));
+                //scorer.scoreGoal();
+                goalsAway++;
+                events.add(new MatchEvent(minute, MatchEvent.Type.GOAL, scorer, "Goal by " + scorer.getFirstName() + " " + scorer.getLastName() + " for " + away.getName()));
             }
         }
 
-        return Math.min(tore, 5); // max. 5 Tore
+        //updateForm(home, away, goalsHome, goalsAway);
+
+        return new MatchResult(home, away, goalsHome, goalsAway, events);
+
     }
 
-    private static double durchschnittsStaerke(Team team) {
-        return team.getPlayers().stream()
+
+    private static double strength(Team team) {
+        double strength = team.getPlayers().stream()
                    .mapToInt(Player::getSkillLevel)
                    .average()
                    .orElse(50);
+        //TODO Korrekt karten berechnen
+        return strength/11*team.getPlayers().size();
     }
+
+    private static boolean maybeGoal(Team atk, Team def) {
+        double chance =strength(atk) / (strength(atk)+ strength(def));
+        //TODO Korrekt karten berechnen
+        chance *= atk.getPlayers().size() / 11.0;
+        return RANDOM.nextDouble() < chance * 0.015;
+    }
+
+    private static void maybeCard(int minute, Team team, List<MatchEvent> events) {
+        if (RANDOM.nextDouble() < 0.01) {
+            Player p = team.getPlayers().get(RANDOM.nextInt(0,10));
+            //TODO Gelbe und Rote Karten verwalten
+            //p.setYellowCards(p.getYellowCards() + 1);
+            events.add(new MatchEvent(minute, MatchEvent.Type.YELLOW, p,  "Yellow card to " + p.getFirstName() + " " + p.getLastName() + " of " + team.getName()  ));
+
+            if (RANDOM.nextDouble() < 0.1) {
+               // p.setRedCard(true);
+                events.add(new MatchEvent(minute, MatchEvent.Type.RED, p, "Red card to " + p.getFirstName() + " " + p.getLastName() + " of " + team.getName()   ));
+            }
+        }
+    }
+
 }
 

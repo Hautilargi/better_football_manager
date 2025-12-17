@@ -70,8 +70,8 @@
     </dependencies>
 
     <build>
-        <plugins>
-
+            <finalName>${project.artifactId}</finalName>
+            <plugins>
             <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -46,10 +46,10 @@ public class Player {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getLastname() {
+    public String getLastName() {
         return lastname;
     }
-    public void setLastname(String lastname) {
+    public void setLastName(String lastname) {
         this.lastname = lastname;
     }   
     public String getFirstName() {
@@ -68,6 +68,57 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player [id=" + id + ", lastname=" + lastname + ", firstName=" + firstName + ", skillLevel=" + skillLevel + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("\"id\": ");
+        sb.append(id == null ? "null" : id.toString());
+        sb.append(", \"lastname\": ");
+        if (lastname == null) sb.append("null"); else sb.append('"').append(escapeJson(lastname)).append('"');
+        sb.append(", \"firstName\": ");
+        if (firstName == null) sb.append("null"); else sb.append('"').append(escapeJson(firstName)).append('"');
+        sb.append(", \"skillLevel\": ");
+        sb.append(skillLevel);
+        sb.append("}");
+        return sb.toString();
     }
+
+
+
+    /**
+     * Returns an HTML fragment describing this player (no full document).
+     * Safe to embed in a page that lists multiple players.
+     */
+    public String toHtmlFragment() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<section class=\"player\">\n");
+        sb.append("  <h3>");
+        String fullName = (firstName == null ? "" : firstName) + " " + (lastname == null ? "" : lastname);
+        sb.append(escapeHtml(fullName.trim().isEmpty() ? "(kein Name)" : fullName.trim()));
+        sb.append(" (id=").append(id).append(")</h3>\n");
+        sb.append("  <p>Skill-Level: ").append(skillLevel).append("</p>\n");
+        if (team != null) {
+            sb.append("  <p>Team: ").append(escapeHtml(team.getName() == null ? "(kein Team)" : team.getName())).append("</p>\n");
+        }
+        sb.append("</section>\n");
+        return sb.toString();
+    }
+
+    private static String escapeHtml(String s) {
+        if (s == null) return "";
+        return s.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
+    }
+
+    private static String escapeJson(String s) {
+        if (s == null) return "";
+        return s.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
+    }
+
 }

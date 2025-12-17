@@ -30,15 +30,15 @@ public class Footman {
     public void initializeApp() {
         System.out.println("Application started...");
         System.out.println("Adding Samples to Database...");
-        playerRepository.deleteAllInBatch();
-        teamRepository.deleteAllInBatch();
+        // playerRepository.deleteAllInBatch();
+       // teamRepository.deleteAllInBatch();
 
         if(teamRepository.count()>0){
             System.out.println("Samples already exist, skipping sample data creation.");
             return;
         }
         // Generate Team A
-        Team teamA = new Team("Team A");
+        Team teamA = new Team("AC Alstaden 19");
         teamA.addPlayer(new Player("Smith", "John", 75));
         teamA.addPlayer(new Player("Müller", "Max", 68));
         teamA.addPlayer(new Player("Garcia", "Luis", 72));
@@ -53,7 +53,7 @@ public class Footman {
 
         // Generate Team B
 
-        Team teamB = new Team("Team B");
+        Team teamB = new Team("Kloppertruppe AC Alstaden Ost");
         teamB.addPlayer(new Player("Brown", "Michael", 73));
         teamB.addPlayer(new Player("Lopez", "Carlos", 65));
         teamB.addPlayer(new Player("Novak", "Tomas", 60));

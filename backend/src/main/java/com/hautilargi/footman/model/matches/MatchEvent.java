@@ -1,11 +1,14 @@
-package com.hautilargi.footman.model;
+package com.hautilargi.footman.model.matches;
+
+import com.hautilargi.footman.model.players.Player;
 
 public class MatchEvent {
 
-    public enum Type { GOAL, YELLOW, RED }
-
+    public enum Type { GOAL, YELLOW, RED, SHOT, FOUL, SUBSTITUTION, OFFSIDE, CORNER, PENALTY, SAVED_SHOT, SAVED_PENALTY, INJURY, OTHER }
+    
     private int minute;
     private Type type;
+
     private Player player;
     private String description;
 

@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hautilargi.footman.model.MatchEvent;
-import com.hautilargi.footman.model.MatchResult;
-import com.hautilargi.footman.model.Player;
-import com.hautilargi.footman.model.Team;
+import com.hautilargi.footman.model.players.Player;
+import com.hautilargi.footman.model.teams.Team;
+import com.hautilargi.footman.model.matches.Match;
+import com.hautilargi.footman.model.matches.MatchEvent;
 
 public class MatchProcessor {
 
    private static final Random RANDOM = new Random();
 
-    public static MatchResult processMatch(Team home,Team away) {
+    public static Match processMatch(Team home,Team away) {
         List<MatchEvent> events = new ArrayList<>();
         int goalsHome = 0;
         int goalsAway = 0;
@@ -42,7 +42,7 @@ public class MatchProcessor {
 
         //updateForm(home, away, goalsHome, goalsAway);
 
-        return new MatchResult(home, away, goalsHome, goalsAway, events);
+        return new Match(home, away, goalsHome, goalsAway, events);
 
     }
 

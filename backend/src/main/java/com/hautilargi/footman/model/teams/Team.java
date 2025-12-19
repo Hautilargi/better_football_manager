@@ -1,7 +1,9 @@
-package com.hautilargi.footman.model;
+package com.hautilargi.footman.model.teams;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hautilargi.footman.model.players.Player;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
@@ -15,11 +17,11 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
-
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Player> players;
+
+        
+    private String name;
 
     public Team() {
     }

@@ -1,4 +1,6 @@
-package com.hautilargi.footman.model;
+package com.hautilargi.footman.model.players;
+
+import com.hautilargi.footman.model.teams.Team;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

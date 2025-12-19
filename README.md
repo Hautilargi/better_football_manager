@@ -3,7 +3,7 @@ Building a better football manager for a better future or so
 
 #
 mvn spring-boot:run -Plocal
-npm run dev 
+npm install && npm run dev 
 # Needed environment variables
 PORT=3000
 

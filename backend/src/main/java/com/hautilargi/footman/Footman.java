@@ -1,15 +1,15 @@
 package com.hautilargi.footman;
 
-import java.util.Calendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.hautilargi.footman.model.Player;
-import com.hautilargi.footman.model.PlayerRepository;
-import com.hautilargi.footman.model.Team;
-import com.hautilargi.footman.model.TeamRepository;
+import com.hautilargi.footman.core.MatchProcessor;
+import com.hautilargi.footman.model.players.Player;
+import com.hautilargi.footman.model.players.PlayerRepository;
+import com.hautilargi.footman.model.teams.Team;
+import com.hautilargi.footman.model.teams.TeamRepository;
+import com.hautilargi.footman.model.matches.Match;
 
 import jakarta.annotation.PostConstruct;
 
@@ -21,6 +21,11 @@ public class Footman {
 
     @Autowired
     TeamRepository teamRepository;
+
+    /*
+    @Autowired
+    MatchRepository matchRepository;
+    */
 
     public static void main(String[] args) {
         SpringApplication.run(Footman.class, args);
@@ -68,6 +73,10 @@ public class Footman {
         // Save Parent Reference (which will save the child as well)
         teamRepository.save(teamA);
         teamRepository.save(teamB);
+
+        Match testMatch = MatchProcessor.processMatch(teamA, teamB);
+        //matchRepository.save(testMatch);
+        System.out.println("Test Match Result:");
 
     }
 }

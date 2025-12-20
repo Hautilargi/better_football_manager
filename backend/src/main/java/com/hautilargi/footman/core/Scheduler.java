@@ -19,4 +19,10 @@ public class Scheduler {
 		System.out.println(String.format
             ("The time is now %s}", dateFormat.format(new Date())));
 	}
+
+	@Scheduled(cron = "0 */5 * * * *", zone = "Europe/Berlin")
+	public void processMatchday(){
+		
+		
+	}
 }

@@ -32,7 +32,7 @@ public class Debug {
         public String testMatch(@RequestParam Long homeId, @RequestParam Long awayId) {
             Team homeTeam =teamRepository.findById(homeId).get();
             Team awayTeam =teamRepository.findById(awayId).get();
-            Match mr = matchService.playMatch(homeTeam, awayTeam, null);
+            Match mr = matchService.playMatch(homeTeam, awayTeam, null,false);
             return mr.toString();
         }
 

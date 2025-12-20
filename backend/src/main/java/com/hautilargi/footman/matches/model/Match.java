@@ -3,29 +3,24 @@ package com.hautilargi.footman.matches.model;
 import java.util.List;
 
 import com.hautilargi.footman.clubs.model.HistorySquad;
-import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Stadium;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
-public class Match {
+public class Match extends AbstractMatch {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     
-    @ManyToOne (cascade = CascadeType.ALL)
+    @OneToOne (cascade = CascadeType.ALL)
     public HistorySquad home;
-    @ManyToOne( cascade = CascadeType.ALL)
+    @OneToOne( cascade = CascadeType.ALL)
     public HistorySquad away;
+    
+
 
     public int goalsHome;
     public int goalsAway;
@@ -49,9 +44,6 @@ public class Match {
         events = e;
     }
 
-    public long getId() {
-        return id;
-    }
     public HistorySquad getHome() {
         return home;
     }   
@@ -69,9 +61,6 @@ public class Match {
     }
     public Stadium getVenue() {
         return venue;
-    }
-    public void setId(long id) {
-        this.id = id;
     }
     public void setHome(HistorySquad home) {
         this.home = home;

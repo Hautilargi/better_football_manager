@@ -1,14 +1,11 @@
 package com.hautilargi.footman.players.model;
 
 import com.hautilargi.footman.clubs.model.AbstractSquad;
-import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Squad;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 @jakarta.persistence.Entity
 @Inheritance(strategy = jakarta.persistence.InheritanceType.TABLE_PER_CLASS)
@@ -18,6 +15,7 @@ public class Player extends AbstractPlayer {
     @JoinColumn(name = "squad_id")
     public Squad squad;
 
+    private long salery;
 
     private int speed;
     private int stamina;
@@ -82,6 +80,13 @@ public class Player extends AbstractPlayer {
     }
     public void setDribbling(int dribbling) {
         this.dribbling = dribbling;
+    }
+
+    public long getSalery(){
+        return this.salery;
+    }
+    public void setSalery(long salery){
+        this.salery=salery;
     }
 
 

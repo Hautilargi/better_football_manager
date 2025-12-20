@@ -29,15 +29,17 @@ public class MatchService {
     public MatchService() {
     }
 
-    public Match playMatch(Team home, Team away, MatchTypes matchType) {
+    public Match playMatch(Team home, Team away, MatchTypes matchType, boolean persist) {
 
         HistorySquad homeHistorySquad = createHistorySquad(home.getSquad());
         HistorySquad awayHistorySquad = createHistorySquad(away.getSquad());
 
         Match match = MatchProcessor.processMatch(homeHistorySquad, awayHistorySquad);
     
-        matchRepository.save(match);
-        System.out.println("Saved match with id: "+match.getId());
+        if(persist){
+            matchRepository.save(match);
+            System.out.println("Saved match with id: "+match.getId());
+        }
         return match;
 
         

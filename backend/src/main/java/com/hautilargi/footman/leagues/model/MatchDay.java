@@ -2,7 +2,9 @@ package com.hautilargi.footman.leagues.model;
 
 import java.util.List;
 
-import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.matches.model.AbstractMatch;
+import com.hautilargi.footman.matches.model.Match;
+import com.hautilargi.footman.players.model.AbstractPlayer;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -14,31 +16,20 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class League {
+public class MatchDay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "season_id")
-    public Season season;
+    @JoinColumn(name = "league_id")
+    public League league;
 
-    @OneToMany(mappedBy = "league", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<MatchDay> matchdays; 
+    private int dayInSeason;
 
-    /* 
-    @OneToMany(mappedBy = "league", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<Team> teams; 
-    */
-
-    private int tier;
-    private int index;
-
-    public League() {        
+    public MatchDay() {
     }
-
-
 
 
 }

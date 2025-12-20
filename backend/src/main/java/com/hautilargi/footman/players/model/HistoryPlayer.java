@@ -3,11 +3,9 @@ package com.hautilargi.footman.players.model;
 import com.hautilargi.footman.clubs.model.AbstractSquad;
 import com.hautilargi.footman.clubs.model.HistorySquad;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 @jakarta.persistence.Entity
 @Inheritance(strategy = jakarta.persistence.InheritanceType.TABLE_PER_CLASS)

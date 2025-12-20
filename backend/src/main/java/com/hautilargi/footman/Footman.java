@@ -8,10 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
-import com.hautilargi.footman.core.MatchProcessor;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.repository.PlayerRepository;
+import com.hautilargi.footman.services.DebugHelperService;
 import com.hautilargi.footman.services.MatchService;
 import com.hautilargi.footman.util.Formations;
 
@@ -29,6 +29,10 @@ public class Footman {
 
     @Autowired
     MatchService matchService;
+
+    
+    @Autowired
+    DebugHelperService debugHelperService;
 
     public static void main(String[] args) {
         SpringApplication.run(Footman.class, args);
@@ -63,12 +67,12 @@ public class Footman {
         // Generate Team B
 
         Team teamB = new Team("Kloppertruppe AC Alstaden Ost");
-        teamB.addPlayer(new Player("Brown", "Michael", 73));
-        teamB.addPlayer(new Player("Lopez", "Carlos", 65));
-        teamB.addPlayer(new Player("Novak", "Tomas", 60));
-        teamB.addPlayer(new Player("Keller", "Jan", 76));
-        teamB.addPlayer(new Player("Moreau", "Julien", 63));
-        teamB.addPlayer(new Player("Ibrahim", "Omar", 78));
+        teamB.addPlayer(new Player("Brown", "Michael", 30));
+        teamB.addPlayer(new Player("Lopez", "Carlos", 20));
+        teamB.addPlayer(new Player("Novak", "Tomas", 30));
+        teamB.addPlayer(new Player("Keller", "Jan", 30));
+        teamB.addPlayer(new Player("Moreau", "Julien", 30));
+        teamB.addPlayer(new Player("Ibrahim", "Omar", 30));
         teamB.addPlayer(new Player("Santos", "Rafael", 71));
         teamB.addPlayer(new Player("Berg", "Anders", 69));
         teamB.addPlayer(new Player("Klein", "Daniel", 66));
@@ -80,14 +84,12 @@ public class Footman {
 
         System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
 
-        Match testMatch = matchService.playMatch(teamA, teamB, null);
-        Match testMatch2 = matchService.playMatch(teamA, teamB, null);
-        Match testMatch3 = matchService.playMatch(teamA, teamB, null);
+        Match testMatch = matchService.playMatch(teamA, teamB, null, true);
+  
+        System.out.println("Single Test Match Result:"+testMatch.goalsAway+" - "+testMatch.goalsHome);
 
-        //matchRepository.save(testMatch);
-        System.out.println("Test Match Result:"+testMatch.goalsAway+" - "+testMatch.goalsHome);
-         System.out.println("Test Match Result:"+testMatch2.goalsAway+" - "+testMatch2.goalsHome);
-        System.out.println("Test Match Result:"+testMatch3.goalsAway+" - "+testMatch3.goalsHome);
+         System.out.println("Bulk Match Result:"+debugHelperService.evaluateMatch(teamA, teamB, 1000));
+
 
 
     }

@@ -14,6 +14,7 @@ public class GlobalConfiguration {
 
     private int currentSeason=1;
     private int currentDay=1;
+    private String mode="dev";
 
     public GlobalConfiguration(){
     }

@@ -1,17 +1,11 @@
 package com.hautilargi.footman.leagues.model;
 
-import java.util.List;
-
-import com.hautilargi.footman.clubs.model.Team;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class League {
@@ -23,9 +17,6 @@ public class League {
     @ManyToOne
     @JoinColumn(name = "season_id")
     public Season season;
-
-    @OneToMany(mappedBy = "league", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<MatchDay> matchdays; 
 
     /* 
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL, orphanRemoval = true)

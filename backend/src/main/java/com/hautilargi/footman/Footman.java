@@ -8,10 +8,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
+import com.hautilargi.footman.config.model.GlobalConfiguration;
+import com.hautilargi.footman.debug.DebugHelperService;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.repository.PlayerRepository;
-import com.hautilargi.footman.services.DebugHelperService;
+import com.hautilargi.footman.services.ConfigurationService;
 import com.hautilargi.footman.services.MatchService;
 import com.hautilargi.footman.util.Formations;
 
@@ -28,6 +30,9 @@ public class Footman {
     TeamRepository teamRepository;
 
     @Autowired
+    ConfigurationService cs;
+
+    @Autowired
     MatchService matchService;
 
     
@@ -41,7 +46,12 @@ public class Footman {
     @PostConstruct
     public void initializeApp() {
         System.out.println("Application started...");
+        if(cs.getGlobalConfiguration()==null){
+            cs.setGlobalConfiguration(new GlobalConfiguration());
+            System.out.println("Created new base config");
+        }
         System.out.println("Adding Samples to Database...");
+
         // playerRepository.deleteAllInBatch();
        // teamRepository.deleteAllInBatch();
 

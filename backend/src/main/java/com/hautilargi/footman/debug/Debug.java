@@ -1,4 +1,4 @@
-package com.hautilargi.footman.api;
+package com.hautilargi.footman.debug;
 
 import java.util.List;
 

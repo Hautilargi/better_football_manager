@@ -24,6 +24,7 @@ public class MatchEvent {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id")
     private HistoryPlayer player;
+    
     private String description;
 
     @ManyToOne

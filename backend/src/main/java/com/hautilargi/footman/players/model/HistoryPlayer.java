@@ -16,6 +16,10 @@ public class HistoryPlayer extends AbstractPlayer {
     @JoinColumn(name = "squad_id")
     public HistorySquad squad;
 
+    @ManyToOne
+    @JoinColumn(name = "real_player_id")
+    public Player realPlayer;
+
     public HistoryPlayer() {
     }
 
@@ -23,6 +27,15 @@ public class HistoryPlayer extends AbstractPlayer {
         this.lastname = lastname;
         this.firstName = firstName;
         this.skillLevel = skillLevel;
+    }
+
+    public void setRealPlayer(Player realPlayer){
+        this.realPlayer=realPlayer;
+
+    }
+
+    public Player getRealPlayer(){
+        return this.realPlayer;
     }
 
     @Override

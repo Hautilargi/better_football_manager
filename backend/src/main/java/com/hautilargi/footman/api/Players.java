@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.hautilargi.footman.model.players.PlayerRepository;
+import com.hautilargi.footman.players.repository.PlayerRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -35,7 +34,7 @@ public class Players {
             try {
                 sb.append(p.toHtmlFragment());
             } catch (Exception ex) {
-                sb.append("<section class=\"player\"><p>Error rendering player id=").append(p.getId()).append("</p></section>\n");
+                sb.append("<section class=\"player\"><p>Error rendering player id=").append("</p></section>\n");
             }
         }
 

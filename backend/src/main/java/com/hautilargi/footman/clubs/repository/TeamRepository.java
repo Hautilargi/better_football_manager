@@ -1,7 +1,10 @@
-package com.hautilargi.footman.model.clubs;
+package com.hautilargi.footman.clubs.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.hautilargi.footman.clubs.model.Team;
+
 import java.util.List;
 
 @Repository

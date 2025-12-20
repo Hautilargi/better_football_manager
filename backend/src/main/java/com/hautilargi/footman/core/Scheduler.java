@@ -14,7 +14,7 @@ public class Scheduler {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 	//@Scheduled(cron = "0 2 * * * ?", zone = "Europe/Berlin")
-    @Scheduled(cron = "* */5 * * * *", zone = "Europe/Berlin")
+    @Scheduled(cron = "0 */5 * * * *", zone = "Europe/Berlin")
 	public void reportCurrentTime() {
 		System.out.println(String.format
             ("The time is now %s}", dateFormat.format(new Date())));

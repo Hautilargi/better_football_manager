@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hautilargi.footman.model.clubs.Team;
-import com.hautilargi.footman.model.clubs.TeamRepository;
+import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.clubs.repository.TeamRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")

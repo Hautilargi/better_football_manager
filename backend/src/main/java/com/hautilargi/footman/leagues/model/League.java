@@ -1,4 +1,4 @@
-package com.hautilargi.footman.model.leagues;
+package com.hautilargi.footman.leagues.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

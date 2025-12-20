@@ -1,7 +1,10 @@
-package com.hautilargi.footman.model;
+package com.hautilargi.footman.players.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.hautilargi.footman.players.model.Player;
+
 import java.util.List;
 import java.util.Optional;
 

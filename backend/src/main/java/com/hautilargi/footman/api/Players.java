@@ -1,14 +1,15 @@
 package com.hautilargi.footman.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hautilargi.footman.model.Player;
-import com.hautilargi.footman.model.PlayerRepository;
+import com.hautilargi.footman.players.repository.PlayerRepository;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class Players {
 
     @Autowired
@@ -33,7 +34,7 @@ public class Players {
             try {
                 sb.append(p.toHtmlFragment());
             } catch (Exception ex) {
-                sb.append("<section class=\"player\"><p>Error rendering player id=").append(p.getId()).append("</p></section>\n");
+                sb.append("<section class=\"player\"><p>Error rendering player id=").append("</p></section>\n");
             }
         }
 

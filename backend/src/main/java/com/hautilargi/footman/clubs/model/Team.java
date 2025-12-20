@@ -1,13 +1,16 @@
-package com.hautilargi.footman.model;
+package com.hautilargi.footman.clubs.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hautilargi.footman.players.model.Player;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @jakarta.persistence.Entity
 public class Team {
@@ -16,10 +19,14 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Player> players;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Squad squad;
+        
+    private String name;
+    private long account;
 
     public Team() {
     }
@@ -27,7 +34,14 @@ public class Team {
     public Team( String name) {
         this.name = name;
         this.players = new ArrayList<>();
+        this.squad=new Squad();
     }
+
+    public void addPlayer(Player player) {
+        player.setTeam(this);
+        this.players.add(player);
+    }
+
     /*GETTERS AND SETTERS */
     public Long getId() {
         return id;
@@ -48,10 +62,16 @@ public class Team {
         return this.players;
     }
 
-    public void addPlayer(Player player) {
-        this.players.add(player);
-        player.setTeam(this);
+    public Squad getSquad() {
+        return squad;
     }
+    public void setSquad(Squad squad) {
+        for (Player p : squad.getPlayers()) {
+            p.setTeam(this);
+        }
+        this.squad = squad;
+    }
+    
 
     public String toHtmlString() {
         StringBuilder sb = new StringBuilder();

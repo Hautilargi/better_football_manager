@@ -1,15 +1,16 @@
 package com.hautilargi.footman.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.hautilargi.footman.model.Team;
-import com.hautilargi.footman.model.TeamRepository;
+import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.clubs.repository.TeamRepository;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class Teams {
 
     @Autowired

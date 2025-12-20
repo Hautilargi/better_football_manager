@@ -79,7 +79,7 @@ jobs:
       with:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: ./footman_backend.jar
-        asset_name: backend.jar
+        asset_name: footman_backend.jar
         asset_content_type: application/java-archive
       env:
         GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'

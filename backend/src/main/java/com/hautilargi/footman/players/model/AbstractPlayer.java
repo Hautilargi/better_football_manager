@@ -20,7 +20,9 @@ public abstract class AbstractPlayer {
 
     protected String lastname;
     protected String firstName;
+    protected String nationality;
     protected int skillLevel;
+    protected int age=17;
        
     @ManyToOne
     @JoinColumn(name = "team_id")
@@ -57,7 +59,13 @@ public abstract class AbstractPlayer {
     }
     public void setLastName(String lastname) {
         this.lastname = lastname;
-    }   
+    }
+    public String getNationality() {
+        return nationality;
+    }
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }      
     public String getFirstName() {
         return firstName;
     }   

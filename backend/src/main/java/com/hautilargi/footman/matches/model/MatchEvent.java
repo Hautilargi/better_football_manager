@@ -1,8 +1,6 @@
 package com.hautilargi.footman.matches.model;
 
 import com.hautilargi.footman.players.model.HistoryPlayer;
-import com.hautilargi.footman.players.model.Player;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +24,7 @@ public class MatchEvent {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id")
     private HistoryPlayer player;
+    
     private String description;
 
     @ManyToOne

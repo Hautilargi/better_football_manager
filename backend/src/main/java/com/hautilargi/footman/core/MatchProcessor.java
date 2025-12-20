@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hautilargi.footman.clubs.model.HistorySquad;
+import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.matches.model.MatchEvent;
 import com.hautilargi.footman.players.model.HistoryPlayer;
@@ -14,7 +15,7 @@ public class MatchProcessor {
 
    private static final Random RANDOM = new Random();
 
-    public static Match processMatch(HistorySquad home,HistorySquad away) {
+    public static Match processMatch(Team homeTeam, Team awayTeam, HistorySquad home,HistorySquad away) {
         List<MatchEvent> events = new ArrayList<>();
         int goalsHome = 0;
         int goalsAway = 0;
@@ -42,7 +43,7 @@ public class MatchProcessor {
 
         //updateForm(home, away, goalsHome, goalsAway);
 
-        return new Match(home, away, goalsHome, goalsAway, events);
+        return new Match(homeTeam, awayTeam,home, away, goalsHome, goalsAway, events);
 
     }
 

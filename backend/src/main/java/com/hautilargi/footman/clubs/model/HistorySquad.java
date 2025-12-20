@@ -12,6 +12,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 
 @Entity
@@ -20,10 +21,6 @@ public class HistorySquad extends AbstractSquad {
 
     boolean active=true;
     
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "team_id")
-    public Team team;
-
     @OneToMany(mappedBy = "squad", cascade = CascadeType.MERGE, orphanRemoval = true)
     protected List<HistoryPlayer> players;
 
@@ -33,7 +30,6 @@ public class HistorySquad extends AbstractSquad {
 
     public HistorySquad(Formations formation, Team team, List<HistoryPlayer> players) {
         this.formation = formation;
-        this.team = team;
         this.players = players;
     }
 
@@ -51,12 +47,7 @@ public class HistorySquad extends AbstractSquad {
         this.players = players;
     }   
 
-        public Team getTeam() {
-        return team;
-    }
-    public void setTeam(Team team) {
-        this.team = team;
-    }
+
     public List<HistoryPlayer> getPlayers() {
         return this.players;
     }

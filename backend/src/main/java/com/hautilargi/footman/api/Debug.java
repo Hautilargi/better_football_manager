@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hautilargi.footman.core.MatchProcessor;
 import com.hautilargi.footman.model.matches.Match;
-import com.hautilargi.footman.model.teams.Team;
-import com.hautilargi.footman.model.teams.TeamRepository;
+import com.hautilargi.footman.model.clubs.Team;
+import com.hautilargi.footman.model.clubs.TeamRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")

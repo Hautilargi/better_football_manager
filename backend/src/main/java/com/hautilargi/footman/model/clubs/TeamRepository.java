@@ -1,4 +1,4 @@
-package com.hautilargi.footman.model.teams;
+package com.hautilargi.footman.model.clubs;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -2,8 +2,7 @@ package com.hautilargi.footman.model.matches;
 
 import java.util.List;
 
-import com.hautilargi.footman.model.teams.Team;
-import com.hautilargi.footman.model.matches.MatchEvent;
+import com.hautilargi.footman.model.clubs.Team;
 
 
 import jakarta.persistence.CascadeType;

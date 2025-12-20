@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hautilargi.footman.model.players.Player;
-import com.hautilargi.footman.model.teams.Team;
+import com.hautilargi.footman.model.clubs.Team;
 import com.hautilargi.footman.model.matches.Match;
 import com.hautilargi.footman.model.matches.MatchEvent;
 

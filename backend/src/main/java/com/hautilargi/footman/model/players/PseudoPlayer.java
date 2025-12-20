@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @jakarta.persistence.Entity
-public class Player {
+public class PseudoPlayer {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +23,10 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    public Player() {
+    public PseudoPlayer() {
     }
 
-    public Player( String lastname, String firstName, int skillLevel) {
+    public PseudoPlayer( String lastname, String firstName, int skillLevel) {
         this.lastname = lastname;
         this.firstName = firstName;
         this.skillLevel = skillLevel;

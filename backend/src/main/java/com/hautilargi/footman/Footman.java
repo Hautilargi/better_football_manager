@@ -3,17 +3,19 @@ package com.hautilargi.footman;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.hautilargi.footman.core.MatchProcessor;
 import com.hautilargi.footman.model.players.Player;
 import com.hautilargi.footman.model.players.PlayerRepository;
-import com.hautilargi.footman.model.teams.Team;
-import com.hautilargi.footman.model.teams.TeamRepository;
+import com.hautilargi.footman.model.clubs.Team;
+import com.hautilargi.footman.model.clubs.TeamRepository;
 import com.hautilargi.footman.model.matches.Match;
 
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
+@EnableScheduling
 public class Footman {
 
     @Autowired

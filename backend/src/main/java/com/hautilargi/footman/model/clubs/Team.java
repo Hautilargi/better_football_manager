@@ -1,4 +1,4 @@
-package com.hautilargi.footman.model.teams;
+package com.hautilargi.footman.model.clubs;
 
 import java.util.ArrayList;
 import java.util.List;

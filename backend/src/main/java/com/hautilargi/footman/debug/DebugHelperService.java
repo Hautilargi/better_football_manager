@@ -39,10 +39,10 @@ public class DebugHelperService {
         
         for(int i = 0 ; i<repetitions; i++){
                  Match mr= ms.playMatch(home, away, null, false);
-                 if(mr.goalsHome>mr.goalsAway) countHome++;
-                 if(mr.goalsHome==mr.goalsAway) countDraw++;
-                 if(mr.goalsHome<mr.goalsAway) countAway++;
-                 String result=mr.goalsHome+":"+mr.goalsAway;
+                 if(mr.getGoalsHome()>mr.getGoalsAway()) countHome++;
+                 if(mr.getGoalsHome()==mr.getGoalsAway()) countDraw++;
+                 if(mr.getGoalsHome()<mr.getGoalsAway()) countAway++;
+                 String result=mr.getGoalsHome()+":"+mr.getGoalsAway();
                 Integer current = distribution.get(result);
                 if(current == null){
                     distribution.put(result, 1);

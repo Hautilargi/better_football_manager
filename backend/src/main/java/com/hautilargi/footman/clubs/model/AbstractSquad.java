@@ -11,26 +11,26 @@ public abstract class AbstractSquad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    protected long id;
 
     protected Formations formation;
-    
-    /*GETTERS AND SETTERS */
+
+    /* GETTERS AND SETTERS */
 
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public Formations getFormation() {
         return formation;
     }
+
     public void setFormation(Formations formation) {
         this.formation = formation;
     }
 
-
-
-    
 }

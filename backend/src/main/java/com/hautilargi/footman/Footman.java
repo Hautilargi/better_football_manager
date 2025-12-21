@@ -96,7 +96,7 @@ public class Footman {
 
         Match testMatch = matchService.playMatch(teamA, teamB, null, true);
   
-        System.out.println("Single Test Match Result:"+testMatch.goalsAway+" - "+testMatch.goalsHome);
+        System.out.println("Single Test Match Result:"+testMatch.getGoalsAway()+" - "+testMatch.getGoalsHome());
 
          System.out.println("Bulk Match Result:"+debugHelperService.evaluateMatch(teamA, teamB, 1000));
 

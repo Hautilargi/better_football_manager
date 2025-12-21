@@ -5,25 +5,19 @@ import java.util.List;
 import com.hautilargi.footman.players.model.HistoryPlayer;
 import com.hautilargi.footman.util.Formations;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-
 
 @Entity
 @Inheritance(strategy = jakarta.persistence.InheritanceType.TABLE_PER_CLASS)
 public class HistorySquad extends AbstractSquad {
 
-    boolean active=true;
-    
-    @OneToMany(mappedBy = "squad", cascade = CascadeType.MERGE, orphanRemoval = true)
-    protected List<HistoryPlayer> players;
+    private boolean active = true;
 
+    @OneToMany(mappedBy = "squad", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<HistoryPlayer> players;
 
     public HistorySquad() {
     }
@@ -33,24 +27,22 @@ public class HistorySquad extends AbstractSquad {
         this.players = players;
     }
 
-
-    /*GETTERS AND SETTERS */
+    /* GETTERS AND SETTERS */
 
     public boolean isActive() {
         return active;
     }
+
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-     public void setPlayers(List<HistoryPlayer> players) {
-        this.players = players;
-    }   
 
+    public void setPlayers(List<HistoryPlayer> players) {
+        this.players = players;
+    }
 
     public List<HistoryPlayer> getPlayers() {
         return this.players;
     }
-    
 
 }

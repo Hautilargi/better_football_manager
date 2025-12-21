@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.hautilargi.footman.clubs.model.HistorySquad;
 
-import java.util.List;
 
 @Repository
 public interface HistorySquadRepository extends JpaRepository<HistorySquad, Long> {

@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Stadium {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,7 +24,7 @@ public class Stadium {
         this.capacity = capacity;
     }
 
-    /*GETTERS AND SETTERS */
+    /* GETTERS AND SETTERS */
     public Long getId() {
         return id;
     }

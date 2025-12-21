@@ -24,7 +24,7 @@ public class Team {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Squad squad;
-        
+
     private String name;
     private long account;
 
@@ -70,6 +70,15 @@ public class Team {
             p.setTeam(this);
         }
         this.squad = squad;
+    }
+
+            
+    public long getAccount() {
+        return account;
+    }
+
+    public void setAccount(long account) {
+        this.account = account;
     }
     
 

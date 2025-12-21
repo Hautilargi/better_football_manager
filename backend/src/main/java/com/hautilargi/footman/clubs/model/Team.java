@@ -1,16 +1,19 @@
 package com.hautilargi.footman.clubs.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.hautilargi.footman.players.model.Player;
+import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @jakarta.persistence.Entity
 public class Team {
@@ -19,14 +22,15 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Player> players;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Squad squad;
-        
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="team", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Map<MatchTypes,Squad> squads;
+
     private String name;
-    private long account;
+    private boolean active;
+    private long balance;
 
     public Team() {
     }
@@ -34,9 +38,9 @@ public class Team {
     public Team( String name) {
         this.name = name;
         this.players = new ArrayList<>();
-        this.squad=new Squad();
+        this.squads=new HashMap<MatchTypes,Squad>();
     }
-
+    //TODO Move to Service?
     public void addPlayer(Player player) {
         player.setTeam(this);
         this.players.add(player);
@@ -62,15 +66,30 @@ public class Team {
         return this.players;
     }
 
-    public Squad getSquad() {
-        return squad;
+    public Map<MatchTypes,Squad> getSquads() {
+        return squads;
     }
-    public void setSquad(Squad squad) {
-        for (Player p : squad.getPlayers()) {
-            p.setTeam(this);
-        }
-        this.squad = squad;
+    public void setSquads( Map<MatchTypes,Squad> squads) {
+       this.squads=squads;
     }
+
+            
+    public long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(long balance) {
+        this.balance = balance;
+    }
+
+    public boolean isActive(){
+        return this.active;
+    }
+
+    public void setActive(boolean active){
+        this.active=active;
+    }
+
     
 
     public String toHtmlString() {

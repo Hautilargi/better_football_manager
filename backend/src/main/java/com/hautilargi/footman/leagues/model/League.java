@@ -16,7 +16,7 @@ public class League {
 
     @ManyToOne
     @JoinColumn(name = "season_id")
-    public Season season;
+    private Season season;
 
     /* 
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -27,6 +27,39 @@ public class League {
     private int index;
 
     public League() {        
+    }
+
+    /* Getters and Setters */
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Season getSeason() {
+        return season;
+    }
+
+    public void setSeason(Season season) {
+        this.season = season;
+    }
+
+    public int getTier() {
+        return tier;
+    }
+
+    public void setTier(int tier) {
+        this.tier = tier;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
 

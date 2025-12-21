@@ -1,54 +1,53 @@
 package com.hautilargi.footman.players.model;
 
-import com.hautilargi.footman.clubs.model.AbstractSquad;
 import com.hautilargi.footman.clubs.model.HistorySquad;
 
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @jakarta.persistence.Entity
 @Inheritance(strategy = jakarta.persistence.InheritanceType.TABLE_PER_CLASS)
 public class HistoryPlayer extends AbstractPlayer {
-    
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "squad_id")
-    public HistorySquad squad;
+    private HistorySquad squad;
 
     @ManyToOne
     @JoinColumn(name = "real_player_id")
-    public Player realPlayer;
+    private Player realPlayer;
 
     public HistoryPlayer() {
     }
 
-    public HistoryPlayer( String lastname, String firstName, int skillLevel) {
+    public HistoryPlayer(String lastname, String firstName, int skillLevel) {
         this.lastname = lastname;
         this.firstName = firstName;
         this.skillLevel = skillLevel;
     }
 
-    public void setRealPlayer(Player realPlayer){
-        this.realPlayer=realPlayer;
+    public void setRealPlayer(Player realPlayer) {
+        this.realPlayer = realPlayer;
 
     }
 
-    public Player getRealPlayer(){
+    public Player getRealPlayer() {
         return this.realPlayer;
     }
 
     @Override
-     public String toString() {
-        return String.format("{\"id\":%s,\"firstname\":\"%s\",\"lastname\":\"%s\",\"skillLevel\":%s,\"defense\":%s}", id,firstName,lastname,skillLevel);
-     }
+    public String toString() {
+        return String.format("{\"id\":%s,\"firstname\":\"%s\",\"lastname\":\"%s\",\"skillLevel\":%s,\"defense\":%s}",
+                id, firstName, lastname, skillLevel);
+    }
 
-    @Override
-    public AbstractSquad getSquad() {
+    public HistorySquad getSquad() {
         return squad;
     }
-    @Override
-    public void setSquad(AbstractSquad squad) {
-        this.squad = (HistorySquad) squad;
+
+    public void setSquad(HistorySquad squad) {
+        this.squad =  squad;
     }
 }

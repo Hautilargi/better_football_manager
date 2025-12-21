@@ -21,4 +21,29 @@ public class Season {
 
     private int seasonNo=0;
 
+    /* Getters and Setters */
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public List<League> getLeagues() {
+        return leagues;
+    }
+
+    public void setLeagues(List<League> leagues) {
+        this.leagues = leagues;
+    }
+
+    public int getSeasonNo() {
+        return seasonNo;
+    }
+
+    public void setSeasonNo(int seasonNo) {
+        this.seasonNo = seasonNo;
+    }
+
 }

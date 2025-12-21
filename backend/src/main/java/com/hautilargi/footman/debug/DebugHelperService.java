@@ -1,7 +1,9 @@
 package com.hautilargi.footman.debug;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -12,10 +14,14 @@ import org.springframework.stereotype.Service;
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.leagues.model.League;
+import com.hautilargi.footman.leagues.model.Season;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.players.model.Player;
+import com.hautilargi.footman.services.LeagueService;
 import com.hautilargi.footman.services.MatchService;
+import com.hautilargi.footman.services.RepositoryService;
 import com.hautilargi.footman.util.Formations;
+import com.hautilargi.footman.util.MatchTypes;
 
 @Service
 public class DebugHelperService {
@@ -23,13 +29,38 @@ public class DebugHelperService {
     @Autowired
     MatchService ms;
 
+    @Autowired 
+    RepositoryService rs;
+
+    @Autowired
+    LeagueService ls;
+
 
     public DebugHelperService() {
     }
     
+    public void generateAndSimulateTestSeasonAndLeage(){
+        //18 Teams generieren
+        List<Team> testTeams = new ArrayList<>();
+        for(int i =0; i<16;i++){
+            testTeams.add(rs.addNewTeam("TestTeam_"+i));
+        }
+        //Saison generieren
+        Season testSeason= ls.addNextSeason();
+       //Teams in Liga sortieren
+        League testLeague = ls.addLeague(testSeason, testTeams, 0);
+        //Saison durchspielen
+        for(int i =1;i<=34;i++){
+            for(Match match : ls.getMatchesForLegueAndMatchday(testLeague, i)){
+                Match updatedMatch= ms.updateMatch(match);
+                System.out.println(updatedMatch.getHomeTeam().getName()+ " "+updatedMatch.getGoalsHome()+" : "+updatedMatch.getGoalsHome()+ " "+updatedMatch.getAwayTeam().getName());
+            }
+            ls.playMatchDay();
+        }
+        ls.generateTableForLeague(testLeague,testSeason,34);
+    }
 
-
-    public String evaluateMatch(Team home, Team away, int repetitions){
+    public String evaluateMatch(Team home, Team away, MatchTypes matchtype, int repetitions){
     long startTime = System.currentTimeMillis();
 
         int countHome=0;
@@ -38,11 +69,11 @@ public class DebugHelperService {
         Map<String, Integer> distribution=new HashMap<>();
         
         for(int i = 0 ; i<repetitions; i++){
-                 Match mr= ms.playMatch(home, away, null, false);
-                 if(mr.goalsHome>mr.goalsAway) countHome++;
-                 if(mr.goalsHome==mr.goalsAway) countDraw++;
-                 if(mr.goalsHome<mr.goalsAway) countAway++;
-                 String result=mr.goalsHome+":"+mr.goalsAway;
+                 Match mr= ms.playMatch(home, away, matchtype, false);
+                 if(mr.getGoalsHome()>mr.getGoalsAway()) countHome++;
+                 if(mr.getGoalsHome()==mr.getGoalsAway()) countDraw++;
+                 if(mr.getGoalsHome()<mr.getGoalsAway()) countAway++;
+                 String result=mr.getGoalsHome()+":"+mr.getGoalsAway();
                 Integer current = distribution.get(result);
                 if(current == null){
                     distribution.put(result, 1);
@@ -77,14 +108,11 @@ public class DebugHelperService {
         for(int i=0; i<20;i++){
             teamA.addPlayer(new Player("Smith", "John", random.nextInt(40,80)));
         }
-        teamA.setSquad(new Squad(Formations.FOUR_FOUR_TWO, teamA, teamA.getPlayers().subList(0, 11)));
+        Map<MatchTypes,Squad> newSquads=new HashMap<>();
+        newSquads.put(MatchTypes.LEAGUE, new Squad(Formations.FOUR_FOUR_TWO, teamA, teamA.getPlayers().subList(0, 11)));
+        teamA.setSquads(newSquads);
         return teamA;
 
-    }
-
-    public League generateLeague(){
-        League newLeague = new League();
-        return newLeague;
     }
 }
     

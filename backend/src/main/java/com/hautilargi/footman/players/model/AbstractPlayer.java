@@ -16,19 +16,19 @@ public abstract class AbstractPlayer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    protected Long id;
 
     protected String lastname;
     protected String firstName;
     protected String nationality;
     protected int skillLevel;
-    protected int age=17;
-       
+    protected int age = 17;
+
     @ManyToOne
     @JoinColumn(name = "team_id")
-    public Team team;
-    
-     /**
+    protected Team team;
+
+    /**
      * Returns an HTML fragment describing this player (no full document).
      * Safe to embed in a page that lists multiple players.
      */
@@ -40,58 +40,82 @@ public abstract class AbstractPlayer {
         sb.append(StringUtils.escapeHtml(fullName.trim().isEmpty() ? "(kein Name)" : fullName.trim()));
         sb.append("  <p>Skill-Level: ").append(skillLevel).append("</p>\n");
         if (team != null) {
-            sb.append("  <p>Team: ").append(StringUtils.escapeHtml(team.getName() == null ? "(kein Team)" : team.getName())).append("</p>\n");
+            sb.append("  <p>Team: ")
+                    .append(StringUtils.escapeHtml(team.getName() == null ? "(kein Team)" : team.getName()))
+                    .append("</p>\n");
         }
         sb.append("</section>\n");
         return sb.toString();
     }
 
-
-    /*GETTERS AND SETTERS */
+    /* GETTERS AND SETTERS */
     public void setId(Long id) {
         this.id = id;
     }
+
     public Long getId() {
         return id;
     }
+
     public String getLastName() {
         return lastname;
     }
+
     public void setLastName(String lastname) {
         this.lastname = lastname;
     }
+
     public String getNationality() {
         return nationality;
     }
+
     public void setNationality(String nationality) {
         this.nationality = nationality;
-    }      
+    }
+
     public String getFirstName() {
         return firstName;
-    }   
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }   
+    }
+
     public int getSkillLevel() {
         return skillLevel;
     }
+
     public void setSkillLevel(int skillLevel) {
         this.skillLevel = skillLevel;
     }
+
     public Team getTeam() {
         return this.team;
     }
+
     public void setTeam(Team team) {
         this.team = team;
     }
 
-    
-    public abstract AbstractSquad getSquad();
-    public abstract void setSquad(AbstractSquad squad);
-    
+    public String getLastname() {
+        return lastname;
+    }
 
-     public String toString() {
-        return String.format("{\"id\":%s,\"firstname\":\"%s\",\"lastname\":\"%s\",\"skillLevel\":%s}", firstName,lastname,skillLevel);
-     }
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String toString() {
+        return String.format("{\"id\":%s,\"firstname\":\"%s\",\"lastname\":\"%s\",\"skillLevel\":%s}", firstName,
+                lastname, skillLevel);
+    }
+
 }
-

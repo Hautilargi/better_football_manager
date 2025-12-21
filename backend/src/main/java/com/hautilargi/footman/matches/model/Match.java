@@ -7,6 +7,7 @@ import com.hautilargi.footman.clubs.model.Stadium;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.leagues.model.League;
 import com.hautilargi.footman.leagues.model.Season;
+import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -25,51 +26,71 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.MERGE)
     @JoinColumn(name = "league_id")
-    public League league;
+    private League league;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.MERGE)
     @JoinColumn(name = "season_id")
-    public Season season;
+    private Season season;
     
     @OneToOne (cascade = CascadeType.ALL)
-    public HistorySquad homeSquad;
+    private HistorySquad homeSquad;
+
 
     @OneToOne( cascade = CascadeType.ALL)
-    public HistorySquad awaySquad;
+    private HistorySquad awaySquad;
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<MatchEvent> events;
+    private List<MatchEvent> events;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "team_id_home")
-    public Team homeTeam;
+    @JoinColumn(name = "team_home_id")
+    private Team homeTeam;
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "team_id_away")
-    public Team awayTeam;
+    @JoinColumn(name = "team_away_id")
+    private Team awayTeam;
 
-    public int goalsHome;
-    public int goalsAway;
-
-    public int matchDay;
-
+    private int goalsHome;
+    private int goalsAway;
+    private int matchDay;
+    private MatchTypes matchtype;
 
     @ManyToOne
-    public Stadium venue;
+    @JoinColumn(name = "venue_Id")
+    private Stadium venue;
 
 
     public Match() {
     }
 
+    public Match(Team hoTeam, Team aTeam, League league, Season season, MatchTypes type, int matchday) {
+        this.homeTeam=hoTeam;
+        this.awayTeam=aTeam;
+        this.league=league;
+        this.season=season;
+        this.matchtype=type;
+        this.matchDay=matchday;
+    }
+
     public Match(Team homeTeam, Team awayTeam, HistorySquad h, HistorySquad a, int gh, int ga, List<MatchEvent> e) {
         this.homeTeam=homeTeam;
         this.awayTeam=awayTeam;
-        homeSquad = h;
-        awaySquad = a;
-        goalsHome = gh;
-        goalsAway = ga;
-        events = e;
+        this.homeSquad = h;
+        this.awaySquad = a;
+        this.goalsHome = gh;
+        this.goalsAway = ga;
+        this.events = e;
+    }
+
+    /* Getters and setters */
+
+    public MatchTypes getMatchtype() {
+        return matchtype;
+    }
+
+    public void setMatchtype(MatchTypes matchtype) {
+        this.matchtype = matchtype;
     }
 
     public long getId() {
@@ -120,7 +141,7 @@ public class Match {
         return this.homeTeam;
     }
 
-        public Team getAwayTeam(){
+    public Team getAwayTeam(){
         return this.awayTeam;
     }
   public void setHomeTeam(Team homeTeam){
@@ -131,6 +152,45 @@ public class Match {
         this.awayTeam=awayTeam;
     }
 
+        public League getLeague() {
+        return league;
+    }
+
+    public void setLeague(League league) {
+        this.league = league;
+    }
+
+    public Season getSeason() {
+        return season;
+    }
+
+    public void setSeason(Season season) {
+        this.season = season;
+    }
+
+    public HistorySquad getHomeSquad() {
+        return homeSquad;
+    }
+
+    public void setHomeSquad(HistorySquad homeSquad) {
+        this.homeSquad = homeSquad;
+    }
+
+    public HistorySquad getAwaySquad() {
+        return awaySquad;
+    }
+
+    public void setAwaySquad(HistorySquad awaySquad) {
+        this.awaySquad = awaySquad;
+    }
+
+    public int getMatchDay() {
+        return matchDay;
+    }
+
+    public void setMatchDay(int matchDay) {
+        this.matchDay = matchDay;
+    }
 
     
 

@@ -11,7 +11,7 @@ function Match() {
     (async () => {
       try {
         const res = await axios.get(
-          'http://localhost:8080/api/debug/testmatch?homeId=1&awayId=2',
+          '/api/debug/testmatch?homeId=1&awayId=2',
           { responseType: 'arraybuffer' }
         );
         // ArrayBuffer -> Blob -> Text (UTF-8). Bei Binärdaten ggf. anders verarbeiten.

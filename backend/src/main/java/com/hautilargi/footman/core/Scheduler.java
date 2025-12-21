@@ -28,9 +28,9 @@ public class Scheduler {
     @Autowired
     RepositoryService rs;
 
-	@Scheduled(cron = "0 */5 * * * *", zone = "Europe/Berlin")
+	@Scheduled(cron = "* */10 * * * *", zone = "Europe/Berlin")
 	public void dayChangeProcessor(){
-
+		if(cs.getGlobalConfiguration().getServerStatus().equals("OK")){
 		//update day
 		System.out.println("Processing day "+cs.getGlobalConfiguration().getCurrentDay());
 		cs.increaseCurrentDay();
@@ -59,6 +59,7 @@ public class Scheduler {
 			
 		}
 	}
+}
 
 	private void performRelegation(){
 					List<Team> allTeams= rs.getAllTeams(false,0);

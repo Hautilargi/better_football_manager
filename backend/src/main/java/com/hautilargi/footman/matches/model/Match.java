@@ -1,5 +1,6 @@
 package com.hautilargi.footman.matches.model;
 
+import java.util.Date;
 import java.util.List;
 
 import com.hautilargi.footman.clubs.model.HistorySquad;
@@ -11,6 +12,7 @@ import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +21,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+
+
 @Entity
+@JsonIncludeProperties({"id","events","goalsHome","goalsAway","league","season","matchDay","matchType","homeTeam","awayTeam","played","calulationTime"})
 public class Match {
 
     @Id
@@ -37,16 +43,16 @@ public class Match {
     @OneToOne (cascade = CascadeType.ALL)
     private HistorySquad homeSquad;
 
-
     @OneToOne( cascade = CascadeType.ALL)
     private HistorySquad awaySquad;
 
-    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany( fetch = FetchType.EAGER, mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<MatchEvent> events;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "team_home_id")
     private Team homeTeam;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "team_away_id")
     private Team awayTeam;
@@ -55,6 +61,8 @@ public class Match {
     private int goalsAway;
     private int matchDay;
     private MatchTypes matchtype;
+    private boolean played;
+    private Date calculationTime;
 
     @ManyToOne
     @JoinColumn(name = "venue_Id")
@@ -84,6 +92,14 @@ public class Match {
     }
 
     /* Getters and setters */
+
+    public Date getCalculationTime() {
+        return calculationTime;
+    }
+
+    public void setCalculationTime(Date calculationTime) {
+        this.calculationTime = calculationTime;
+    }
 
     public MatchTypes getMatchtype() {
         return matchtype;
@@ -191,6 +207,7 @@ public class Match {
     public void setMatchDay(int matchDay) {
         this.matchDay = matchDay;
     }
+    
 
     
 
@@ -205,4 +222,14 @@ public class Match {
         }
         return sb.toString();
     }
+
+
+    public boolean isPlayed() {
+        return played;
+    }
+
+    public void setPlayed(boolean played) {
+        this.played = played;
+    }
 }
+

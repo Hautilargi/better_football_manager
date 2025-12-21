@@ -1,6 +1,6 @@
 package com.hautilargi.footman.players.model;
 
-import com.hautilargi.footman.clubs.model.AbstractSquad;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.util.StringUtils;
 
@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
+@JsonIncludeProperties({ "id","firstName","lastName" })
 public abstract class AbstractPlayer {
 
     @Id

@@ -61,7 +61,7 @@ public class LeagueService {
             season.setSeasonNo(topSeason.get().getSeasonNo()+1);
         }
         else{
-            season.setSeasonNo(0);
+            season.setSeasonNo(1);
         }
         seasonRepository.save(season);
         System.out.println("Added Season "+season.getSeasonNo());
@@ -104,8 +104,10 @@ public class LeagueService {
                 Team home = teams.get(i);
                 Team away = teams.get(numberOfTeams - 1 - i);
                 Match newMatchFirstBracket=new Match(home,away,league,season,MatchTypes.LEAGUE,round+1);
+                newMatchFirstBracket.setPlayed(false);
                 Match newMatchSecondBracket=new Match(away,home,league,season,MatchTypes.LEAGUE,round+18);
                 matches.add(newMatchFirstBracket);
+                newMatchFirstBracket.setPlayed(false);
                 matches.add(newMatchSecondBracket);
             }
             // Teams rotieren (erstes Team bleibt fix)

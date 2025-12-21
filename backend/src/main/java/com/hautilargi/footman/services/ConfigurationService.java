@@ -1,5 +1,7 @@
 package com.hautilargi.footman.services;
 
+import javax.management.InvalidAttributeValueException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,4 +52,15 @@ public class ConfigurationService {
         gc.setCurrentDay(day);
         globalConfiguationRepository.save(gc);
     }
+
+    public void setStatus(String status) throws Exception{
+        if(status.equals("OK") || status.equals("SLEEP")){
+            GlobalConfiguration gc = getGlobalConfiguration();
+            gc.setServerStatus(status);
+            globalConfiguationRepository.save(gc);
+            System.out.println("Set Status to: "+status);
+        }
+        else throw new Exception("Value not allowed "+status);
+
+     }
 }

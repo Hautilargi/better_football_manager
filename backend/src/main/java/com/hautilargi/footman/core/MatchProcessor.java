@@ -30,20 +30,21 @@ public class MatchProcessor {
                 HistoryPlayer scorer = home.getPlayers().get(RANDOM.nextInt(0,10));
                 //scorer.scoreGoal();
                 goalsHome++;
-                events.add(new MatchEvent(minute, MatchEvent.Type.GOAL, scorer, "Goal by " + scorer.getFirstName() + " " + scorer.getLastName() + " for " ));
+                events.add(new MatchEvent(minute, MatchEvent.Type.GOAL, scorer, "Goal by " + scorer.getFirstName() + " " + scorer.getLastName() + " for "+ homeTeam.getName() ));
             }
 
             if (maybeGoal(away, home)) {
                 HistoryPlayer scorer = away.getPlayers().get(RANDOM.nextInt(0,10));
                 //scorer.scoreGoal();
                 goalsAway++;
-                events.add(new MatchEvent(minute, MatchEvent.Type.GOAL, scorer, "Goal by " + scorer.getFirstName() + " " + scorer.getLastName() + " for " ));
+                events.add(new MatchEvent(minute, MatchEvent.Type.GOAL, scorer, "Goal by " + scorer.getFirstName() + " " + scorer.getLastName() + " for "+ awayTeam.getName() ));
             }
         }
 
         //updateForm(home, away, goalsHome, goalsAway);
-
-        return new Match(homeTeam, awayTeam,home, away, goalsHome, goalsAway, events);
+        Match match= new Match(homeTeam, awayTeam,home, away, goalsHome, goalsAway, events);
+        match.setPlayed(true);
+        return match;
 
     }
 
@@ -69,11 +70,11 @@ public class MatchProcessor {
             HistoryPlayer p = squad.getPlayers().get(RANDOM.nextInt(0,10));
             //TODO Gelbe und Rote Karten verwalten
             //p.setYellowCards(p.getYellowCards() + 1);
-            events.add(new MatchEvent(minute, MatchEvent.Type.YELLOW, p,  "Yellow card to " + p.getFirstName() + " " + p.getLastName() + " of "   ));
+            events.add(new MatchEvent(minute, MatchEvent.Type.YELLOW, p,  "Yellow card to " + p.getFirstName() + " " + p.getLastName()));
 
             if (RANDOM.nextDouble() < 0.1) {
                // p.setRedCard(true);
-                events.add(new MatchEvent(minute, MatchEvent.Type.RED, p, "Red card to " + p.getFirstName() + " " + p.getLastName() + " of "    ));
+                events.add(new MatchEvent(minute, MatchEvent.Type.RED, p, "Red card to " + p.getFirstName() + " " + p.getLastName()));
             }
         }
     }

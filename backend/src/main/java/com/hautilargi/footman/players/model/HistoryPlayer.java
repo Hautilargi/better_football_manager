@@ -1,5 +1,6 @@
 package com.hautilargi.footman.players.model;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.hautilargi.footman.clubs.model.HistorySquad;
 
 import jakarta.persistence.Inheritance;

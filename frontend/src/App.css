@@ -40,3 +40,15 @@
 .read-the-docs {
   color: #888;
 }
+
+.no-bullets {
+  list-style: none;
+  padding-left: 0; /* optional: entfernt Einrückung */
+  margin: 0;       /* optional */
+}
+
+.boxed {
+  border: 1px solid #333;
+  padding: 8px 12px;
+  margin-bottom: 6px; /* Abstand zwischen den Einträgen */
+}

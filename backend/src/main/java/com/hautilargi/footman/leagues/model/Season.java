@@ -2,6 +2,8 @@ package com.hautilargi.footman.leagues.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
+@JsonIncludeProperties({"id","seasonNo"})
 public class Season {
 
     @Id

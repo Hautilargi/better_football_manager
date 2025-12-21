@@ -24,13 +24,21 @@ public class ConfigurationService {
         return null;
     }
 
-        public void setGlobalConfiguration(GlobalConfiguration globalConfiguration){
+    public void setGlobalConfiguration(GlobalConfiguration globalConfiguration){
             if (globalConfiguration != null){
                 globalConfiguationRepository.save(globalConfiguration);
             }
             else{
                 throw new NullPointerException();
             }
+    }
+
+    public void increaseCurrentDay(){
+        GlobalConfiguration gc = getGlobalConfiguration();
+        gc.setCurrentDay(gc.getCurrentDay()+1);
+        if(gc.getCurrentDay()>34){
+            gc.setCurrentDay(0);
         }
-   
+        globalConfiguationRepository.save(gc);
+    }
 }

@@ -26,20 +26,16 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.MERGE)
     @JoinColumn(name = "league_id")
     private League league;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.MERGE)
     @JoinColumn(name = "season_id")
     private Season season;
     
     @OneToOne (cascade = CascadeType.ALL)
     private HistorySquad homeSquad;
-
-
-
-
 
 
     @OneToOne( cascade = CascadeType.ALL)
@@ -66,6 +62,15 @@ public class Match {
 
 
     public Match() {
+    }
+
+    public Match(Team hoTeam, Team aTeam, League league, Season season, MatchTypes type, int matchday) {
+        this.homeTeam=hoTeam;
+        this.awayTeam=aTeam;
+        this.league=league;
+        this.season=season;
+        this.matchtype=type;
+        this.matchDay=matchday;
     }
 
     public Match(Team homeTeam, Team awayTeam, HistorySquad h, HistorySquad a, int gh, int ga, List<MatchEvent> e) {

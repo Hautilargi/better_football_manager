@@ -45,18 +45,14 @@ public class MatchService {
 
         public Match updateMatch(Match match) {
 
-
         HistorySquad homeHistorySquad = createHistorySquad(match.getHomeTeam().getSquads().get(match.getMatchtype()));
         HistorySquad awayHistorySquad = createHistorySquad(match.getAwayTeam().getSquads().get(match.getMatchtype()));
-
         Match processedMatch = MatchProcessor.processMatch(match.getHomeTeam(), match.getAwayTeam(), homeHistorySquad, awayHistorySquad);
-    
+
         match.setEvents(processedMatch.getEvents());
         match.setGoalsAway(processedMatch.getGoalsAway());
         match.setGoalsHome(processedMatch.getGoalsHome());
-        matchRepository.save(match);
-        System.out.println("Saved match with id: "+match.getId());
-        
+        matchRepository.save(match);        
         return match;
     }
 

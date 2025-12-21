@@ -15,6 +15,7 @@ import com.hautilargi.footman.clubs.repository.SquadRepository;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.services.MatchService;
+import com.hautilargi.footman.util.MatchTypes;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -32,7 +33,7 @@ public class Debug {
         public String testMatch(@RequestParam Long homeId, @RequestParam Long awayId) {
             Team homeTeam =teamRepository.findById(homeId).get();
             Team awayTeam =teamRepository.findById(awayId).get();
-            Match mr = matchService.playMatch(homeTeam, awayTeam, null,false);
+            Match mr = matchService.playMatch(homeTeam, awayTeam, MatchTypes.LEAGUE,false);
             return mr.toString();
         }
 

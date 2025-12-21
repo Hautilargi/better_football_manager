@@ -14,8 +14,6 @@ public class Player extends AbstractPlayer {
 
     @ManyToMany(mappedBy = "squadMembers")
     private Set<Squad> squads;
-
-
     private long salery;
 
     private int speed;
@@ -40,6 +38,9 @@ public class Player extends AbstractPlayer {
         this.setShooting(50);
         this.setSpeed(50);
         this.setStamina(50);
+        this.age=25;
+        this.salery=100;
+        this.nationality="de";
     }
 
     @Override

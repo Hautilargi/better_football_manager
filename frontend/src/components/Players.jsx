@@ -6,7 +6,7 @@ function Players() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/players')
+    axios.get('/api/players')
       .then(response => {
         setPosts(response.data);
       })

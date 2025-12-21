@@ -6,7 +6,7 @@ function Teams() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/teams')
+    axios.get('/api/teams')
       .then(response => {
         setPosts(response.data);
       })

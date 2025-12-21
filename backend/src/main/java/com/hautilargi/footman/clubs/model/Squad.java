@@ -6,15 +6,14 @@ import java.util.Set;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.util.Formations;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+
 
 @Entity
 @Inheritance(strategy = jakarta.persistence.InheritanceType.TABLE_PER_CLASS)
@@ -27,7 +26,7 @@ public class Squad extends AbstractSquad {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @ManyToMany
+    @ManyToMany( fetch = FetchType.EAGER)
     @JoinTable(
         name = "players_to_squads", 
         joinColumns = @JoinColumn(name = "squad_id"), 

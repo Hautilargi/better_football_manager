@@ -9,6 +9,7 @@ import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,14 +22,15 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Player> players;
 
-    @OneToMany(mappedBy="team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="team", cascade = CascadeType.ALL, orphanRemoval = true)
     private Map<MatchTypes,Squad> squads;
 
     private String name;
-    private long account;
+    private boolean active;
+    private long balance;
 
     public Team() {
     }
@@ -38,7 +40,7 @@ public class Team {
         this.players = new ArrayList<>();
         this.squads=new HashMap<MatchTypes,Squad>();
     }
-
+    //TODO Move to Service?
     public void addPlayer(Player player) {
         player.setTeam(this);
         this.players.add(player);
@@ -72,13 +74,22 @@ public class Team {
     }
 
             
-    public long getAccount() {
-        return account;
+    public long getBalance() {
+        return balance;
     }
 
-    public void setAccount(long account) {
-        this.account = account;
+    public void setBalance(long balance) {
+        this.balance = balance;
     }
+
+    public boolean isActive(){
+        return this.active;
+    }
+
+    public void setActive(boolean active){
+        this.active=active;
+    }
+
     
 
     public String toHtmlString() {

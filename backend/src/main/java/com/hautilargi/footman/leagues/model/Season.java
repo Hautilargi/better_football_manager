@@ -19,7 +19,7 @@ public class Season {
     @OneToMany(mappedBy = "season", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<League> leagues;
 
-    private int seasonNo=1;
+    private int seasonNo=0;
 
     /* Getters and Setters */
     public long getId() {

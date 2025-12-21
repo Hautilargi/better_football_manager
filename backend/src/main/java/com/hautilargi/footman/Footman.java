@@ -28,7 +28,7 @@ public class Footman {
 
     @Autowired
     MatchService matchService;
-    
+
     @Autowired
     DebugHelperService debugHelperService;
 
@@ -39,25 +39,21 @@ public class Footman {
     @PostConstruct
     public void initializeApp() {
         System.out.println("Application started...");
-        if(cs.getGlobalConfiguration()==null){
+        if (cs.getGlobalConfiguration() == null) {
             cs.setGlobalConfiguration(new GlobalConfiguration());
             cs.setCurrentDay(40);
             System.out.println("Created new base config");
-        }
-        System.out.println("Adding Samples to Database...");
-        if(rs.getAllTeams(false,0).size()>0){
-            System.out.println("Samples already exist, skipping sample data creation.");
-            return;
-        }
-        Team teamA = rs.addNewTeam("AC Alstaden 19");
-        Team teamB = rs.addNewTeam("Kloppertruppe AC Alstaden Ost");
-        debugHelperService.generateSomeTeams(22);
-        System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
-        System.out.println("Bulk Match Result:"+debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
-        
-        //debugHelperService.generateAndSimulateTestSeasonAndLeage();
-        //debugHelperService.generateSeasonAndLeague();
+            System.out.println("Adding Samples to Database...");
+            Team teamA = rs.addNewTeam("AC Alstaden 19");
+            Team teamB = rs.addNewTeam("Kloppertruppe AC Alstaden Ost");
+            debugHelperService.generateSomeTeams(22);
+            System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
+            System.out.println(
+                    "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
 
-
+        }
+        else{
+            System.out.println(String.format("App config found. Starting as usual on season %s and day %s",cs.getGlobalConfiguration().getCurrentSeason(),cs.getGlobalConfiguration().getCurrentDay()));
+        }
     }
 }

@@ -45,7 +45,7 @@ public class LeagueTableEntry implements Comparable<LeagueTableEntry> {
         cmp = Integer.compare(other.goals, this.goals);
         if (cmp != 0) return cmp;
 
-        return this.compareTo(other);
+        return Long.compare(other.team.getId(), this.team.getId());
     }
 
     @Override

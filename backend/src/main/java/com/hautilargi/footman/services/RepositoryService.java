@@ -19,6 +19,7 @@ import com.hautilargi.footman.players.repository.PlayerRepository;
 import com.hautilargi.footman.util.Formations;
 import com.hautilargi.footman.util.MatchTypes;
 import com.hautilargi.footman.util.NameGenerator;
+import com.hautilargi.footman.util.PlayerStatus;
 
 @Service
 public class RepositoryService {
@@ -32,6 +33,9 @@ public class RepositoryService {
     @Autowired
     SquadRepository squadRepository;
 
+    @Autowired
+    ConfigurationService cs;
+
     public RepositoryService() {
     }
 
@@ -41,6 +45,7 @@ public class RepositoryService {
         newTeam.setName(name);
         newTeam.setActive(true);
         newTeam.setBalance(FootmanConstants.INITIAL_BALANCE);
+        newTeam.setTier(cs.getGlobalConfiguration().getLowestTier());
         List<Player> initialPlayers = new ArrayList<>();
         for(int i=0;i<FootmanConstants.INITIAL_ROSTER_SIZE;i++){
             Player newPlayer=new Player(NameGenerator.getLastName(), NameGenerator.getFirstName(), random.nextInt(FootmanConstants.INITIAL_PLAYERS_LOWER_BOUND,FootmanConstants.INITIAL_PLAYERS_UPPER_BOUND));
@@ -55,8 +60,44 @@ public class RepositoryService {
         return newTeam;
     }
 
-    public List<Team> getAllTeams(){
-        return teamRepository.findAll();
+    public List<Team> getAllTeams(boolean onlyActive, int tier){
+        if(tier==0 && onlyActive==false ){
+                return teamRepository.findAll();
+        }
+        if(tier!=0 && onlyActive== false){
+                return teamRepository.findByTier(tier);
+        }
+        if(tier!=0 && onlyActive== true){
+                return teamRepository.findByTierAndActive(tier,onlyActive);
+        }
+        if(tier!=0 && onlyActive== true){
+                return teamRepository.findByActive(onlyActive);
+        }
+        throw new UnsupportedOperationException("Unsupported combonation of Query Parameters");
+    }
+
+    public void relegateTeam(Team team){
+        if(team.getTier()<cs.getGlobalConfiguration().getLowestTier()){
+            team.setTier(team.getTier()+1);
+            teamRepository.save(team);
+        }
+    }
+
+    public void advanceTeam(Team team){
+        if(team.getTier()!=1){
+            team.setTier(team.getTier()-1);
+            teamRepository.save(team); 
+        }
+    }
+
+    public void deactivateTeam(Team team){
+        team.setActive(false);
+        teamRepository.save(team);
+        List<Player> teamPlayers=team.getPlayers();
+        for(Player player:teamPlayers){
+            player.setPlayerStatus(PlayerStatus.RETIRED);
+        }
+        playerRepository.saveAll(teamPlayers);
     }
 
 

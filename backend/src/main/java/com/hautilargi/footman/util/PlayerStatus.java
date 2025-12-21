@@ -4,5 +4,6 @@ public enum PlayerStatus {
     ACTIVE,
     INJURED,
     SUSPENDED, 
-    YOUTH
+    YOUTH,
+    RETIRED
 }

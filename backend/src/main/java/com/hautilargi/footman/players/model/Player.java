@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.hautilargi.footman.clubs.model.Squad;
+import com.hautilargi.footman.util.PlayerStatus;
 
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.ManyToMany;
@@ -15,6 +16,7 @@ public class Player extends AbstractPlayer {
     @ManyToMany(mappedBy = "squadMembers")
     private Set<Squad> squads;
     private long salery;
+    private PlayerStatus playerStatus;
 
     private int speed;
     private int stamina;
@@ -41,6 +43,7 @@ public class Player extends AbstractPlayer {
         this.age=25;
         this.salery=100;
         this.nationality="de";
+        this.playerStatus=PlayerStatus.ACTIVE;
     }
 
     @Override
@@ -112,5 +115,13 @@ public class Player extends AbstractPlayer {
     public Set<Squad> getSquads(){
         return this.squads;
     }
+
+    public void setPlayerStatus(PlayerStatus newStatus){
+        this.playerStatus=newStatus;
+    }
+
+    public PlayerStatus getPlayerStatus(){
+        return this.playerStatus;
+    } 
 
 }

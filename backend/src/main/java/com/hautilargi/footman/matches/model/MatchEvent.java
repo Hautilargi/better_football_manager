@@ -1,5 +1,6 @@
 package com.hautilargi.footman.matches.model;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.hautilargi.footman.players.model.HistoryPlayer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -10,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@JsonIncludeProperties({"id","event_minute","type","description","player"})
 public class MatchEvent {
 
     public enum Type { GOAL, YELLOW, RED, SHOT, FOUL, SUBSTITUTION, OFFSIDE, CORNER, PENALTY, SAVED_SHOT, SAVED_PENALTY, INJURY, OTHER }

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.hautilargi.footman.core.JsonViews;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.util.MatchTypes;
 
@@ -20,18 +23,29 @@ public class Team {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(value = { JsonViews.Matchview.class })
     private Long id;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonView(value = { JsonViews.TeamView.class })
     private List<Player> players;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy="team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonView(value = { JsonViews.TeamView.class })
     private Map<MatchTypes,Squad> squads;
 
+    @JsonView(value = { JsonViews.Matchview.class,JsonViews.TeamView.class })
     private String name;
+
+    @JsonView(value = { JsonViews.TeamView.class })
     private boolean active;
+
+    @JsonView(value = { JsonViews.TeamView.class })
     private long balance;
 
+    @JsonView(value = { JsonViews.TeamView.class })
+    private int tier;
+    
     public Team() {
     }
 
@@ -39,6 +53,8 @@ public class Team {
         this.name = name;
         this.players = new ArrayList<>();
         this.squads=new HashMap<MatchTypes,Squad>();
+        this.tier=1;
+        this.active=true;
     }
     //TODO Move to Service?
     public void addPlayer(Player player) {
@@ -88,6 +104,12 @@ public class Team {
 
     public void setActive(boolean active){
         this.active=active;
+    }
+    public void setTier(int tier){
+        this.tier=tier;
+    }
+    public int getTier(){
+        return this.tier;
     }
 
     

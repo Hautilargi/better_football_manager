@@ -38,7 +38,25 @@ public class DebugHelperService {
 
     public DebugHelperService() {
     }
+
+       public void generateSomeTeams(int no){
+        for(int i =0; i<no;i++){
+            rs.addNewTeam("TestTeam_"+i);
+        }
+   }
     
+   public void generateSeasonAndLeague(){
+        //18 Teams generieren
+        List<Team> testTeams = new ArrayList<>();
+        for(int i =0; i<16;i++){
+            testTeams.add(rs.addNewTeam("TestTeam_"+i));
+        }
+        //Saison generieren
+        Season testSeason= ls.addNextSeason();
+       //Teams in Liga sortieren
+       ls.addLeague(testSeason, testTeams, 1,1);
+   }
+
     public void generateAndSimulateTestSeasonAndLeage(){
         //18 Teams generieren
         List<Team> testTeams = new ArrayList<>();
@@ -48,14 +66,14 @@ public class DebugHelperService {
         //Saison generieren
         Season testSeason= ls.addNextSeason();
        //Teams in Liga sortieren
-        League testLeague = ls.addLeague(testSeason, testTeams, 0);
+        League testLeague = ls.addLeague(testSeason, testTeams, 1,1);
         //Saison durchspielen
         for(int i =1;i<=34;i++){
             for(Match match : ls.getMatchesForLegueAndMatchday(testLeague, i)){
                 Match updatedMatch= ms.updateMatch(match);
                 System.out.println(updatedMatch.getHomeTeam().getName()+ " "+updatedMatch.getGoalsHome()+" : "+updatedMatch.getGoalsHome()+ " "+updatedMatch.getAwayTeam().getName());
             }
-            ls.playMatchDay();
+            //ls.playMatchDay();
         }
         ls.generateTableForLeague(testLeague,testSeason,34);
     }

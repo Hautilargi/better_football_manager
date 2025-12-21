@@ -10,4 +10,10 @@ import java.util.List;
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
     List<Team> findByNameIgnoreCase(String name);
+    List<Team> findByActive(boolean active);
+    List<Team> findByTierAndActive(int tier, boolean active);
+
+    @Deprecated
+    List<Team> findByTier(int tier);
+
 }

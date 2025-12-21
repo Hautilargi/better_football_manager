@@ -1,6 +1,7 @@
 package com.hautilargi.footman.services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.HistorySquadRepository;
 import com.hautilargi.footman.core.MatchProcessor;
 import com.hautilargi.footman.matches.model.Match;
+import com.hautilargi.footman.matches.model.MatchEvent;
 import com.hautilargi.footman.matches.repository.MatchRepository;
 import com.hautilargi.footman.players.model.HistoryPlayer;
 import com.hautilargi.footman.players.model.Player;
@@ -48,11 +50,15 @@ public class MatchService {
         HistorySquad homeHistorySquad = createHistorySquad(match.getHomeTeam().getSquads().get(match.getMatchtype()));
         HistorySquad awayHistorySquad = createHistorySquad(match.getAwayTeam().getSquads().get(match.getMatchtype()));
         Match processedMatch = MatchProcessor.processMatch(match.getHomeTeam(), match.getAwayTeam(), homeHistorySquad, awayHistorySquad);
-
+        List<MatchEvent> events= processedMatch.getEvents();
+        for(MatchEvent event:events){
+            event.setMatch(match);
+        }
         match.setEvents(processedMatch.getEvents());
         match.setGoalsAway(processedMatch.getGoalsAway());
         match.setGoalsHome(processedMatch.getGoalsHome());
-        matchRepository.save(match);        
+        match.setPlayed(true);
+        matchRepository.save(match);   
         return match;
     }
 

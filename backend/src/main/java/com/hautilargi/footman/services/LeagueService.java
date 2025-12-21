@@ -28,7 +28,7 @@ import com.hautilargi.footman.util.LeagueTableEntry;
 public class LeagueService {
 
     @Autowired
-    LeagueRepository leagueRepisotory;
+    LeagueRepository leagueRepository;
 
     @Autowired
     SeasonRepository seasonRepository;
@@ -36,18 +36,18 @@ public class LeagueService {
     @Autowired
     MatchRepository matchRepository;
 
+
     @Autowired
     RepositoryService rs;
 
     @Autowired
     ConfigurationService cs;
 
+    @Autowired
+    MatchService ms;
+
 
     public LeagueService() {
-    }
-
-    public void processMatchday(){
-
     }
 
     public void processSeasonChange(){
@@ -68,29 +68,30 @@ public class LeagueService {
         return season;
     }
 
-    public League addLeague(Season season, List<Team> teams, int tier ){
+    public League addLeague(Season season, List<Team> teams, int tier, int index ){
         League newLeague = new League();
         newLeague.setSeason(season);
         newLeague.setTier(tier);
+        newLeague.setIndex(index);
         while(teams.size()<18){
                 teams.add(rs.addNewTeam("Placeholder "+ (teams.size()+1))); 
                 System.out.println("Filling Team with Placeholder "+teams.size());
             }
         System.out.println(teams.size());
         //Generate Matches
-        newLeague=leagueRepisotory.save(newLeague);
-        System.out.println("New league saved"); 
+        newLeague=leagueRepository.save(newLeague);
+        System.out.println(String.format("Created new league %s in tier %s",index, tier)); 
         List<Match> leagueMatches = generateLeagueSchedule(teams, newLeague, season);
         for(Match match:leagueMatches){
             matchRepository.save(match);
         }
-       System.out.println("Match Schedule persisted"); 
-        return newLeague;
+        System.out.println(String.format("Match schedule created for league %s/%s",tier, index)); 
+       return newLeague;
     }
 
        private List<Match> generateLeagueSchedule(List<Team> teams, League league, Season season) {
         if (teams.size() != 18) {
-            throw new IllegalArgumentException("Es werden genau 18 Teams benötigt.");
+            throw new IllegalArgumentException("Exactly 18 Teams are needed. Something went wrong filling up with placeholders");
         }
 
         List<Match> matches = new ArrayList<>();
@@ -115,7 +116,19 @@ public class LeagueService {
     }
 
     public void playMatchDay(){
-        cs.increaseCurrentDay();
+        //get current day
+        int currentDay = cs.getGlobalConfiguration().getCurrentDay();
+        System.out.println("Playing Matchday "+currentDay);
+        Optional<Season> topSeason = seasonRepository.findTopByOrderBySeasonNoDesc();
+        //get all current leagues
+        for(League league: leagueRepository.findBySeasonId(topSeason.get().getId())){
+            System.out.println("Processing league "+league.getTier()+"/"+league.getIndex());
+            for(Match match : getMatchesForLegueAndMatchday(league, currentDay)){
+                Match updatedMatch= ms.updateMatch(match);
+                System.out.println(updatedMatch.getHomeTeam().getName()+ " "+updatedMatch.getGoalsHome()+" : "+updatedMatch.getGoalsHome()+ " "+updatedMatch.getAwayTeam().getName());
+            }
+            generateTableForLeague(league, topSeason.get(), currentDay);
+        }   
     }
 
     public void generateTableForLeague(League league, Season season, int matchDay){
@@ -140,6 +153,7 @@ public class LeagueService {
              table.spielEintragen(teamToTables.get(match.getHomeTeam().getId()), teamToTables.get(match.getAwayTeam().getId()), match.getGoalsHome(),match.getGoalsAway());
         }
         }
+        System.out.println("Table for league "+league.getTier()+"/"+league.getIndex());
        table.anzeigen();
     }
 

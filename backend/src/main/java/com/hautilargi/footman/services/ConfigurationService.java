@@ -36,9 +36,18 @@ public class ConfigurationService {
     public void increaseCurrentDay(){
         GlobalConfiguration gc = getGlobalConfiguration();
         gc.setCurrentDay(gc.getCurrentDay()+1);
-        if(gc.getCurrentDay()>34){
-            gc.setCurrentDay(0);
-        }
+        globalConfiguationRepository.save(gc);
+    }
+
+        public void increaseCurrentSeason(){
+        GlobalConfiguration gc = getGlobalConfiguration();
+        gc.setCurrentSeason(gc.getCurrentSeason()+1);
+        globalConfiguationRepository.save(gc);
+    }
+
+    public void setCurrentDay(int day){
+        GlobalConfiguration gc = getGlobalConfiguration();
+        gc.setCurrentDay(day);
         globalConfiguationRepository.save(gc);
     }
 }

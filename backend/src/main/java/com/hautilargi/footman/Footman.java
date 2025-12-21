@@ -41,19 +41,23 @@ public class Footman {
         System.out.println("Application started...");
         if(cs.getGlobalConfiguration()==null){
             cs.setGlobalConfiguration(new GlobalConfiguration());
+            cs.setCurrentDay(40);
             System.out.println("Created new base config");
         }
         System.out.println("Adding Samples to Database...");
-        if(rs.getAllTeams().size()>0){
+        if(rs.getAllTeams(false,0).size()>0){
             System.out.println("Samples already exist, skipping sample data creation.");
             return;
         }
         Team teamA = rs.addNewTeam("AC Alstaden 19");
         Team teamB = rs.addNewTeam("Kloppertruppe AC Alstaden Ost");
+        debugHelperService.generateSomeTeams(22);
         System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
         System.out.println("Bulk Match Result:"+debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
         
-        debugHelperService.generateAndSimulateTestSeasonAndLeage();
+        //debugHelperService.generateAndSimulateTestSeasonAndLeage();
+        //debugHelperService.generateSeasonAndLeague();
+
 
     }
 }

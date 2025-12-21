@@ -31,7 +31,8 @@ public class Team {
     private String name;
     private boolean active;
     private long balance;
-
+    private int tier;
+    
     public Team() {
     }
 
@@ -39,6 +40,8 @@ public class Team {
         this.name = name;
         this.players = new ArrayList<>();
         this.squads=new HashMap<MatchTypes,Squad>();
+        this.tier=1;
+        this.active=true;
     }
     //TODO Move to Service?
     public void addPlayer(Player player) {
@@ -88,6 +91,12 @@ public class Team {
 
     public void setActive(boolean active){
         this.active=active;
+    }
+    public void setTier(int tier){
+        this.tier=tier;
+    }
+    public int getTier(){
+        return this.tier;
     }
 
     

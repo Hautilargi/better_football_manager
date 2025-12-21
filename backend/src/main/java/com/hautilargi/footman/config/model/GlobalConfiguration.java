@@ -13,7 +13,9 @@ public class GlobalConfiguration {
     private Long id;
 
     private int currentSeason=1;
-    private int currentDay=1;
+    private int currentDay=0;
+    private int lowestTier=1;
+    private String serverStatus="OK";
     private String mode="dev";
 
     public GlobalConfiguration(){
@@ -51,6 +53,22 @@ public class GlobalConfiguration {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public int getLowestTier() {
+        return this.lowestTier;
+    }
+    
+    public void setLowestTier(int tier) {
+        this.lowestTier =tier;
+    }
+
+    public void setServerStatus(String status) {
+        this.serverStatus =status;
+    }
+
+    public String getServerStatus() {
+        return this.serverStatus;
     }
 
     

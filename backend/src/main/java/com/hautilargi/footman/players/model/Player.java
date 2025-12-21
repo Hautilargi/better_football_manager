@@ -1,23 +1,20 @@
 package com.hautilargi.footman.players.model;
 
-import com.hautilargi.footman.clubs.model.AbstractSquad;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.hautilargi.footman.clubs.model.Squad;
 
 import jakarta.persistence.Inheritance;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 
 @jakarta.persistence.Entity
 @Inheritance(strategy = jakarta.persistence.InheritanceType.TABLE_PER_CLASS)
 public class Player extends AbstractPlayer {
 
-    @ManyToOne
-    @JoinColumn(name = "squad_id")
-    private Squad squad;
+    @ManyToMany(mappedBy = "squadMembers")
+    private Set<Squad> squads;
 
-    public void setSquad(Squad squad) {
-        this.squad = squad;
-    }
 
     private long salery;
 
@@ -29,9 +26,11 @@ public class Player extends AbstractPlayer {
     private int dribbling;
 
     public Player() {
+        this.squads=new HashSet<>();
     }
 
-    public Player(String lastname, String firstName, int skillLevel) {
+    public Player(String lastname, String firstName, int skillLevel) {     
+        this.squads=new HashSet<>();  
         this.lastname = lastname;
         this.firstName = firstName;
         this.skillLevel = skillLevel;
@@ -105,14 +104,12 @@ public class Player extends AbstractPlayer {
         this.salery = salery;
     }
 
-    @Override
-    public AbstractSquad getSquad() {
-        return squad;
+    public void setSquads(Set<Squad> squads) {
+        this.squads = squads;
     }
 
-    @Override
-    public void setSquad(AbstractSquad squad) {
-        this.squad = (Squad) squad;
+    public Set<Squad> getSquads(){
+        return this.squads;
     }
 
 }

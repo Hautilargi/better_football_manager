@@ -16,6 +16,7 @@ import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.services.MatchService;
 import com.hautilargi.footman.util.Formations;
+import com.hautilargi.footman.util.MatchTypes;
 
 @Service
 public class DebugHelperService {
@@ -29,7 +30,7 @@ public class DebugHelperService {
     
 
 
-    public String evaluateMatch(Team home, Team away, int repetitions){
+    public String evaluateMatch(Team home, Team away, MatchTypes matchtype, int repetitions){
     long startTime = System.currentTimeMillis();
 
         int countHome=0;
@@ -38,7 +39,7 @@ public class DebugHelperService {
         Map<String, Integer> distribution=new HashMap<>();
         
         for(int i = 0 ; i<repetitions; i++){
-                 Match mr= ms.playMatch(home, away, null, false);
+                 Match mr= ms.playMatch(home, away, matchtype, false);
                  if(mr.getGoalsHome()>mr.getGoalsAway()) countHome++;
                  if(mr.getGoalsHome()==mr.getGoalsAway()) countDraw++;
                  if(mr.getGoalsHome()<mr.getGoalsAway()) countAway++;
@@ -77,7 +78,9 @@ public class DebugHelperService {
         for(int i=0; i<20;i++){
             teamA.addPlayer(new Player("Smith", "John", random.nextInt(40,80)));
         }
-        teamA.setSquad(new Squad(Formations.FOUR_FOUR_TWO, teamA, teamA.getPlayers().subList(0, 11)));
+        Map<MatchTypes,Squad> newSquads=new HashMap<>();
+        newSquads.put(MatchTypes.LEAGUE, new Squad(Formations.FOUR_FOUR_TWO, teamA, teamA.getPlayers().subList(0, 11)));
+        teamA.setSquads(newSquads);
         return teamA;
 
     }

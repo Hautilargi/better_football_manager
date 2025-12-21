@@ -97,10 +97,6 @@ public abstract class AbstractPlayer {
         this.team = team;
     }
 
-    public abstract AbstractSquad getSquad();
-
-    public abstract void setSquad(AbstractSquad squad);
-
     public String getLastname() {
         return lastname;
     }

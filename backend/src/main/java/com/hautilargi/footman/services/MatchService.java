@@ -31,8 +31,8 @@ public class MatchService {
 
     public Match playMatch(Team home, Team away, MatchTypes matchType, boolean persist) {
 
-        HistorySquad homeHistorySquad = createHistorySquad(home.getSquad());
-        HistorySquad awayHistorySquad = createHistorySquad(away.getSquad());
+        HistorySquad homeHistorySquad = createHistorySquad(home.getSquads().get(matchType));
+        HistorySquad awayHistorySquad = createHistorySquad(away.getSquads().get(matchType));
 
         Match match = MatchProcessor.processMatch(home, away, homeHistorySquad, awayHistorySquad);
     
@@ -45,8 +45,9 @@ public class MatchService {
 
         public Match updateMatch(Match match) {
 
-        HistorySquad homeHistorySquad = createHistorySquad(match.getHomeTeam().getSquad());
-        HistorySquad awayHistorySquad = createHistorySquad(match.getAwayTeam().getSquad());
+
+        HistorySquad homeHistorySquad = createHistorySquad(match.getHomeTeam().getSquads().get(match.getMatchtype()));
+        HistorySquad awayHistorySquad = createHistorySquad(match.getAwayTeam().getSquads().get(match.getMatchtype()));
 
         Match processedMatch = MatchProcessor.processMatch(match.getHomeTeam(), match.getAwayTeam(), homeHistorySquad, awayHistorySquad);
     
@@ -63,7 +64,7 @@ public class MatchService {
         HistorySquad hs = new HistorySquad();  
         ArrayList<HistoryPlayer> players = new ArrayList<>(); 
         hs.setFormation(squad.getFormation());
-        for (Player p : squad.getPlayers()){ 
+        for (Player p : squad.getSquadMembers()){ 
             HistoryPlayer hp = new HistoryPlayer(p.getLastName(), p.getFirstName(), getAvarageForPosition(p));
             hp.setTeam(squad.getTeam());
             hp.setRealPlayer(p);

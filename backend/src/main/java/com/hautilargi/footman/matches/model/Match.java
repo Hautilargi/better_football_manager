@@ -7,6 +7,7 @@ import com.hautilargi.footman.clubs.model.Stadium;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.leagues.model.League;
 import com.hautilargi.footman.leagues.model.Season;
+import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -36,6 +37,11 @@ public class Match {
     @OneToOne (cascade = CascadeType.ALL)
     private HistorySquad homeSquad;
 
+
+
+
+
+
     @OneToOne( cascade = CascadeType.ALL)
     private HistorySquad awaySquad;
 
@@ -52,7 +58,7 @@ public class Match {
     private int goalsHome;
     private int goalsAway;
     private int matchDay;
-
+    private MatchTypes matchtype;
 
     @ManyToOne
     @JoinColumn(name = "venue_Id")
@@ -73,6 +79,14 @@ public class Match {
     }
 
     /* Getters and setters */
+
+    public MatchTypes getMatchtype() {
+        return matchtype;
+    }
+
+    public void setMatchtype(MatchTypes matchtype) {
+        this.matchtype = matchtype;
+    }
 
     public long getId() {
         return id;

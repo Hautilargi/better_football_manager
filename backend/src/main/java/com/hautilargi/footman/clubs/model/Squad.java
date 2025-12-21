@@ -1,6 +1,7 @@
 package com.hautilargi.footman.clubs.model;
 
 import java.util.List;
+import java.util.Set;
 
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.util.Formations;
@@ -8,6 +9,10 @@ import com.hautilargi.footman.util.Formations;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -18,21 +23,28 @@ public class Squad extends AbstractSquad {
 
     private boolean active = true;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToMany(mappedBy = "squad", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Player> players;
+    @ManyToMany
+    @JoinTable(
+        name = "players_to_squads", 
+        joinColumns = @JoinColumn(name = "squad_id"), 
+        inverseJoinColumns = @JoinColumn(name = "player_id"))
+    private List<Player> squadMembers;
 
     public Squad() {
     }
 
-    public Squad(Formations formation, Team team, List<Player> players) {
+    public Squad(Formations formation, Team team, List<Player> squadMembers) {
         this.formation = formation;
         this.team = team;
-        this.players = players;
-        for (Player player : players) {
-            player.setSquad(this);
+        this.squadMembers = squadMembers;
+        for (Player player : squadMembers) {
+            Set<Squad> playerSquads = player.getSquads();
+            playerSquads.add(this);
+            player.setSquads(playerSquads);
         }
     }
 
@@ -46,12 +58,12 @@ public class Squad extends AbstractSquad {
         this.active = active;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void setSquadMembers(List<Player> squadMembers) {
+        this.squadMembers = squadMembers;
     }
 
-    public List<Player> getPlayers() {
-        return this.players;
+    public List<Player> getSquadMembers() {
+        return this.squadMembers;
     }
 
     public Team getTeam() {

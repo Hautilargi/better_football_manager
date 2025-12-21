@@ -1,5 +1,8 @@
 package com.hautilargi.footman;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +19,7 @@ import com.hautilargi.footman.players.repository.PlayerRepository;
 import com.hautilargi.footman.services.ConfigurationService;
 import com.hautilargi.footman.services.MatchService;
 import com.hautilargi.footman.util.Formations;
+import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.annotation.PostConstruct;
 
@@ -72,7 +76,9 @@ public class Footman {
         teamA.addPlayer(new Player("Nowak", "Piotr", 69));
         teamA.addPlayer(new Player("Hansen", "Erik", 71));
         teamA.addPlayer(new Player("Petrov", "Alexei", 67));
-        teamA.setSquad(new Squad(Formations.FOUR_FOUR_TWO, teamA, teamA.getPlayers()));
+        Map<MatchTypes,Squad> newSquadsA=new HashMap<>();
+        newSquadsA.put(MatchTypes.LEAGUE, new Squad(Formations.FOUR_FOUR_TWO, teamA, teamA.getPlayers().subList(0, 11)));
+        teamA.setSquads(newSquadsA);
 
         // Generate Team B
 
@@ -88,17 +94,22 @@ public class Footman {
         teamB.addPlayer(new Player("Klein", "Daniel", 66));
         teamB.addPlayer(new Player("Popescu", "Andrei", 74));
         teamB.addPlayer(new Player("Conti", "Alessio", 61));
-        teamB.setSquad(new Squad(Formations.FOUR_FOUR_TWO, teamB, teamB.getPlayers()));
+        Map<MatchTypes,Squad> newSquadsB=new HashMap<>();
+        newSquadsB.put(MatchTypes.LEAGUE, new Squad(Formations.FOUR_FOUR_TWO, teamB, teamB.getPlayers().subList(0, 11)));
+        teamB.setSquads(newSquadsB);
+
         teamRepository.save(teamA);
         teamRepository.save(teamB);
 
+
+
         System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
 
-        Match testMatch = matchService.playMatch(teamA, teamB, null, true);
+        Match testMatch = matchService.playMatch(teamA, teamB, MatchTypes.LEAGUE, true);
   
         System.out.println("Single Test Match Result:"+testMatch.getGoalsAway()+" - "+testMatch.getGoalsHome());
 
-         System.out.println("Bulk Match Result:"+debugHelperService.evaluateMatch(teamA, teamB, 1000));
+         System.out.println("Bulk Match Result:"+debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
 
 
 

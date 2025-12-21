@@ -40,7 +40,7 @@ public class Debug {
         public String squads() {
             List<Squad> sqaids = sr.findAll();
             for (Squad s : sqaids) {
-                System.out.println("Squad id="+s.getId()+" has "+s.getPlayers().size()+" players.");
+                System.out.println("Squad id="+s.getId()+" has "+s.getSquadMembers().size()+" players.");
             }
             return sqaids.toString();
         }

@@ -1,8 +1,6 @@
 package com.hautilargi.footman.matches.model;
 
 import com.hautilargi.footman.players.model.HistoryPlayer;
-import com.hautilargi.footman.players.model.Player;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,11 +24,16 @@ public class MatchEvent {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id")
     private HistoryPlayer player;
+    
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "match_id")
     private Match match;
+
+    public MatchEvent(){
+
+    }
 
     public MatchEvent(int event_minute, Type type, HistoryPlayer player, String description) {
         this.event_minute = event_minute;
@@ -39,6 +42,7 @@ public class MatchEvent {
         this.description = description;
     }
 
+    /* Getters and Setters */
     public int getEventMinute() {
         return event_minute;
     }   
@@ -81,5 +85,13 @@ public class MatchEvent {
     @Override
     public String toString() {
         return "Minute: " + event_minute + ", Type: " + type + ", Player: " + player.getFirstName() + " " + player.getLastName() + ", Description: " + description;
+    }
+
+    public int getEvent_minute() {
+        return event_minute;
+    }
+
+    public void setEvent_minute(int event_minute) {
+        this.event_minute = event_minute;
     }
 }

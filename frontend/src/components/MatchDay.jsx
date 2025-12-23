@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from "react-router";
 import { api } from "../api/axios";
 import MatchDetail from './MatchDetail'
+import MatchDayFilters from './MatchDayFilters'
+
 import '../App.css'
 
 
@@ -12,14 +14,12 @@ function format(str, ...args) {
 
 function MatchDay() {
   const [posts, setPosts] = useState([]);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedMatch, setSelectedMatch] = useState(null)
-  var season = searchParams.get("season");
-  var league = searchParams.get("league");
-  var matchday = searchParams.get("matchday");
-  if(season==null) season=1;
-  if(league==null) league=1;
-  if(matchday==null) matchday=1;
+  const season = searchParams.get("season") ?? "1";
+  const league = searchParams.get("league") ?? "1";
+  const matchday = searchParams.get("matchday") ?? "1";
+
 
   useEffect(() => {
     api.get(format('/api/matches?season={0}&league={1}&matchday={2}',season,league,matchday))
@@ -29,11 +29,19 @@ function MatchDay() {
       .catch(error => {
         console.error(error);
       });
-  }, []);
+  }, [season, league, matchday]);
+
   
 
   return (
     <>
+    <MatchDayFilters
+      season={season}
+      league={league}
+      matchday={matchday}
+      setSearchParams={setSearchParams}
+    />
+
     <h2>Ligaübersicht Testsaison {season}  - Liga {league} - Spieltag {matchday}</h2>
     Tipp: Oben in der URL kann der Spieltag angepasst werden (?season={0}&league={1}&matchday={2})
     <ul className="no-bullets">
@@ -59,6 +67,7 @@ function MatchDay() {
           onClose={() => setSelectedMatch(null)}
         />
       )}
+      <h2>Hier könnte ihre Tabelle stehen</h2>
     </>
   )
 }

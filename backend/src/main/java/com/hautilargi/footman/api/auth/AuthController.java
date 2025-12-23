@@ -1,4 +1,4 @@
-package com.hautilargi.footman.api;
+package com.hautilargi.footman.api.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,7 +74,7 @@ public class AuthController {
     }
 
 
-@GetMapping("/api/me")
+@GetMapping("/me")
 public User me(HttpServletRequest request) {
     HttpSession session = request.getSession(false);
 

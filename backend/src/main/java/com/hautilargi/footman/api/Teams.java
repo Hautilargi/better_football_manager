@@ -30,17 +30,6 @@ public class Teams {
         return teamRepository.findAll().toString();
     }
 
-    @GetMapping("/api/me/team")
-    public String getMyTeam(HttpServletRequest request) {
-    HttpSession session = request.getSession(false);
-    if (session == null || session.getAttribute("USER_ID") == null) {
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-    }
-    Long userId = (Long) session.getAttribute("USER_ID");
-    User user= userRepository.findById(userId).get();
-    return teamRepository.findByUser(user).getFirst().getName();
-    }
-
     @GetMapping("/api/teams/{id}")
     public String getTeamById(@PathVariable Long id) {
         var team = teamRepository.findById(id);

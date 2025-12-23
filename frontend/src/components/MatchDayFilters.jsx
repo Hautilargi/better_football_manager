@@ -1,4 +1,9 @@
-function MatchFilters({ season, league, matchday, setSearchParams }) {
+function MatchDayFilters({ season, league, matchday, setSearchParams }) {
+
+    const seasons = [1, 2, 3];
+    const leagues = [1, 2];
+    const matchdays = Array.from({ length: 34 }, (_, i) => i + 1);
+    
   const updateParam = (key, value) => {
     setSearchParams(prev => {
       const params = new URLSearchParams(prev);
@@ -47,3 +52,5 @@ function MatchFilters({ season, league, matchday, setSearchParams }) {
     </div>
   );
 }
+
+export default MatchDayFilters;

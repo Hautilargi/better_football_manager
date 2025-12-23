@@ -4,14 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.config.model.GlobalConfiguration;
 import com.hautilargi.footman.debug.DebugHelperService;
-import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.services.ConfigurationService;
 import com.hautilargi.footman.services.MatchService;
 import com.hautilargi.footman.services.RepositoryService;
+import com.hautilargi.footman.users.model.User;
+import com.hautilargi.footman.users.repository.UserRepository;
 import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.annotation.PostConstruct;
@@ -32,6 +34,12 @@ public class Footman {
     @Autowired
     DebugHelperService debugHelperService;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public static void main(String[] args) {
         SpringApplication.run(Footman.class, args);
     }
@@ -50,6 +58,8 @@ public class Footman {
             System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
             System.out.println(
                     "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
+            User user= new User("admin","admin@hautilargi.de",passwordEncoder.encode("admin"),null);
+            userRepository.save(user);
 
         }
         else{

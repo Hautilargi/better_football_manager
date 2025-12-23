@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hautilargi.footman.core.JsonViews;
 import com.hautilargi.footman.players.model.Player;
+import com.hautilargi.footman.users.model.User;
 import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.persistence.CascadeType;
@@ -17,6 +18,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @jakarta.persistence.Entity
 public class Team {
@@ -25,6 +27,10 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(value = { JsonViews.Matchview.class })
     private Long id;
+
+    @OneToOne
+    @JsonView(value = { JsonViews.TeamView.class })
+    private User owner;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonView(value = { JsonViews.TeamView.class })
@@ -112,6 +118,13 @@ public class Team {
         return this.tier;
     }
 
+      public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
     
 
     public String toHtmlString() {
@@ -170,6 +183,8 @@ public class Team {
         sb.append("}");
         return sb.toString();
     }
+
+
 
     
 }

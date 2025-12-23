@@ -19,20 +19,27 @@ RUN mvn package -DskipTests
 
 
 # ---------- Runtime ----------
-FROM eclipse-temurin:21-jre
+# 3. Final Image mit Nginx + Spring Boot
+FROM openjdk:17-jdk-slim
 WORKDIR /app
 
-
 # Spring Boot JAR
-COPY --from=backend-build /backend/target/*.jar app.jar
+COPY --from=backend-build /backend/target/*.jar ./backend.jar
 
 
 # Vite Build → Spring Boot Static Resources
-COPY --from=frontend-build /frontend/dist /app/static
+COPY --from=frontend-build /frontend/dist ./frontend/build
 
 
-ENV SPRING_WEB_RESOURCES_STATIC_LOCATIONS=classpath:/static/,file:/app/static/
+# Nginx
+RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
+# Start Script
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
+EXPOSE 80
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+CMD ["/start.sh"]

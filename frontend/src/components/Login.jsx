@@ -1,85 +1,82 @@
-import React from "react";
+import { useState } from "react";
+import { api } from "../api/axios";
 
-const styles = {
-  container: {
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#f2f4f7",
-  },
-  card: {
-    width: "320px",
-    padding: "24px",
-    borderRadius: "8px",
-    backgroundColor: "#fff",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-  },
-  title: {
-    marginBottom: "16px",
-    textAlign: "center",
-  },
-  field: {
-    marginBottom: "12px",
-  },
-  label: {
-    display: "block",
-    marginBottom: "4px",
-    fontSize: "14px",
-  },
-  input: {
-    width: "100%",
-    padding: "8px",
-    boxSizing: "border-box",
-  },
-  button: {
-    width: "100%",
-    padding: "10px",
-    marginTop: "12px",
-    cursor: "not-allowed",
-  },
-  hint: {
-    marginTop: "12px",
-    fontSize: "12px",
-    textAlign: "center",
-    color: "#777",
-  },
-};
+function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [regEmail, setRegEmail] = useState("");
+  const [regTeam, setRegTeam] = useState("");
 
-export default function Login() {
+  const login = async () => {
+    try {
+      const res = await api.post("/auth/login", { username, password });
+      if (res.status >= 200 && res.status < 300) {
+        // session cookie is set by server (withCredentials:true)
+        alert("Login erfolgreich");
+      } else {
+        alert("Login fehlgeschlagen");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Login fehlgeschlagen: " + (err.response?.status || err.message));
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await api.post("/auth/logout");
+      alert("Abgemeldet");
+    } catch (err) {
+      console.error(err);
+      alert("Logout fehlgeschlagen");
+    }
+  };
+
+  const register = async () => {
+    try {
+      const body = { username, password, email: regEmail, teamname: regTeam };
+      const res = await api.post("/auth/register", body);
+      if (res.status >= 200 && res.status < 300) {
+        alert("Registrierung durchgeführt (oder Endpoint erfolgreich aufgerufen)");
+      } else {
+        alert("Registrierung fehlgeschlagen");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Registrierung fehlgeschlagen: " + (err.response?.status || err.message));
+    }
+  };
+
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.title}>Login</h2>
+    <div style={{ maxWidth: 360 }}>
+      <div>
+        <label>Benutzer:</label>
+        <input value={username} onChange={e => setUsername(e.target.value)} />
+      </div>
+      <div>
+        <label>Passwort:</label>
+        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+      </div>
+      <div style={{ marginTop: 8 }}>
+        <button onClick={login}>Login</button>
+        <button onClick={logout} style={{ marginLeft: 8 }}>Logout</button>
+      </div>
 
-        <div style={styles.field}>
-          <label style={styles.label}>E-Mail</label>
-          <input
-            type="email"
-            placeholder="name@example.com"
-            style={styles.input}
-            disabled
-          />
-        </div>
-
-        <div style={styles.field}>
-          <label style={styles.label}>Passwort</label>
-          <input
-            type="password"
-            placeholder="••••••••"
-            style={styles.input}
-            disabled
-          />
-        </div>
-
-        <button style={styles.button} disabled>
-          Anmelden
-        </button>
-
-        <p style={styles.hint}>
-          * Platzhalter – keine Login-Funktion implementiert
-        </p>
+      <hr />
+      <h4>Registrieren</h4>
+      <div>
+        <label>E-Mail (optional):</label>
+        <input value={regEmail} onChange={e => setRegEmail(e.target.value)} />
+      </div>
+       <div>
+       <label>Team Name (optional):</label>
+        <input value={regTeam} onChange={e => setRegTeam(e.target.value)} />
+      </div>
+      <div style={{ marginTop: 8 }}>
+        <button onClick={register}>Registrieren</button>
       </div>
     </div>
   );
 }
+
+export default Login;

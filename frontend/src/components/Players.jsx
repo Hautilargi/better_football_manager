@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios';
+import { api } from "../api/axios";
 import '../App.css'
 
 function Players() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/players')
+    api.get('/api/players')
       .then(response => {
         setPosts(response.data);
       })

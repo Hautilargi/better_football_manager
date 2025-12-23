@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from "react-router";
-import axios from 'axios';
+import { api } from "../api/axios";
 import MatchDetail from './MatchDetail'
 import '../App.css'
 
@@ -11,7 +11,7 @@ function MatchDay() {
 
 
   useEffect(() => {
-    axios.get('/api/matches?season=1&league=1&matchday='+searchParams.get("matchDay"))
+    api.get('/api/matches?season=1&league=1&matchday='+searchParams.get("matchDay"))
       .then(response => {
         setPosts(response.data);
       })

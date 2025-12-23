@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios';
+import { api } from "../api/axios";
 import '../App.css'
 
 function Teams() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/teams')
+    api.get('/api/teams')
       .then(response => {
         setPosts(response.data);
       })

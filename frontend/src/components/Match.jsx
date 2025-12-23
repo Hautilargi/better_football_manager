@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios';
+import { api } from "../api/axios";
 import '../App.css'
 
 function Match() {
@@ -10,7 +10,7 @@ function Match() {
     let mounted = true;
     (async () => {
       try {
-        const res = await axios.get(
+        const res = await api.get(
           '/api/debug/testmatch?homeId=1&awayId=2',
           { responseType: 'arraybuffer' }
         );

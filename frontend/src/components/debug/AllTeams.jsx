@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios';
-import '../App.css'
+import { api } from "../../api/axios";
+import '../../App.css'
 
-function League() {
+function AllTeams() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/teams')
+    api.get('/api/teams')
       .then(response => {
         setPosts(response.data);
       })
@@ -24,4 +24,4 @@ function League() {
   );
 }
 
-export default League;
+export default AllTeams;

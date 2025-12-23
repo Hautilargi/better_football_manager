@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { api } from "../api/axios";
-import '../App.css'
+import { api } from "../../api/axios";
+import '../../App.css'
 
-function Match() {
+function TestMatch() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -35,4 +35,4 @@ function Match() {
   );
 }
 
-export default Match;
+export default TestMatch;

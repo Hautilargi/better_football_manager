@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { api } from "../api/axios";
-import '../App.css'
+import { api } from "../../api/axios";
+import '../../App.css'
 
-function Teams() {
+function AllPlayers() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    api.get('/api/teams')
+    api.get('/api/players')
       .then(response => {
         setPosts(response.data);
       })
@@ -18,10 +18,10 @@ function Teams() {
   return (
     <ul>
       {posts.map(post => (
-        <li key={post.id}>{post.name}</li>
+        <li key={post.id}>{post.lastname}, {post.firstname} - Stärke: {post.skillLevel}</li>
       ))}
     </ul>
   );
 }
 
-export default Teams;
+export default AllPlayers;

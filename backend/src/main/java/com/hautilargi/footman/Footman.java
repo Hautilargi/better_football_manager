@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.clubs.repository.TeamRepository;
 import com.hautilargi.footman.config.model.GlobalConfiguration;
 import com.hautilargi.footman.debug.DebugHelperService;
 import com.hautilargi.footman.services.ConfigurationService;
@@ -38,6 +39,9 @@ public class Footman {
     UserRepository userRepository;
 
     @Autowired
+    TeamRepository teamRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
@@ -59,6 +63,10 @@ public class Footman {
             System.out.println(
                     "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
             User user= new User("admin","admin@hautilargi.de",passwordEncoder.encode("admin"),null);
+            userRepository.save(user);
+            teamA.setOwner(user);
+            teamRepository.save(teamA);
+            user.setTeam(teamA);
             userRepository.save(user);
 
         }

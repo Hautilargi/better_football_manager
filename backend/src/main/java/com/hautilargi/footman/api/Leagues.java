@@ -13,7 +13,6 @@ import com.hautilargi.footman.matches.repository.MatchRepository;
 //import com.hautilargi.footman.model.MatchRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class Leagues {
 
    @Autowired
@@ -34,4 +33,11 @@ public class Leagues {
             return "match not found";
         }
     }
+
+    @GetMapping("/me/leagues")
+    public String getCurrentUserLeague() {
+                    return "match not found";
+        
+    } 
+
 }

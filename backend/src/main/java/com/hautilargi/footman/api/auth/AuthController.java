@@ -1,4 +1,4 @@
-package com.hautilargi.footman.api;
+package com.hautilargi.footman.api.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,8 +39,6 @@ public class AuthController {
     public ResponseEntity<?> login(
             @RequestBody LoginRequest request,
             HttpServletRequest httpRequest) {
-                            System.out.println("Login start! "+request.toString());
-
         User user = userRepository.findByName(request.username())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
@@ -60,8 +58,6 @@ public class AuthController {
             @RequestBody RegistrationRequest request,
             HttpServletRequest httpRequest) {
         try{
-                        System.out.println("Registraion start "+request.toString());
-
             User user = ums.registerUser(request.username(),request.email(), request.password(), request.teamname());
             // Session erzeugen
             HttpSession session = httpRequest.getSession(true);
@@ -78,7 +74,7 @@ public class AuthController {
     }
 
 
-@GetMapping("/api/me")
+@GetMapping("/me")
 public User me(HttpServletRequest request) {
     HttpSession session = request.getSession(false);
 

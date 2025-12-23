@@ -28,8 +28,19 @@ public class Scheduler {
     @Autowired
     RepositoryService rs;
 
-	@Scheduled(cron = "* */10 * * * *", zone = "Europe/Berlin")
+	@Scheduled(cron = "*/5 * * * * *", zone = "Europe/Berlin")
 	public void dayChangeProcessor(){
+
+		if(cs.getGlobalConfiguration().getCurrentDay()>40 && cs.getGlobalConfiguration().getCurrentSeason()>=3){
+			System.out.println("End of S3 reached. Pausing myself");
+			try {
+				cs.setStatus("SLEEP");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
+		}
 		if(cs.getGlobalConfiguration().getServerStatus().equals("OK")){
 		//update day
 		System.out.println("Processing day "+cs.getGlobalConfiguration().getCurrentDay());

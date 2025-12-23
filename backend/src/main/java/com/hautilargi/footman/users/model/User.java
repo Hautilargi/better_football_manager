@@ -14,12 +14,15 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.hautilargi.footman.clubs.model.Team;
 
 
 
 
 @Entity
+@JsonIncludeProperties({"id","name","email","team.id"})
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
 

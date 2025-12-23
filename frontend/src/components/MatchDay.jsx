@@ -4,14 +4,25 @@ import { api } from "../api/axios";
 import MatchDetail from './MatchDetail'
 import '../App.css'
 
+
+function format(str, ...args) {
+  return str.replace(/{(\d+)}/g, (match, index) => args[index]);
+}
+
+
 function MatchDay() {
   const [posts, setPosts] = useState([]);
   const [searchParams] = useSearchParams();
   const [selectedMatch, setSelectedMatch] = useState(null)
-
+  var season = searchParams.get("season");
+  var league = searchParams.get("league");
+  var matchday = searchParams.get("matchday");
+  if(season==null) season=1;
+  if(league==null) league=1;
+  if(matchday==null) matchday=1;
 
   useEffect(() => {
-    api.get('/api/matches?season=1&league=1&matchday='+searchParams.get("matchDay"))
+    api.get(format('/api/matches?season={0}&league={1}&matchday={2}',season,league,matchday))
       .then(response => {
         setPosts(response.data);
       })
@@ -19,11 +30,12 @@ function MatchDay() {
         console.error(error);
       });
   }, []);
+  
 
   return (
     <>
-    <h2>Ligaübersicht Testsaison 1 - Liga 1 - Spieltag {searchParams.get("matchDay")} </h2>
-    Tipp: Oben in der URL kann der Spieltag angepasst werden (1-34)
+    <h2>Ligaübersicht Testsaison {season}  - Liga {league} - Spieltag {matchday}</h2>
+    Tipp: Oben in der URL kann der Spieltag angepasst werden (?season={0}&league={1}&matchday={2})
     <ul className="no-bullets">
         {posts.map(post => (
           <li className="boxed" key={post.id}>

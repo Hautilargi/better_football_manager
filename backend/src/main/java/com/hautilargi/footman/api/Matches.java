@@ -19,7 +19,6 @@ import com.hautilargi.footman.util.StringUtils;
 //import com.hautilargi.footman.model.MatchRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class Matches {
 
    @Autowired

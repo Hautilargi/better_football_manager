@@ -20,7 +20,8 @@ RUN mvn package -DskipTests
 
 # ---------- Runtime ----------
 # 3. Final Image mit Nginx + Spring Boot
-FROM openjdk:17-jdk-slim
+# Use Eclipse Temurin JDK matching project Java version (21). This tag is published on Docker Hub.
+FROM eclipse-temurin:21-jdk-jammy
 WORKDIR /app
 
 # Spring Boot JAR

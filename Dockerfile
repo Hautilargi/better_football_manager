@@ -34,6 +34,9 @@ COPY --from=frontend-build /frontend/dist ./frontend/build
 
 # Nginx
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+## remove packaged default site / html to avoid default nginx welcome page
+RUN rm -f /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default || true
+RUN rm -rf /var/www/html/* || true
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Start Script

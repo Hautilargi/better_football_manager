@@ -1,46 +1,57 @@
-# ---------- Frontend Build ----------
-FROM node:20 AS frontend-build
-WORKDIR /frontend
-# Abhängigkeiten installieren
-COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm install
-# Frontend-Code kopieren & bauen
-COPY frontend ./
-RUN npm run build
+# Dieser Workflow verwendet Aktionen, die nicht von GitHub zertifiziert sind.
+# Sie werden von einem Drittanbieter bereitgestellt und unterliegen
+# separaten Nutzungsbedingungen, Datenschutzbestimmungen und Support
+# Onlinedokumentation.
 
+# GitHub empfiehlt, Aktionen an einen Commit-SHA anzuheften.
+# Um eine neuere Version zu erhalten, musst du den SHA aktualisieren.
+# Du kannst auch auf ein Tag oder einen Branch verweisen, aber die Aktion kann sich ohne Vorwarnung ändern.
 
-# ---------- Backend Build ----------
-FROM maven:3.9-eclipse-temurin-21 AS backend-build
-WORKDIR /backend
-COPY backend/pom.xml ./
-RUN mvn dependency:go-offline
-COPY backend ./
-RUN mvn package -DskipTests
+name: Publish Docker image
 
+on:
+  release:
+    types: [published]
 
-# ---------- Runtime ----------
-# 3. Final Image mit Nginx + Spring Boot
-# Use Eclipse Temurin JDK matching project Java version (21). This tag is published on Docker Hub.
-FROM eclipse-temurin:21-jdk-jammy
-WORKDIR /app
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    environment: 
+      name: main
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v5
 
-# Spring Boot JAR
-COPY --from=backend-build /backend/target/*.jar ./backend.jar
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: hautilargi/footballman
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-# Vite Build → Spring Boot Static Resources
-COPY --from=frontend-build /frontend/dist ./frontend/build
-
-
-# Nginx
-RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-
-# Start Script
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-
-EXPOSE 80
-EXPOSE 8080
-
-CMD ["/start.sh"]
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-name: index.docker.io/hautilargi/footballman
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true

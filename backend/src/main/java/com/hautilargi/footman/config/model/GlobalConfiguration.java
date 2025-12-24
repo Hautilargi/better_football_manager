@@ -12,7 +12,7 @@ public class GlobalConfiguration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int currentSeason=1;
+    private long currentSeason=0;
     private int currentDay=0;
     private int lowestTier=1;
     private String serverStatus="OK";
@@ -31,11 +31,11 @@ public class GlobalConfiguration {
         this.id = id;
     }
 
-    public int getCurrentSeason() {
+    public long getCurrentSeason() {
         return currentSeason;
     }
 
-    public void setCurrentSeason(int currentSeason) {
+    public void setCurrentSeason(long currentSeason) {
         this.currentSeason = currentSeason;
     }
 

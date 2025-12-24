@@ -4,34 +4,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.regex.MatchResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hautilargi.footman.FootmanConstants;
 import com.hautilargi.footman.clubs.model.Team;
-import com.hautilargi.footman.clubs.repository.TeamRepository;
 import com.hautilargi.footman.leagues.model.League;
-import com.hautilargi.footman.leagues.model.Season;
 import com.hautilargi.footman.leagues.repository.LeagueRepository;
-import com.hautilargi.footman.leagues.repository.SeasonRepository;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.matches.repository.MatchRepository;
-import com.hautilargi.footman.util.MatchResults;
-import com.hautilargi.footman.util.MatchTypes;
 import com.hautilargi.footman.util.LeagueTable;
 import com.hautilargi.footman.util.LeagueTableEntry;
+import com.hautilargi.footman.util.MatchResults;
+import com.hautilargi.footman.util.MatchTypes;
 
 @Service
 public class LeagueService {
 
     @Autowired
     LeagueRepository leagueRepository;
-
-    @Autowired
-    SeasonRepository seasonRepository;
 
     @Autowired
     MatchRepository matchRepository;
@@ -54,21 +45,7 @@ public class LeagueService {
         
     }
 
-    public Season addNextSeason(){
-        Season season = new Season();
-        Optional<Season> topSeason = seasonRepository.findTopByOrderBySeasonNoDesc();
-        if(topSeason.isPresent()){
-            season.setSeasonNo(topSeason.get().getSeasonNo()+1);
-        }
-        else{
-            season.setSeasonNo(1);
-        }
-        seasonRepository.save(season);
-        System.out.println("Added Season "+season.getSeasonNo());
-        return season;
-    }
-
-    public League addLeague(Season season, List<Team> teams, int tier, int index ){
+    public League addLeague(long season, List<Team> teams, int tier, int index ){
         League newLeague = new League();
         newLeague.setSeason(season);
         newLeague.setTier(tier);
@@ -89,7 +66,7 @@ public class LeagueService {
        return newLeague;
     }
 
-       private List<Match> generateLeagueSchedule(List<Team> teams, League league, Season season) {
+       private List<Match> generateLeagueSchedule(List<Team> teams, League league, long season) {
         if (teams.size() != 18) {
             throw new IllegalArgumentException("Exactly 18 Teams are needed. Something went wrong filling up with placeholders");
         }
@@ -117,23 +94,21 @@ public class LeagueService {
 
     }
 
-    public void playMatchDay(){
+    public void playMatchDay(int matchday){
         //get current day
-        int currentDay = cs.getGlobalConfiguration().getCurrentDay();
-        System.out.println("Playing Matchday "+currentDay);
-        Optional<Season> topSeason = seasonRepository.findTopByOrderBySeasonNoDesc();
+        System.out.println("Playing Matchday "+matchday +" in season "+cs.getGlobalConfiguration().getCurrentSeason() );
         //get all current leagues
-        for(League league: leagueRepository.findBySeasonId(topSeason.get().getId())){
+        for(League league: leagueRepository.findBySeasonNo(cs.getGlobalConfiguration().getCurrentSeason())){
             System.out.println("Processing league "+league.getTier()+"/"+league.getIndex());
-            for(Match match : getMatchesForLegueAndMatchday(league, currentDay)){
+            for(Match match : getMatchesForLegueAndMatchday(league, matchday)){
                 Match updatedMatch= ms.updateMatch(match);
                 System.out.println(updatedMatch.getHomeTeam().getName()+ " "+updatedMatch.getGoalsHome()+" : "+updatedMatch.getGoalsHome()+ " "+updatedMatch.getAwayTeam().getName());
             }
-            generateTableForLeague(league, topSeason.get(), currentDay);
+            generateTableForLeague(league, cs.getGlobalConfiguration().getCurrentSeason(), matchday);
         }   
     }
 
-    public void generateTableForLeague(League league, Season season, int matchDay){
+    public void generateTableForLeague(League league, long season, int matchDay){
         LeagueTable table= new LeagueTable();
         Map<Long,LeagueTableEntry> teamToTables=new HashMap<>();
     

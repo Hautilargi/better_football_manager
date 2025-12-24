@@ -1,7 +1,5 @@
 package com.hautilargi.footman.services;
 
-import javax.management.InvalidAttributeValueException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,16 +33,18 @@ public class ConfigurationService {
             }
     }
 
-    public void increaseCurrentDay(){
+    public int increaseCurrentDay(){
         GlobalConfiguration gc = getGlobalConfiguration();
         gc.setCurrentDay(gc.getCurrentDay()+1);
         globalConfiguationRepository.save(gc);
+        return gc.getCurrentDay();
     }
 
-        public void increaseCurrentSeason(){
+    public long increaseCurrentSeason(){
         GlobalConfiguration gc = getGlobalConfiguration();
         gc.setCurrentSeason(gc.getCurrentSeason()+1);
         globalConfiguationRepository.save(gc);
+        return gc.getCurrentSeason();
     }
 
     public void setCurrentDay(int day){

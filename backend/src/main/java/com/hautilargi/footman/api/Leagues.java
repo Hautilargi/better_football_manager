@@ -1,14 +1,12 @@
 package com.hautilargi.footman.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hautilargi.footman.leagues.repository.LeagueRepository;
-import com.hautilargi.footman.matches.repository.MatchRepository;
 
 //import com.hautilargi.footman.model.MatchRepository;
 
@@ -20,7 +18,7 @@ public class Leagues {
 
     @GetMapping("/api/leagues")
     public String getApiTeams(@RequestParam Long season, @RequestParam int tier) {
-        return leagueRepository.findBySeasonIdAndTier(season,tier).toString();
+        return leagueRepository.findBySeasonNoAndTier(season,tier).toString();
     }
 
     @GetMapping("/api/leagues/{id}")
@@ -34,10 +32,6 @@ public class Leagues {
         }
     }
 
-    @GetMapping("/me/leagues")
-    public String getCurrentUserLeague() {
-                    return "match not found";
-        
-    } 
+
 
 }

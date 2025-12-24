@@ -11,5 +11,5 @@ import java.util.List;
 public interface MatchRepository extends JpaRepository<Match, Long> {
     List<Match> findByHomeIdOrAwayId(Long homeId, Long awayId);
     List<Match> findByLeagueIdAndMatchDay(long league_id, int matchday);
-    List<Match> findByLeagueIdAndMatchDayAndSeasonId(long league_id, int matchday, long season_id);
+    List<Match> findByMatchDayAndSeasonAndLeague_Index(int matchday, long season, int leagueIndex);
 }

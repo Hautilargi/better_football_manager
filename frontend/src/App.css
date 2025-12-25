@@ -52,3 +52,15 @@
   padding: 8px 12px;
   margin-bottom: 6px; /* Abstand zwischen den Einträgen */
 }
+
+  .table {
+    width: "100%";
+    borderCollapse: "collapse";
+  }
+  .tableRow {
+    width: "100%";
+  }
+  .link {
+    color: "#2563eb";
+    textDecoration: "none";
+  }

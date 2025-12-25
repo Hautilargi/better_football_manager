@@ -1,0 +1,43 @@
+.player-card {
+  max-width: 400px;
+  margin: 16px auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+}
+
+.player-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1f2937; /* dunkles Grau */
+}
+
+.player-team {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.player-team a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.player-team a:hover {
+  text-decoration: underline;
+}
+
+.player-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+  margin-top: 16px;
+}
+
+.player-stats div {
+  font-size: 0.95rem;
+  color: #374151;
+}

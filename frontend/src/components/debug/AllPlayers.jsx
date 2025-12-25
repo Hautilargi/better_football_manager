@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { api } from "../../api/axios";
 import '../../App.css'
-
+import { Link } from 'react-router';
 function AllPlayers() {
   const [posts, setPosts] = useState([]);
 
@@ -18,7 +18,13 @@ function AllPlayers() {
   return (
     <ul>
       {posts.map(post => (
-        <li key={post.id}>{post.lastname}, {post.firstname} - Stärke: {post.skillLevel}</li>
+        <li key={post.id}>{post.lastname}, {post.firstname} - Stärke: {post.skillLevel}
+        <br></br>
+        <Link to={`/players?playerId=${post.id}`}>
+          Details
+      </Link>
+        
+        </li>
       ))}
     </ul>
   );

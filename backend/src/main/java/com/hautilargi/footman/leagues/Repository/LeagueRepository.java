@@ -12,4 +12,5 @@ import com.hautilargi.footman.leagues.model.League;
 public interface LeagueRepository extends JpaRepository<League, Long> {
     List<League> findBySeasonNo(Long seasonId);
     List<League> findBySeasonNoAndTier(Long seasonId,int tier);
-}
+    League findBySeasonNoAndIndex(Long seasonId,int index);
+    }

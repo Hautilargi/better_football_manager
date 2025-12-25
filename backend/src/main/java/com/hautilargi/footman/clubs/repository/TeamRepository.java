@@ -14,6 +14,7 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     List<Team> findByActive(boolean active);
     List<Team> findByTierAndActive(int tier, boolean active);
     List<Team> findByOwner(User user);
+    Team findByPlayers_id(long id);
 
 
     @Deprecated

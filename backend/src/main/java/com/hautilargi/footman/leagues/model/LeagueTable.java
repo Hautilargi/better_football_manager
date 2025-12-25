@@ -1,4 +1,4 @@
-package com.hautilargi.footman.util;
+package com.hautilargi.footman.leagues.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,11 @@ public class LeagueTable {
         Collections.sort(tableEntries);
     }
 
-    public void anzeigen() {
+    public List<LeagueTableEntry> getTableEntries(){
+        return this.tableEntries;
+    }
+
+    public void printToConsole() {
         sortiere();
         System.out.println("=== Tabelle ===");
         int platz = 1;

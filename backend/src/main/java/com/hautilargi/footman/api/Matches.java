@@ -30,13 +30,16 @@ public class Matches {
     @GetMapping("/api/matches")
     public String getApiTeams(
         @RequestParam(required = true) long season, 
-        @RequestParam(required = true) long league, 
+        @RequestParam(required = true) int league, 
         @RequestParam(required = true) int matchday) {  
         
-        List<Match> matches= matchRepository.findByLeagueIdAndMatchDayAndSeasonId(league,matchday,season);
+        //TODO make sure leageID gets passed correctly
+        List<Match> matches= matchRepository.findByMatchDayAndSeasonAndLeague_Index(matchday,season,league);
         return StringUtils.toJson(matches,JsonViews.Matchview.class);
         
     }
+
+
 
 
     @GetMapping("/api/matches/{id}")

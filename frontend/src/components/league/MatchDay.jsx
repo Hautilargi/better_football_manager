@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from "react-router";
-import { api } from "../api/axios";
+import { api } from "../../api/axios";
 import MatchDetail from './MatchDetail'
 import MatchDayFilters from './MatchDayFilters'
+import MatchDayTable from './MatchDayTable'
 
-import '../App.css'
+import '../../App.css'
 
 
 function format(str, ...args) {
@@ -31,7 +32,6 @@ function MatchDay() {
       });
   }, [season, league, matchday]);
 
-  
 
   return (
     <>
@@ -67,7 +67,11 @@ function MatchDay() {
           onClose={() => setSelectedMatch(null)}
         />
       )}
-      <h2>Hier könnte ihre Tabelle stehen</h2>
+      <MatchDayTable
+          leagueNo={league}
+          seasonNo={season}
+          matchdayNo={matchday}
+      />
     </>
   )
 }

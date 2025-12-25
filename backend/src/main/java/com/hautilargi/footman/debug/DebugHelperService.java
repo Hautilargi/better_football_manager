@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.leagues.model.League;
-import com.hautilargi.footman.leagues.model.Season;
+import com.hautilargi.footman.leagues.service.LeagueService;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.players.model.Player;
-import com.hautilargi.footman.services.LeagueService;
+import com.hautilargi.footman.services.ConfigurationService;
 import com.hautilargi.footman.services.MatchService;
 import com.hautilargi.footman.services.RepositoryService;
 import com.hautilargi.footman.util.Formations;
@@ -34,6 +34,9 @@ public class DebugHelperService {
 
     @Autowired
     LeagueService ls;
+
+        @Autowired
+    ConfigurationService cs;
 
 
     public DebugHelperService() {
@@ -52,9 +55,9 @@ public class DebugHelperService {
             testTeams.add(rs.addNewTeam("TestTeam_"+i));
         }
         //Saison generieren
-        Season testSeason= ls.addNextSeason();
+       long season= cs.increaseCurrentSeason();
        //Teams in Liga sortieren
-       ls.addLeague(testSeason, testTeams, 1,1);
+       ls.addLeague(season, testTeams, 1,1);
    }
 
     public void generateAndSimulateTestSeasonAndLeage(){
@@ -64,7 +67,7 @@ public class DebugHelperService {
             testTeams.add(rs.addNewTeam("TestTeam_"+i));
         }
         //Saison generieren
-        Season testSeason= ls.addNextSeason();
+        long testSeason= cs.increaseCurrentSeason();
        //Teams in Liga sortieren
         League testLeague = ls.addLeague(testSeason, testTeams, 1,1);
         //Saison durchspielen

@@ -14,6 +14,8 @@ import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.SquadRepository;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
+import com.hautilargi.footman.core.dto.ClubDto;
+import com.hautilargi.footman.core.mapper.ClubMapper;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.repository.PlayerRepository;
 import com.hautilargi.footman.util.Formations;
@@ -114,5 +116,13 @@ public class RepositoryService {
             } else {
             throw new IllegalStateException("Team has reached maximum size of " + FootmanConstants.MAX_TEAMSIZE);
          }
+    }
+
+    public ClubDto getClubById(Long id, ClubMapper mapper) {
+        return teamRepository.findById(id)
+                   .map(mapper::toDto)
+                   .orElseThrow(() -> 
+                       new RuntimeException("Team not found: " + id)
+                   );
     }
 }

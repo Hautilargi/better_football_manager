@@ -7,7 +7,6 @@ import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Stadium;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.leagues.model.League;
-import com.hautilargi.footman.leagues.model.Season;
 import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.persistence.CascadeType;
@@ -25,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 
 @Entity
-@JsonIncludeProperties({"id","events","goalsHome","goalsAway","league","season","matchDay","matchType","homeTeam","awayTeam","played","calulationTime"})
+@JsonIncludeProperties({"id","events","goalsHome","goalsAway","league","seasonNo","matchDay","matchType","homeTeam","awayTeam","played","calulationTime"})
 public class Match {
 
     @Id
@@ -35,10 +34,8 @@ public class Match {
     @ManyToOne (cascade = CascadeType.MERGE)
     @JoinColumn(name = "league_id")
     private League league;
-
-    @ManyToOne (cascade = CascadeType.MERGE)
-    @JoinColumn(name = "season_id")
-    private Season season;
+    
+    private long season;
     
     @OneToOne (cascade = CascadeType.ALL)
     private HistorySquad homeSquad;
@@ -72,7 +69,7 @@ public class Match {
     public Match() {
     }
 
-    public Match(Team hoTeam, Team aTeam, League league, Season season, MatchTypes type, int matchday) {
+    public Match(Team hoTeam, Team aTeam, League league, long season, MatchTypes type, int matchday) {
         this.homeTeam=hoTeam;
         this.awayTeam=aTeam;
         this.league=league;
@@ -176,11 +173,11 @@ public class Match {
         this.league = league;
     }
 
-    public Season getSeason() {
+    public long getSeason() {
         return season;
     }
 
-    public void setSeason(Season season) {
+    public void setSeason(long season) {
         this.season = season;
     }
 

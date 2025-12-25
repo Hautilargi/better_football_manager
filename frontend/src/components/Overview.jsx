@@ -16,10 +16,12 @@ function Overview() {
   return (
     <>
     <h1>Mein Verein</h1>
-    Hier siehst du irgendwann die übersicht zu deinem Team
-
+    Hier siehst du die Übersicht zu deinem Team {posts.name}
     <h2>Finanzen</h2>
+    {posts.balance} €
     <h2>Links zu aktueller Liga & Spieltag</h2>
+    Aktuelle Ligastufe {posts.tier}
+
     <h2>Mein Stadion</h2>
     </>
   );

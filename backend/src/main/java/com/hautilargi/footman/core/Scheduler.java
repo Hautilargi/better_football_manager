@@ -10,9 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.hautilargi.footman.clubs.model.Team;
-import com.hautilargi.footman.leagues.model.Season;
+import com.hautilargi.footman.leagues.service.LeagueService;
 import com.hautilargi.footman.services.ConfigurationService;
-import com.hautilargi.footman.services.LeagueService;
 import com.hautilargi.footman.services.RepositoryService;
 
 @Component
@@ -31,7 +30,7 @@ public class Scheduler {
 	@Scheduled(cron = "*/5 * * * * *", zone = "Europe/Berlin")
 	public void dayChangeProcessor(){
 
-		if(cs.getGlobalConfiguration().getCurrentDay()>40 && cs.getGlobalConfiguration().getCurrentSeason()>=3){
+		if(cs.getGlobalConfiguration().getCurrentDay()>35 && cs.getGlobalConfiguration().getCurrentSeason()>=3){
 			System.out.println("End of S3 reached. Pausing myself");
 			try {
 				cs.setStatus("SLEEP");
@@ -44,27 +43,26 @@ public class Scheduler {
 		if(cs.getGlobalConfiguration().getServerStatus().equals("OK")){
 		//update day
 		System.out.println("Processing day "+cs.getGlobalConfiguration().getCurrentDay());
-		cs.increaseCurrentDay();
-		int currentDay = cs.getGlobalConfiguration().getCurrentDay();
+		int currentDay = cs.increaseCurrentDay();
 		//process new matches && Generate new Tables
 		//TODO Seperate Steps?
 		if(currentDay>0 && currentDay<35){
-				ls.playMatchDay();
+				ls.playMatchDay(currentDay);
 				//generate new tables
 			}
 		if(currentDay>=35 && currentDay <=40){
 						System.out.println("Summerbreak, nothing happens");
 		}
 		if(currentDay>40){
-			System.out.println("Creating new Season");
-			Season nextSeason = ls.addNextSeason();	
+			System.out.println("Season wrap up");
 			System.out.println("Performing relegation and Cleanup");
 			performRelegation();
+			System.out.println("Relegation compplete. Increasing season number");
+			cs.increaseCurrentSeason();
 			for(int i=1; i <= cs.getGlobalConfiguration().getLowestTier();i++){
 				System.out.println("Creating new schedule for league tier "+i);
-				initNewLeagueTier(nextSeason,i);
+				initNewLeagueTier(cs.getGlobalConfiguration().getCurrentSeason(),i);
 			}
-			cs.increaseCurrentSeason();
 			cs.setCurrentDay(0);
 			System.out.println("Next Season starts now");
 			
@@ -81,7 +79,7 @@ public class Scheduler {
 				}
 	}
 
-	private void initNewLeagueTier(Season season, int tier){
+	private void initNewLeagueTier(long season, int tier){
 			List<Team> allTeams= rs.getAllTeams(true,tier);
 			Collections.shuffle(allTeams);
 			int teamcount=allTeams.size();

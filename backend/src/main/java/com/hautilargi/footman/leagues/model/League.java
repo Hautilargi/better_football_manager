@@ -6,20 +6,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
-@JsonIncludeProperties({"id","tier","index"})
+@JsonIncludeProperties({"id","tier","index","seasonNo"})
 public class League {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "season_id")
-    private Season season;
+    private long seasonNo;
 
     /* 
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -27,6 +23,7 @@ public class League {
     */
 
     private int tier;
+    
     private int index;
 
     public League() {        
@@ -41,12 +38,12 @@ public class League {
         this.id = id;
     }
 
-    public Season getSeason() {
-        return season;
+    public long getSeasonNo() {
+        return seasonNo;
     }
 
-    public void setSeason(Season season) {
-        this.season = season;
+    public void setSeason(long seasonNo) {
+        this.seasonNo = seasonNo;
     }
 
     public int getTier() {

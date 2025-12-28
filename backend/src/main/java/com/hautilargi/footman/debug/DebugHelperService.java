@@ -44,7 +44,7 @@ public class DebugHelperService {
 
        public void generateSomeTeams(int no){
         for(int i =0; i<no;i++){
-            rs.addNewTeam("TestTeam_"+i);
+            rs.addNewTeam("TestTeam_"+i,0);
         }
    }
     
@@ -52,7 +52,7 @@ public class DebugHelperService {
         //18 Teams generieren
         List<Team> testTeams = new ArrayList<>();
         for(int i =0; i<16;i++){
-            testTeams.add(rs.addNewTeam("TestTeam_"+i));
+            testTeams.add(rs.addNewTeam("TestTeam_"+i,0));
         }
         //Saison generieren
        long season= cs.increaseCurrentSeason();
@@ -64,7 +64,7 @@ public class DebugHelperService {
         //18 Teams generieren
         List<Team> testTeams = new ArrayList<>();
         for(int i =0; i<16;i++){
-            testTeams.add(rs.addNewTeam("TestTeam_"+i));
+            testTeams.add(rs.addNewTeam("TestTeam_"+i,0));
         }
         //Saison generieren
         long testSeason= cs.increaseCurrentSeason();

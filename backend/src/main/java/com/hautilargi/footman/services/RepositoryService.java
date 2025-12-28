@@ -41,7 +41,7 @@ public class RepositoryService {
     public RepositoryService() {
     }
 
-    public Team addNewTeam(String name){
+    public Team addNewTeam(String name, int bias){
         Team newTeam = new Team();
         Random random=new Random();
         newTeam.setName(name);
@@ -50,7 +50,8 @@ public class RepositoryService {
         newTeam.setTier(cs.getGlobalConfiguration().getLowestTier());
         List<Player> initialPlayers = new ArrayList<>();
         for(int i=0;i<FootmanConstants.INITIAL_ROSTER_SIZE;i++){
-            Player newPlayer=new Player(NameGenerator.getLastName(), NameGenerator.getFirstName(), random.nextInt(FootmanConstants.INITIAL_PLAYERS_LOWER_BOUND,FootmanConstants.INITIAL_PLAYERS_UPPER_BOUND));
+            int skill = random.nextInt(FootmanConstants.INITIAL_PLAYERS_LOWER_BOUND+bias,FootmanConstants.INITIAL_PLAYERS_UPPER_BOUND+bias);
+            Player newPlayer=new Player(NameGenerator.getLastName(), NameGenerator.getFirstName(), skill);
             initialPlayers.add(newPlayer);
             newPlayer.setTeam(newTeam);
         }
@@ -59,6 +60,7 @@ public class RepositoryService {
         defaultSquad.put(MatchTypes.LEAGUE, new Squad(Formations.FOUR_FOUR_TWO, newTeam, newTeam.getPlayers().subList(0, 11)));
         newTeam.setSquads(defaultSquad);
         teamRepository.save(newTeam);
+        System.out.println("Created new Tea with a bias of "+bias);
         return newTeam;
     }
 

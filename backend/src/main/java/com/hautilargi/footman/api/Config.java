@@ -18,7 +18,7 @@ public class Config {
    ConfigurationService cs;
 
     @GetMapping("/api/config/status")
-    public String getApiTeams(@RequestParam String status) {
+    public String getStatus(@RequestParam String status) {
         try {
             cs.setStatus(status);
         } catch (Exception e) {
@@ -28,7 +28,7 @@ public class Config {
     }
 
         @GetMapping("/api/config/sleep")
-    public String getApiTeams() {
+    public String setSleep() {
         try {
             cs.setStatus("SLEEP");
         } catch (Exception e) {
@@ -38,7 +38,7 @@ public class Config {
     }
 
     @GetMapping("/api/config/wake")
-    public String getWake() {
+    public String setWake() {
         try {
             cs.setStatus("OK");
         } catch (Exception e) {

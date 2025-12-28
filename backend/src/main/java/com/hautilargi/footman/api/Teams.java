@@ -10,6 +10,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
+import com.hautilargi.footman.players.dto.RosterDto;
+import com.hautilargi.footman.players.service.PlayerService;
 import com.hautilargi.footman.users.model.User;
 import com.hautilargi.footman.users.repository.UserRepository;
 
@@ -24,6 +26,9 @@ public class Teams {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    PlayerService playerService;
 
     @GetMapping("/api/teams")
     public String getApiTeams() {
@@ -40,13 +45,13 @@ public class Teams {
         }
     }
 
-    @GetMapping("/api/teams/{id}/players")
-    public String getTeamPlayers(@PathVariable Long id) {
+    @GetMapping("/api/teams/{id}/roster")
+    public RosterDto getTeamPlayers(@PathVariable Long id) {
         var team = teamRepository.findById(id);
         if (team.isPresent()) {
-            return team.get().getPlayers().toString();
+            return playerService.getRosterForTeam(team.get());
         } else {
-            return "team not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 

@@ -52,7 +52,7 @@ public class LeagueService {
         newLeague.setTier(tier);
         newLeague.setIndex(index);
         while (teams.size() < 18) {
-            teams.add(rs.addNewTeam("Placeholder " + (teams.size() + 1)));
+            teams.add(rs.addNewTeam("Placeholder " + (teams.size() + 1),0));
             System.out.println("Filling Team with Placeholder " + teams.size());
         }
         System.out.println(teams.size());
@@ -119,6 +119,10 @@ public class LeagueService {
         for(int i=1;i<=matchDay;i++){
         List<Match> matchesOnDay= matchRepository.findByLeagueIdAndMatchDay(league.getId(), i);
         for(Match match:matchesOnDay){
+             if(!match.isPlayed())
+             {
+                break;
+             }
              if(match.getHomeTeam()==null || match.getAwayTeam()==null){
                 System.err.println("ERROR");
                 break;

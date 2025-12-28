@@ -56,19 +56,25 @@ public class Footman {
             cs.setCurrentDay(40);
             System.out.println("Created new base config");
             System.out.println("Adding Samples to Database...");
-            Team teamA = rs.addNewTeam("AC Alstaden 19");
-            Team teamB = rs.addNewTeam("Kloppertruppe AC Alstaden Ost");
-            debugHelperService.generateSomeTeams(22);
+            Team teamA = rs.addNewTeam("AC Alstaden 19",10);
+            Team teamB = rs.addNewTeam("Kloppertruppe AC Alstaden Ost",15);
+            debugHelperService.generateSomeTeams(14);
             System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
             System.out.println(
                     "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
             User user= new User("admin","admin@hautilargi.de",passwordEncoder.encode("admin"),null);
-            userRepository.save(user);
-            teamA.setOwner(user);
-            teamRepository.save(teamA);
-            user.setTeam(teamA);
-            userRepository.save(user);
+            User user2= new User("papa","test@hautilargi.de",passwordEncoder.encode("papa"),null);
 
+            userRepository.save(user);
+            userRepository.save(user2);
+            teamA.setOwner(user);
+            teamB.setOwner(user2);
+            teamRepository.save(teamA);
+            teamRepository.save(teamB);
+            user.setTeam(teamA);
+            user2.setTeam(teamB);
+            userRepository.save(user);
+            userRepository.save(user2);
         }
         else{
             System.out.println(String.format("App config found. Starting as usual on season %s and day %s",cs.getGlobalConfiguration().getCurrentSeason(),cs.getGlobalConfiguration().getCurrentDay()));

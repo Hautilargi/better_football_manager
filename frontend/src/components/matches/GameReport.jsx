@@ -1,6 +1,6 @@
 import '../../App.css'
 
- function MatchDetail({ match, onClose }) {
+ function GameReport({ match, onClose }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -27,6 +27,6 @@ import '../../App.css'
   );
 }
 
-export default MatchDetail;
+export default GameReport;
 
  

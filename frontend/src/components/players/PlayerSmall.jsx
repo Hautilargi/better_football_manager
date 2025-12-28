@@ -12,7 +12,7 @@ function PlayerSmall({ member }) {
       <div>Alter: {member.age}</div>
       <div>Skill: {member.skillLevel}</div>
       <div>Nationalität: {member.nationality}</div>
-      <Link to={`/players?playerId=${member.id}`}>
+      <Link to={`/players/${member.id}`}>
           Details
       </Link>
     </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { api } from "../../api/axios";
-import '../../App.css'
 import PlayerSmall from './PlayerSmall';
+import '../../App.css'
 
 function MyRoster() {
   const [members, setMembers] = useState([]);

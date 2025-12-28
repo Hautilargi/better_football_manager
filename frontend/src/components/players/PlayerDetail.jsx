@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useParams, Link } from "react-router";
 import { api } from "../../api/axios";
 import '../../App.css'
 import "./Player.css"
-import { useSearchParams } from "react-router";
-import { Link } from 'react-router';
 
 function format(str, ...args) {
   return str.replace(/{(\d+)}/g, (match, index) => args[index]);
@@ -11,8 +10,7 @@ function format(str, ...args) {
 
 function PlayerDetail() {
 
-  const [searchParams] = useSearchParams();
-  const playerId = searchParams.get("playerId") ?? "1";
+  const { id: playerId } = useParams();
   const [player, setPlayer] = useState(null);
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router';
 import { api } from "../../api/axios";
 import '../../App.css'
 
@@ -18,7 +19,12 @@ function AllTeams() {
   return (
     <ul>
       {posts.map(post => (
-        <li key={post.id}>{post.name}</li>
+        <li key={post.id}>{post.name}
+                <br></br>
+        <Link to={`/teams/${post.id}`}>
+          Details
+        </Link>
+        </li>
       ))}
     </ul>
   );

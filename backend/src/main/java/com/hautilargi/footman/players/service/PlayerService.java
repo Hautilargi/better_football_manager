@@ -3,13 +3,12 @@ package com.hautilargi.footman.players.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hautilargi.footman.clubs.dto.ClubBasicDto;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
-import com.hautilargi.footman.core.dto.ClubBasicDto;
 import com.hautilargi.footman.players.dto.PlayerFullDto;
 import com.hautilargi.footman.players.dto.PlayerSmallDto;
 import com.hautilargi.footman.players.dto.RosterDto;

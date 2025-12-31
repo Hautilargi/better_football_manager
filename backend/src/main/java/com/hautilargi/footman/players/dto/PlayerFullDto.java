@@ -1,6 +1,6 @@
 package com.hautilargi.footman.players.dto;
 
-import com.hautilargi.footman.core.dto.ClubBasicDto;
+import com.hautilargi.footman.clubs.dto.ClubBasicDto;
 
 public record PlayerFullDto(
     Long id,

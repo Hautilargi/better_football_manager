@@ -59,7 +59,6 @@ public class Match {
     private int matchDay;
     private MatchTypes matchtype;
     private boolean played;
-    private Date calculationTime;
 
     @ManyToOne
     @JoinColumn(name = "venue_Id")
@@ -90,13 +89,6 @@ public class Match {
 
     /* Getters and setters */
 
-    public Date getCalculationTime() {
-        return calculationTime;
-    }
-
-    public void setCalculationTime(Date calculationTime) {
-        this.calculationTime = calculationTime;
-    }
 
     public MatchTypes getMatchtype() {
         return matchtype;

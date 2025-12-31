@@ -10,8 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.core.service.ConfigurationService;
 import com.hautilargi.footman.leagues.service.LeagueService;
-import com.hautilargi.footman.services.ConfigurationService;
 import com.hautilargi.footman.services.RepositoryService;
 
 @Component

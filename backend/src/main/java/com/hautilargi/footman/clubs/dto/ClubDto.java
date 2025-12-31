@@ -1,4 +1,4 @@
-package com.hautilargi.footman.core.dto;
+package com.hautilargi.footman.clubs.dto;
 
 public record ClubDto(
     Long id,

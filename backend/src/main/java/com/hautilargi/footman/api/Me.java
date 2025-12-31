@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hautilargi.footman.clubs.dto.ClubDto;
+import com.hautilargi.footman.clubs.mapper.ClubMapper;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
-import com.hautilargi.footman.core.dto.ClubDto;
-import com.hautilargi.footman.core.mapper.ClubMapper;
 import com.hautilargi.footman.players.dto.RosterDto;
 import com.hautilargi.footman.players.service.PlayerService;
 import com.hautilargi.footman.services.RepositoryService;
-import com.hautilargi.footman.services.UserManagementService;
 import com.hautilargi.footman.users.model.User;
+import com.hautilargi.footman.users.service.UserManagementService;
 
 import jakarta.servlet.http.HttpServletRequest;
 

@@ -1,8 +1,9 @@
-package com.hautilargi.footman.core.mapper;
+package com.hautilargi.footman.clubs.mapper;
 
 import org.mapstruct.Mapper;
+
+import com.hautilargi.footman.clubs.dto.ClubDto;
 import com.hautilargi.footman.clubs.model.Team;
-import com.hautilargi.footman.core.dto.ClubDto;
 
 @Mapper(componentModel = "spring")
 public interface ClubMapper {

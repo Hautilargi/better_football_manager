@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hautilargi.footman.FootmanConstants;
+import com.hautilargi.footman.clubs.dto.ClubDto;
+import com.hautilargi.footman.clubs.mapper.ClubMapper;
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.SquadRepository;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
-import com.hautilargi.footman.core.dto.ClubDto;
-import com.hautilargi.footman.core.mapper.ClubMapper;
+import com.hautilargi.footman.core.service.ConfigurationService;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.repository.PlayerRepository;
 import com.hautilargi.footman.util.Formations;

@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.core.service.ConfigurationService;
 import com.hautilargi.footman.leagues.model.League;
 import com.hautilargi.footman.leagues.service.LeagueService;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.players.model.Player;
-import com.hautilargi.footman.services.ConfigurationService;
 import com.hautilargi.footman.services.MatchService;
 import com.hautilargi.footman.services.RepositoryService;
 import com.hautilargi.footman.util.Formations;

@@ -1,4 +1,4 @@
-package com.hautilargi.footman.services;
+package com.hautilargi.footman.users.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
-
+import com.hautilargi.footman.services.RepositoryService;
 import com.hautilargi.footman.users.model.User;
 import com.hautilargi.footman.users.repository.UserRepository;
 

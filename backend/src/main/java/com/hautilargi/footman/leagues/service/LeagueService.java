@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.core.service.ConfigurationService;
 import com.hautilargi.footman.leagues.dto.LeagueTableEntryDto;
 import com.hautilargi.footman.leagues.dto.MatchDayTableDto;
 import com.hautilargi.footman.leagues.model.League;
@@ -17,7 +18,6 @@ import com.hautilargi.footman.leagues.model.LeagueTableEntry;
 import com.hautilargi.footman.leagues.repository.LeagueRepository;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.matches.repository.MatchRepository;
-import com.hautilargi.footman.services.ConfigurationService;
 import com.hautilargi.footman.services.MatchService;
 import com.hautilargi.footman.services.RepositoryService;
 import com.hautilargi.footman.util.MatchResults;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from "react-router";
 import { api } from "../../api/axios";
-import GameReport from '../matches/GameReport'
+import MatchReport from '../matches/MatchReport'
 import MatchDayFilters from './MatchDayFilters'
 import MatchDayTable from './MatchDayTable'
 
@@ -62,7 +62,7 @@ function MatchDay() {
       </ul>
 
       {selectedMatch && (
-        <GameReport
+        <MatchReport
           match={selectedMatch}
           onClose={() => setSelectedMatch(null)}
         />

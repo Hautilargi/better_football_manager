@@ -61,7 +61,7 @@ public class Footman {
             debugHelperService.generateSomeTeams(14);
             System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
             System.out.println(
-                    "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
+                    "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1));
             User user= new User("admin","admin@hautilargi.de",passwordEncoder.encode("admin"),null);
             User user2= new User("papa","test@hautilargi.de",passwordEncoder.encode("papa"),null);
 

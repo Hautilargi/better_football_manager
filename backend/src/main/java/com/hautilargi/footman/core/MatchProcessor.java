@@ -22,7 +22,6 @@ public class MatchProcessor {
 
         for (int minute = 1; minute <= 90; minute++) {
 
-
             maybeCard(minute, home, events);
             maybeCard(minute, away, events);
 
@@ -44,6 +43,8 @@ public class MatchProcessor {
         //updateForm(home, away, goalsHome, goalsAway);
         Match match= new Match(homeTeam, awayTeam,home, away, goalsHome, goalsAway, events);
         match.setPlayed(true);
+        System.out.println(String.format("Processing Match -  %s -  %s ", strength(home), strength(away)));
+        System.out.println(String.format("Processing Match -  %s %s -  %s %s ", homeTeam.getName(), goalsHome, goalsAway, awayTeam.getName()));
         return match;
 
     }

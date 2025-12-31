@@ -1,26 +1,26 @@
 package com.hautilargi.footman.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hautilargi.footman.players.dto.PlayerFullDto;
-import com.hautilargi.footman.players.repository.PlayerRepository;
+import com.hautilargi.footman.players.dto.PlayerSmallDto;
 import com.hautilargi.footman.players.service.PlayerService;
 
 @RestController
 public class Players {
 
-    @Autowired
-    PlayerRepository playerRepository;
 
     @Autowired
     PlayerService playerService;
 
     @GetMapping("/api/players")
-    public String getApiPlayers() {
-        return playerRepository.findAll().toString();
+    public List<PlayerSmallDto> getAllPlayers() {
+        return playerService.getAllPlayers();
     }
 
     @GetMapping("/api/players/{id}")

@@ -4,7 +4,7 @@ public enum Positions {
     GOALKEEPER,
     DEFENDER,
     MIDFIELDER,
-    FORWARD,
+    STRIKER,
     SUBSTITUTE
     
 }

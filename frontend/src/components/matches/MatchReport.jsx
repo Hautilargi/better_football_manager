@@ -1,25 +1,24 @@
+import MatchEvent from './MatchEvent';
 import '../../App.css'
+import './MatchReport.css'
 
- function GameReport({ match, onClose }) {
+ function MatchReport({ match, onClose }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
         <h2>
           {match.homeTeam.name} {match.goalsHome} : {match.goalsAway} {match.awayTeam.name}
         </h2>
-        Berechnet um {match.calculationTime}
+          <div className="timeline">
 
-        <ul className="no-bullets">
           {match.events && match.events.length > 0 ? (
-            match.events.map((event, index) => (
-              <li key={index}>
-                {event.event_minute}. Minute - {event.type} – {event.description}
-              </li>
+            match.events.map((event) => (  
+                <MatchEvent key={event.id} event={event} />
             ))
           ) : (
-            <li>Keine Events vorhanden</li>
+            <div>Keine Events vorhanden</div>
           )}
-        </ul>
+          </div>
 
         <button onClick={onClose}>Schließen</button>
       </div>
@@ -27,6 +26,6 @@ import '../../App.css'
   );
 }
 
-export default GameReport;
+export default MatchReport;
 
  

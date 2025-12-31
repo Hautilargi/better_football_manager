@@ -17,6 +17,7 @@ import com.hautilargi.footman.matches.model.MatchEvent;
 import com.hautilargi.footman.matches.repository.MatchRepository;
 import com.hautilargi.footman.players.model.HistoryPlayer;
 import com.hautilargi.footman.players.model.Player;
+import com.hautilargi.footman.players.service.PlayerService;
 
 @Service
 public class MatchService {
@@ -26,6 +27,9 @@ public class MatchService {
 
     @Autowired
     HistorySquadRepository hsRepo ;
+
+    @Autowired
+    PlayerService playerService;
 
 
     public MatchService() {
@@ -57,6 +61,8 @@ public class MatchService {
         match.setEvents(processedMatch.getEvents());
         match.setGoalsAway(processedMatch.getGoalsAway());
         match.setGoalsHome(processedMatch.getGoalsHome());
+        match.setHomeSquad(homeHistorySquad);
+        match.setAwaySquad(awayHistorySquad);
         match.setPlayed(true);
         matchRepository.save(match);   
         return match;
@@ -67,16 +73,12 @@ public class MatchService {
         ArrayList<HistoryPlayer> players = new ArrayList<>(); 
         hs.setFormation(squad.getFormation());
         for (Player p : squad.getSquadMembers()){ 
-            HistoryPlayer hp = new HistoryPlayer(p.getLastName(), p.getFirstName(), getAvarageForPosition(p));
+            HistoryPlayer hp = new HistoryPlayer(p.getLastName(), p.getFirstName(), playerService.getEffectiveStrengthForPlayer(p, playerService.getPreferredPositionForPlayer(p)));
             hp.setTeam(squad.getTeam());
             hp.setRealPlayer(p);
             players.add(hp);
         }
         hs.setPlayers(players);
         return hs;
-    }
-
-    private int getAvarageForPosition(Player p) {
-            return p.getSkillLevel();
     }
 }

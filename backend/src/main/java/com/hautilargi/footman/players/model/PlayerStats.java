@@ -1,9 +1,5 @@
 package com.hautilargi.footman.players.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.core.util.PlayerStatus;
 
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +22,12 @@ public class PlayerStats {
     private int gamesPlayed;
 
     public PlayerStats() {
+        this.playerStatus=PlayerStatus.ACTIVE;
+        this.goals=0;
+        this.red=0;
+        this.yellow=0;
+        this.yellowred=0;
+        this.gamesPlayed=0;
     }
 
     public Long getId() {

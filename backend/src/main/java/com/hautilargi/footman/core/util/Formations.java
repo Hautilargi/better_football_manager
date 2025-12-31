@@ -1,4 +1,4 @@
-package com.hautilargi.footman.util;
+package com.hautilargi.footman.core.util;
 public enum Formations {
     FOUR_FOUR_TWO,
     FOUR_THREE_THREE,

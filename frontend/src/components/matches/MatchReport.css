@@ -1,0 +1,44 @@
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.event-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: sans-serif;
+}
+
+.minute {
+  width: 40px;
+  font-weight: bold;
+  text-align: right;
+  color: #555;
+}
+
+.event-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.event-description {
+  font-size: 0.8rem;
+  color: #666;
+}

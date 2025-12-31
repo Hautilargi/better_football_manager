@@ -2,8 +2,8 @@ package com.hautilargi.footman.clubs.model;
 
 import java.util.List;
 
+import com.hautilargi.footman.core.util.Formations;
 import com.hautilargi.footman.players.model.HistoryPlayer;
-import com.hautilargi.footman.util.Formations;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

@@ -9,13 +9,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
 import com.hautilargi.footman.config.model.GlobalConfiguration;
+import com.hautilargi.footman.core.service.ConfigurationService;
+import com.hautilargi.footman.core.util.MatchTypes;
 import com.hautilargi.footman.debug.DebugHelperService;
-import com.hautilargi.footman.services.ConfigurationService;
-import com.hautilargi.footman.services.MatchService;
+import com.hautilargi.footman.matches.services.MatchService;
 import com.hautilargi.footman.services.RepositoryService;
 import com.hautilargi.footman.users.model.User;
 import com.hautilargi.footman.users.repository.UserRepository;
-import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.annotation.PostConstruct;
 
@@ -61,7 +61,7 @@ public class Footman {
             debugHelperService.generateSomeTeams(14);
             System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
             System.out.println(
-                    "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
+                    "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1));
             User user= new User("admin","admin@hautilargi.de",passwordEncoder.encode("admin"),null);
             User user2= new User("papa","test@hautilargi.de",passwordEncoder.encode("papa"),null);
 

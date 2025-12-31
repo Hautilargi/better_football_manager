@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hautilargi.footman.core.JsonViews;
+import com.hautilargi.footman.core.service.ConfigurationService;
+import com.hautilargi.footman.core.util.StringUtils;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.matches.repository.MatchRepository;
-import com.hautilargi.footman.services.ConfigurationService;
-import com.hautilargi.footman.util.StringUtils;
 
 
 //import com.hautilargi.footman.model.MatchRepository;

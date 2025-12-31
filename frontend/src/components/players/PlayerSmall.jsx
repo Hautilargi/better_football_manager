@@ -9,6 +9,7 @@ function PlayerSmall({ member }) {
         {member.firstName} {member.lastName}
       </strong>
       <div>
+      <div>{member.preferredPosition}</div>
       <div>Alter: {member.age}</div>
       <div>Skill: {member.skillLevel}</div>
       <div>Nationalität: {member.nationality}</div>

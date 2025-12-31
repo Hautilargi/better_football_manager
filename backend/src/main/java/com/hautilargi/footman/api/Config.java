@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hautilargi.footman.services.ConfigurationService;
+import com.hautilargi.footman.core.service.ConfigurationService;
 
 //import com.hautilargi.footman.model.MatchRepository;
 

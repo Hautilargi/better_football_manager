@@ -1,6 +1,7 @@
 package com.hautilargi.footman.players.dto;
 
-import com.hautilargi.footman.core.dto.ClubBasicDto;
+import com.hautilargi.footman.clubs.dto.ClubBasicDto;
+import com.hautilargi.footman.core.util.Positions;
 
 public record PlayerFullDto(
     Long id,
@@ -9,6 +10,7 @@ public record PlayerFullDto(
     String nationality,
     long salery,
     int skillLevel,
+    int talent,
     int age,
     int speed,
     int stamina,
@@ -16,5 +18,9 @@ public record PlayerFullDto(
     int shooting,
     int defense,
     int dribbling,
+    int intelligence,
+    int goalkeeping,
+    Positions preferredPosition,
+    PlayerStatsDto playerStats,
     ClubBasicDto team
 ) {}

@@ -4,7 +4,7 @@ import { api } from "../../api/axios";
 import '../../App.css'
 
 
- function MatchDetail() {
+ function MatchSquad() {
 
   const { id: matchId } = useParams();
   const [match, setMatch] = useState(null);
@@ -16,16 +16,9 @@ import '../../App.css'
   }, []);
   return (
     <>
-    <h2>
-    {match.homeTeam.name} {match.goalsHome} : {match.goalsAway} {match.awayTeam.name}
-    </h2>
-    <MatchSquad squad={match.homeSquad} ></MatchSquad>
-    <MatchSquad squad={match.awaySquad} ></MatchSquad>
-    <MatchReport
-        match={match}
-    />
+
     </>
   );
 }
 
-export default MatchDetail;
+export default MatchSquad;

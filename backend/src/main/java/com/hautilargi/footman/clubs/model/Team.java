@@ -7,9 +7,9 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hautilargi.footman.core.JsonViews;
+import com.hautilargi.footman.core.util.MatchTypes;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.users.model.User;
-import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;

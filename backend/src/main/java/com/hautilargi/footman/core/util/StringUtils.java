@@ -1,4 +1,4 @@
-package com.hautilargi.footman.util;
+package com.hautilargi.footman.core.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

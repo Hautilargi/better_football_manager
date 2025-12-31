@@ -10,8 +10,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.core.service.ConfigurationService;
 import com.hautilargi.footman.leagues.service.LeagueService;
-import com.hautilargi.footman.services.ConfigurationService;
+import com.hautilargi.footman.players.service.PlayerService;
 import com.hautilargi.footman.services.RepositoryService;
 
 @Component
@@ -26,6 +27,9 @@ public class Scheduler {
 
     @Autowired
     RepositoryService rs;
+
+	@Autowired
+	PlayerService ps;
 
 	@Scheduled(cron = "*/5 * * * * *", zone = "Europe/Berlin")
 	public void dayChangeProcessor(){
@@ -63,6 +67,8 @@ public class Scheduler {
 				System.out.println("Creating new schedule for league tier "+i);
 				initNewLeagueTier(cs.getGlobalConfiguration().getCurrentSeason(),i);
 			}
+			System.out.println("Resetting Playerstats to Zero");
+			resetStats();
 			cs.setCurrentDay(0);
 			System.out.println("Next Season starts now");
 			
@@ -97,6 +103,8 @@ public class Scheduler {
 			if(noProcessedTeams!=teamcount){
 				System.err.println("Something went wrong. A team got missing for next season");
 			}
-
+	}
+	private void resetStats(){
+		ps.resetStats();
 	}
 }

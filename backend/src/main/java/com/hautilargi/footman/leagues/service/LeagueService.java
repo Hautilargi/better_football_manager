@@ -8,7 +8,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hautilargi.footman.api.Players;
+import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.core.service.ConfigurationService;
+import com.hautilargi.footman.core.util.MatchResults;
+import com.hautilargi.footman.core.util.MatchTypes;
 import com.hautilargi.footman.leagues.dto.LeagueTableEntryDto;
 import com.hautilargi.footman.leagues.dto.MatchDayTableDto;
 import com.hautilargi.footman.leagues.model.League;
@@ -16,12 +21,11 @@ import com.hautilargi.footman.leagues.model.LeagueTable;
 import com.hautilargi.footman.leagues.model.LeagueTableEntry;
 import com.hautilargi.footman.leagues.repository.LeagueRepository;
 import com.hautilargi.footman.matches.model.Match;
+import com.hautilargi.footman.matches.model.MatchEvent;
 import com.hautilargi.footman.matches.repository.MatchRepository;
-import com.hautilargi.footman.services.ConfigurationService;
-import com.hautilargi.footman.services.MatchService;
+import com.hautilargi.footman.matches.services.MatchService;
+import com.hautilargi.footman.players.service.PlayerService;
 import com.hautilargi.footman.services.RepositoryService;
-import com.hautilargi.footman.util.MatchResults;
-import com.hautilargi.footman.util.MatchTypes;
 
 @Service
 public class LeagueService {
@@ -36,6 +40,8 @@ public class LeagueService {
     ConfigurationService cs;
     @Autowired
     MatchService ms;
+    @Autowired
+    PlayerService ps;
 
     public MatchDayTableDto getTableForMatchDay(long season, int league, int matchday) {
         return new MatchDayTableDto(season,league,matchday,     
@@ -105,8 +111,9 @@ public class LeagueService {
             System.out.println("Processing league " + league.getTier() + "/" + league.getIndex());
             for (Match match : getMatchesForLegueAndMatchday(league, matchday)) {
                 Match updatedMatch = ms.updateMatch(match);
-                System.out.println(updatedMatch.getHomeTeam().getName() + " " + updatedMatch.getGoalsHome() + " : "
-                        + updatedMatch.getGoalsHome() + " " + updatedMatch.getAwayTeam().getName());
+                ps.applyStatsUpdate(updatedMatch.getEvents());
+                ps.increaseGamesForSquad(updatedMatch.getHomeSquad());
+                ps.increaseGamesForSquad(updatedMatch.getAwaySquad());
             }
             generateTableForLeague(league, cs.getGlobalConfiguration().getCurrentSeason(), matchday);
         }
@@ -162,6 +169,9 @@ public class LeagueService {
     public void replacePlaceHolderTeam(Team placeholder, Team realTeam) {
         // Find
     }
+
+
+
 
     private MatchResults evaluateMatchForTeam(Match match, Team team) {
         MatchResults mr = MatchResults.UNDEFINED;

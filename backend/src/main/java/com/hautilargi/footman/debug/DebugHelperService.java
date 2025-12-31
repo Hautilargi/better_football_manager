@@ -13,15 +13,16 @@ import org.springframework.stereotype.Service;
 
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.core.service.ConfigurationService;
+import com.hautilargi.footman.core.util.Formations;
+import com.hautilargi.footman.core.util.MatchTypes;
+import com.hautilargi.footman.core.util.Positions;
 import com.hautilargi.footman.leagues.model.League;
 import com.hautilargi.footman.leagues.service.LeagueService;
 import com.hautilargi.footman.matches.model.Match;
+import com.hautilargi.footman.matches.services.MatchService;
 import com.hautilargi.footman.players.model.Player;
-import com.hautilargi.footman.services.ConfigurationService;
-import com.hautilargi.footman.services.MatchService;
 import com.hautilargi.footman.services.RepositoryService;
-import com.hautilargi.footman.util.Formations;
-import com.hautilargi.footman.util.MatchTypes;
 
 @Service
 public class DebugHelperService {
@@ -127,7 +128,7 @@ public class DebugHelperService {
         Random random= new Random();    
         Team teamA = new Team("AC Alstaden "+random.nextInt(2025)); 
         for(int i=0; i<20;i++){
-            teamA.addPlayer(new Player("Smith", "John", random.nextInt(40,80)));
+            teamA.addPlayer(new Player("Smith", "John", random.nextInt(40,80),20, Positions.SUBSTITUTE));
         }
         Map<MatchTypes,Squad> newSquads=new HashMap<>();
         newSquads.put(MatchTypes.LEAGUE, new Squad(Formations.FOUR_FOUR_TWO, teamA, teamA.getPlayers().subList(0, 11)));

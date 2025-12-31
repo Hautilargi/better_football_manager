@@ -18,7 +18,7 @@ function AllPlayers() {
   return (
     <ul>
       {posts.map(post => (
-        <li key={post.id}>{post.lastname}, {post.firstname} - Stärke: {post.skillLevel}
+        <li key={post.id}>{post.lastName}, {post.firstName} - Stärke: {post.skillLevel}
         <br></br>
         <Link to={`/players/${post.id}`}>
           Details

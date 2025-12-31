@@ -6,8 +6,8 @@ import java.util.List;
 import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Stadium;
 import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.core.util.MatchTypes;
 import com.hautilargi.footman.leagues.model.League;
-import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 
 @Entity
-@JsonIncludeProperties({"id","events","goalsHome","goalsAway","league","seasonNo","matchDay","matchType","homeTeam","awayTeam","played","calulationTime"})
+@JsonIncludeProperties({"id","events","goalsHome","goalsAway","league","seasonNo","matchDay","matchType","homeTeam","awayTeam","played"})
 public class Match {
 
     @Id
@@ -59,7 +59,6 @@ public class Match {
     private int matchDay;
     private MatchTypes matchtype;
     private boolean played;
-    private Date calculationTime;
 
     @ManyToOne
     @JoinColumn(name = "venue_Id")
@@ -90,13 +89,6 @@ public class Match {
 
     /* Getters and setters */
 
-    public Date getCalculationTime() {
-        return calculationTime;
-    }
-
-    public void setCalculationTime(Date calculationTime) {
-        this.calculationTime = calculationTime;
-    }
 
     public MatchTypes getMatchtype() {
         return matchtype;

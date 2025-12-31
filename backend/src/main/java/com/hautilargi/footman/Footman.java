@@ -10,12 +10,12 @@ import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
 import com.hautilargi.footman.config.model.GlobalConfiguration;
 import com.hautilargi.footman.core.service.ConfigurationService;
+import com.hautilargi.footman.core.util.MatchTypes;
 import com.hautilargi.footman.debug.DebugHelperService;
-import com.hautilargi.footman.services.MatchService;
+import com.hautilargi.footman.matches.services.MatchService;
 import com.hautilargi.footman.services.RepositoryService;
 import com.hautilargi.footman.users.model.User;
 import com.hautilargi.footman.users.repository.UserRepository;
-import com.hautilargi.footman.util.MatchTypes;
 
 import jakarta.annotation.PostConstruct;
 

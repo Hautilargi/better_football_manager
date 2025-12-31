@@ -2,7 +2,7 @@ package com.hautilargi.footman.players.model;
 
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.hautilargi.footman.clubs.model.Team;
-import com.hautilargi.footman.util.StringUtils;
+import com.hautilargi.footman.core.util.StringUtils;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

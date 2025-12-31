@@ -13,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-@JsonIncludeProperties({"id","event_minute","type","description","player"})
+@JsonIncludeProperties({"id","event_minute","type","description","playerActive","playerPassive"})
 public class MatchEvent {
 
     public enum Type { GOAL, YELLOW, RED, SHOT, FOUL, SUBSTITUTION, OFFSIDE, CORNER, PENALTY, SAVED_SHOT, SAVED_PENALTY, INJURY, OTHER }
@@ -22,24 +22,22 @@ public class MatchEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int event_minute;
-    private Type type;
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    private Match match;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id_active")
     private HistoryPlayer playerActive;
     
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id_passive")
     @Nullable
     private HistoryPlayer playerPassive;
 
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "match_id")
-    private Match match;
+    private int event_minute;
+    private Type type;
 
     public MatchEvent(){
 
@@ -91,7 +89,6 @@ public class MatchEvent {
         this.id = id;
     }
  
-    
     public int getEvent_minute() {
         return event_minute;
     }

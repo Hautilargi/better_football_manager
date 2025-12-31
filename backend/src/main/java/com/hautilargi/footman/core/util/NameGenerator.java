@@ -1,4 +1,4 @@
-package com.hautilargi.footman.util;
+package com.hautilargi.footman.core.util;
 
 import java.util.Random;
 

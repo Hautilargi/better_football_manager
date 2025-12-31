@@ -1,4 +1,4 @@
-package com.hautilargi.footman.services;
+package com.hautilargi.footman.matches.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +11,12 @@ import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.HistorySquadRepository;
 import com.hautilargi.footman.core.MatchProcessor;
+import com.hautilargi.footman.core.util.MatchTypes;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.matches.model.MatchEvent;
 import com.hautilargi.footman.matches.repository.MatchRepository;
 import com.hautilargi.footman.players.model.HistoryPlayer;
 import com.hautilargi.footman.players.model.Player;
-import com.hautilargi.footman.util.MatchTypes;
 
 @Service
 public class MatchService {

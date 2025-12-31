@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.hautilargi.footman.clubs.model.Squad;
-import com.hautilargi.footman.util.PlayerStatus;
+import com.hautilargi.footman.core.util.PlayerStatus;
 
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.ManyToMany;

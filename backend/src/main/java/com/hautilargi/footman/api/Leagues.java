@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hautilargi.footman.core.JsonViews;
+import com.hautilargi.footman.core.util.StringUtils;
 import com.hautilargi.footman.leagues.dto.MatchDayTableDto;
 import com.hautilargi.footman.leagues.repository.LeagueRepository;
 import com.hautilargi.footman.leagues.service.LeagueService;
 import com.hautilargi.footman.matches.model.Match;
-import com.hautilargi.footman.util.StringUtils;
 
 //import com.hautilargi.footman.model.MatchRepository;
 

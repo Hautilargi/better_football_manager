@@ -17,12 +17,12 @@ import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.SquadRepository;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
 import com.hautilargi.footman.core.service.ConfigurationService;
+import com.hautilargi.footman.core.util.Formations;
+import com.hautilargi.footman.core.util.MatchTypes;
+import com.hautilargi.footman.core.util.NameGenerator;
+import com.hautilargi.footman.core.util.PlayerStatus;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.repository.PlayerRepository;
-import com.hautilargi.footman.util.Formations;
-import com.hautilargi.footman.util.MatchTypes;
-import com.hautilargi.footman.util.NameGenerator;
-import com.hautilargi.footman.util.PlayerStatus;
 
 @Service
 public class RepositoryService {

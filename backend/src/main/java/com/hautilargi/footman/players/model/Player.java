@@ -6,19 +6,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.hibernate.annotations.Cascade;
-
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.core.util.PlayerStatus;
 import com.hautilargi.footman.core.util.Positions;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Convert;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @jakarta.persistence.Entity
@@ -246,21 +242,39 @@ public class Player extends AbstractPlayer {
 
 
     //Helpers
+
+    public void increseGamesPlayed(){
+        this.getStats().setGamesPlayed(this.getStats().getGamesPlayed()+1);
+    }
+
     public void increaseReds(){
         this.getStats().setRed(this.getStats().getRed()+1);
         this.getStats().setPlayerStatus(PlayerStatus.SUSPENDED);
         this.getStats().setRemainingDaysForStatus(3);
     }
 
+
     public void increseYellows(){
         this.getStats().setYellow(this.getStats().getYellow()+1);
+        if (this.getStats().getYellow()%5==0){
+            this.getStats().setPlayerStatus(PlayerStatus.SUSPENDED);
+            this.getStats().setRemainingDaysForStatus(1); 
+        }
     }
     
     public void increseGoals(){
         this.getStats().setGoals(this.getStats().getGoals()+1);
     }
 
-    public void increseGamesPlayed(){
-        this.getStats().setGamesPlayed(this.getStats().getGamesPlayed()+1);
+    public void injurePlayer(){
+        this.getStats().setPlayerStatus(PlayerStatus.INJURED);
+        this.getStats().setRemainingDaysForStatus(5);    
+    }
+
+    public void increseYellowReds(){
+        this.getStats().setYellowred(this.getStats().getYellowred()+1);
+        this.getStats().setYellow(this.getStats().getYellow()-1);
+        this.getStats().setPlayerStatus(PlayerStatus.SUSPENDED);
+        this.getStats().setRemainingDaysForStatus(1); 
     }
 }

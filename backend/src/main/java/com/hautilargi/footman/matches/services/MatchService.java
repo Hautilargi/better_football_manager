@@ -50,7 +50,6 @@ public class MatchService {
     }
 
         public Match updateMatch(Match match) {
-
         HistorySquad homeHistorySquad = createHistorySquad(match.getHomeTeam().getSquads().get(match.getMatchtype()));
         HistorySquad awayHistorySquad = createHistorySquad(match.getAwayTeam().getSquads().get(match.getMatchtype()));
         Match processedMatch = MatchProcessor.processMatch(match.getHomeTeam(), match.getAwayTeam(), homeHistorySquad, awayHistorySquad);
@@ -75,6 +74,8 @@ public class MatchService {
         for (Player p : squad.getSquadMembers()){ 
             HistoryPlayer hp = new HistoryPlayer(p.getLastName(), p.getFirstName(), playerService.getEffectiveStrengthForPlayer(p, playerService.getPreferredPositionForPlayer(p)));
             hp.setTeam(squad.getTeam());
+            //TODO get real position from squad
+            hp.setPosition(playerService.getPreferredPositionForPlayer(p));
             hp.setRealPlayer(p);
             players.add(hp);
         }

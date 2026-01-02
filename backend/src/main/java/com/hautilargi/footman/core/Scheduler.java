@@ -53,6 +53,7 @@ public class Scheduler {
 		if(currentDay>0 && currentDay<35){
 				ls.playMatchDay(currentDay);
 				//generate new tables
+				ps.updateSuspensions();
 			}
 		if(currentDay>=35 && currentDay <=40){
 						System.out.println("Summerbreak, nothing happens");

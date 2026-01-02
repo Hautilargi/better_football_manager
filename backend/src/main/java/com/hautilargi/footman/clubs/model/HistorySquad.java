@@ -16,6 +16,7 @@ public class HistorySquad extends AbstractSquad {
 
     private boolean active = true;
 
+    //TODO Map Player to Position
     @OneToMany(mappedBy = "squad", cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<HistoryPlayer> players;
 

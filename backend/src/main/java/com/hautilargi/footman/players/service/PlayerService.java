@@ -24,12 +24,17 @@ import com.hautilargi.footman.players.model.HistoryPlayer;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.model.PlayerStats;
 import com.hautilargi.footman.players.repository.PlayerRepository;
+import com.hautilargi.footman.players.repository.PlayerStatsRepository;
+import com.hautilargi.footman.core.util.PlayerStatus;
 
 @Service
 public class PlayerService {
 
     @Autowired
     PlayerRepository playerRepository;
+
+    @Autowired
+    PlayerStatsRepository playerStatsRepository;
 
     @Autowired
     TeamRepository teamRepository;
@@ -56,7 +61,17 @@ public class PlayerService {
             player.setStats(new PlayerStats());
         }
         playerRepository.saveAll(players);
+    }
 
+    public void updateSuspensions(){
+        List<PlayerStats> stats= playerStatsRepository.findByPlayerStatus(PlayerStatus.SUSPENDED);
+        for(PlayerStats stat:stats){
+            stat.setRemainingDaysForStatus(stat.getRemainingDaysForStatus()-1);
+            if(stat.getRemainingDaysForStatus()==0){
+                stat.setPlayerStatus(PlayerStatus.ACTIVE);
+            }
+        }
+        playerStatsRepository.saveAll(stats);
     }
 
     public void increaseGamesForSquad(HistorySquad squad) {

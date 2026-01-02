@@ -2,8 +2,10 @@ package com.hautilargi.footman.core;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Team;
@@ -14,8 +16,15 @@ import com.hautilargi.footman.players.model.HistoryPlayer;
 public class MatchProcessor {
 
    private static final Random RANDOM = new Random();
-
+        static Set<HistoryPlayer> playersWithYellow=new HashSet<>();
+        static Set<HistoryPlayer> suspendedPlayers=new HashSet<>();
+        
     public static Match processMatch(Team homeTeam, Team awayTeam, HistorySquad home,HistorySquad away) {
+
+
+
+        int momentum=0;
+
         List<MatchEvent> events = new ArrayList<>();
         int goalsHome = 0;
         int goalsAway = 0;
@@ -40,7 +49,7 @@ public class MatchProcessor {
             }
         }
 
-        //updateForm(home, away, goalsHome, goalsAway);
+
         Match match= new Match(homeTeam, awayTeam,home, away, goalsHome, goalsAway, events);
         match.setPlayed(true);
         System.out.println(String.format("Processing Match -  %s -  %s ", strength(home), strength(away)));
@@ -75,6 +84,7 @@ public class MatchProcessor {
 
             if (RANDOM.nextDouble() < 0.1) {
                // p.setRedCard(true);
+                suspendedPlayers.add(p);
                 events.add(new MatchEvent(minute, MatchEvent.Type.RED, p, "Red card to " + p.getFirstName() + " " + p.getLastName()));
             }
         }

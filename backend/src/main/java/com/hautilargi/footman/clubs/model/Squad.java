@@ -26,6 +26,7 @@ public class Squad extends AbstractSquad {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    //TODO Map Players to positions
     @ManyToMany( fetch = FetchType.EAGER)
     @JoinTable(
         name = "players_to_squads", 

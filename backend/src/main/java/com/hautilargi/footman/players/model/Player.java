@@ -7,8 +7,8 @@ import java.util.Random;
 import java.util.Set;
 
 import com.hautilargi.footman.clubs.model.Squad;
-import com.hautilargi.footman.core.util.PlayerStatus;
-import com.hautilargi.footman.core.util.Positions;
+import com.hautilargi.footman.core.util.emum.PlayerStatus;
+import com.hautilargi.footman.core.util.emum.Positions;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;

@@ -1,4 +1,4 @@
-package com.hautilargi.footman.core.util;
+package com.hautilargi.footman.core.util.emum;
 
 public enum PlayerStatus {
     ACTIVE,

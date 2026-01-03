@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hautilargi.footman.core.JsonViews;
-import com.hautilargi.footman.core.util.MatchTypes;
+import com.hautilargi.footman.core.processing.MatchTypes;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.users.model.User;
 
@@ -125,30 +125,6 @@ public class Team {
         this.owner = owner;
     }
     
-
-    public String toHtmlString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<section class=\"team\">\n");
-        sb.append("  <h2>");
-        sb.append(escapeHtml(name == null ? "(no name)" : name));
-        sb.append(" (id=").append(id).append(")</h2>\n");
-        sb.append("  <ul>\n");
-        if (players != null && !players.isEmpty()) {
-            for (Player p : players) {
-                sb.append("    <li>");
-                String playerName = (p.getFirstName() == null ? "" : p.getFirstName()) + " " + (p.getLastName() == null ? "" : p.getLastName());
-                sb.append(escapeHtml(playerName.trim()));
-                sb.append(" — Skill: ").append(p.getSkillLevel());
-                sb.append("</li>\n");
-            }
-        } else {
-            sb.append("    <li><em>Keine Spieler</em></li>\n");
-        }
-        sb.append("  </ul>\n");
-        sb.append("</section>\n");
-        return sb.toString();
-    }
-
     private static String escapeHtml(String s) {
         if (s == null) return "";
         return s.replace("&", "&amp;")

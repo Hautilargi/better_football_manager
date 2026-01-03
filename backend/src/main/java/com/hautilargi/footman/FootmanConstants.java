@@ -9,4 +9,6 @@ public class FootmanConstants {
     public final static int INITIAL_PLAYERS_LOWER_BOUND=20;
     public final static int INITIAL_PLAYERS_UPPER_BOUND=40;
 
+    public final static double HOME_ADVANTAGE=1.05;
+
 }

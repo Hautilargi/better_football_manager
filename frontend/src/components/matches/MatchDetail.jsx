@@ -19,6 +19,7 @@ import '../../App.css'
     <h2>
     {match.homeTeam.name} {match.goalsHome} : {match.goalsAway} {match.awayTeam.name}
     </h2>
+    <h3>( {match.goalsHomeHalfTime} : {match.goalsAwayHalfTime} )</h3>
     <MatchSquad squad={match.homeSquad} ></MatchSquad>
     <MatchSquad squad={match.awaySquad} ></MatchSquad>
     <MatchReport

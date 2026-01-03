@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
+import com.hautilargi.footman.core.processing.MatchTypes;
 import com.hautilargi.footman.core.service.ConfigurationService;
-import com.hautilargi.footman.core.util.Formations;
-import com.hautilargi.footman.core.util.MatchTypes;
-import com.hautilargi.footman.core.util.Positions;
+import com.hautilargi.footman.core.util.emum.Formations;
+import com.hautilargi.footman.core.util.emum.Positions;
 import com.hautilargi.footman.leagues.model.League;
 import com.hautilargi.footman.leagues.service.LeagueService;
 import com.hautilargi.footman.matches.model.Match;
@@ -45,7 +45,9 @@ public class DebugHelperService {
 
        public void generateSomeTeams(int no){
         for(int i =0; i<no;i++){
-            rs.addNewTeam("TestTeam_"+i,0);
+            Random random = new Random();
+            int bias = random.nextInt(0,20);
+            rs.addNewTeam(String.format("TT_%s_Stärke+%s", i, bias),bias);
         }
    }
     

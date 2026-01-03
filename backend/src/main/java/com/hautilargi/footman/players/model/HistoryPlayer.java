@@ -1,7 +1,7 @@
 package com.hautilargi.footman.players.model;
 
 import com.hautilargi.footman.clubs.model.HistorySquad;
-import com.hautilargi.footman.core.util.Positions;
+import com.hautilargi.footman.core.util.emum.Positions;
 
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.JoinColumn;

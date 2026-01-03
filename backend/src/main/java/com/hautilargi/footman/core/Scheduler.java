@@ -31,6 +31,7 @@ public class Scheduler {
 	@Autowired
 	PlayerService ps;
 
+	//@Scheduled(cron = "0 0 * * * *", zone = "Europe/Berlin")
 	@Scheduled(cron = "*/5 * * * * *", zone = "Europe/Berlin")
 	public void dayChangeProcessor(){
 

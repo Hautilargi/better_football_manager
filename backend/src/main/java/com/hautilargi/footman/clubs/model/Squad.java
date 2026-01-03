@@ -3,7 +3,7 @@ package com.hautilargi.footman.clubs.model;
 import java.util.List;
 import java.util.Set;
 
-import com.hautilargi.footman.core.util.Formations;
+import com.hautilargi.footman.core.util.emum.Formations;
 import com.hautilargi.footman.players.model.Player;
 
 import jakarta.persistence.Entity;

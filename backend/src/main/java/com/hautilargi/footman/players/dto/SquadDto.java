@@ -2,7 +2,7 @@ package com.hautilargi.footman.players.dto;
 
 import java.util.List;
 
-import com.hautilargi.footman.core.util.Formations;
+import com.hautilargi.footman.core.util.emum.Formations;
 
 public record SquadDto(
     long id,

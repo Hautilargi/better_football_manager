@@ -1,6 +1,6 @@
 package com.hautilargi.footman.players.dto;
 
-import com.hautilargi.footman.core.util.Positions;
+import com.hautilargi.footman.core.util.emum.Positions;
 
 public record PlayerSmallDto(
     Long id,

@@ -6,7 +6,7 @@ import java.util.List;
 import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Stadium;
 import com.hautilargi.footman.clubs.model.Team;
-import com.hautilargi.footman.core.util.MatchTypes;
+import com.hautilargi.footman.core.processing.MatchTypes;
 import com.hautilargi.footman.leagues.model.League;
 
 import jakarta.persistence.CascadeType;
@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 
 @Entity
-@JsonIncludeProperties({"id","events","goalsHome","goalsAway","league","seasonNo","matchDay","matchType","homeTeam","awayTeam","played"})
+@JsonIncludeProperties({"id","events","goalsHome","goalsAway","goalsHomeHalfTime","goalsAwayHalfTime","league","seasonNo","matchDay","matchType","homeTeam","awayTeam","played"})
 public class Match {
 
     @Id
@@ -56,6 +56,8 @@ public class Match {
 
     private int goalsHome;
     private int goalsAway;
+    private int goalsHomeHalfTime;
+    private int goalsAwayHalfTime;
     private int matchDay;
     private MatchTypes matchtype;
     private boolean played;
@@ -77,7 +79,7 @@ public class Match {
         this.matchDay=matchday;
     }
 
-    public Match(Team homeTeam, Team awayTeam, HistorySquad h, HistorySquad a, int gh, int ga, List<MatchEvent> e) {
+    public Match(Team homeTeam, Team awayTeam, HistorySquad h, HistorySquad a, int gh, int ga, int ghHt, int gaHt,List<MatchEvent> e) {
         this.homeTeam=homeTeam;
         this.awayTeam=awayTeam;
         this.homeSquad = h;
@@ -85,13 +87,32 @@ public class Match {
         this.goalsHome = gh;
         this.goalsAway = ga;
         this.events = e;
+        this.goalsAwayHalfTime=gaHt;
+        this.goalsHomeHalfTime=ghHt;
     }
 
     /* Getters and setters */
 
 
+    
     public MatchTypes getMatchtype() {
         return matchtype;
+    }
+
+    public int getGoalsHomeHalfTime() {
+        return goalsHomeHalfTime;
+    }
+
+    public void setGoalsHomeHalfTime(int goalsHomeHalfTime) {
+        this.goalsHomeHalfTime = goalsHomeHalfTime;
+    }
+
+    public int getGoalsAwayHalfTime() {
+        return goalsAwayHalfTime;
+    }
+
+    public void setGoalsAwayHalfTime(int goalsAwayHalfTime) {
+        this.goalsAwayHalfTime = goalsAwayHalfTime;
     }
 
     public void setMatchtype(MatchTypes matchtype) {

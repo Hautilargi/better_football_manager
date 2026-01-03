@@ -14,7 +14,8 @@ import com.hautilargi.footman.clubs.dto.ClubBasicDto;
 import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
-import com.hautilargi.footman.core.util.Positions;
+import com.hautilargi.footman.core.util.emum.PlayerStatus;
+import com.hautilargi.footman.core.util.emum.Positions;
 import com.hautilargi.footman.matches.model.MatchEvent;
 import com.hautilargi.footman.players.dto.PlayerFullDto;
 import com.hautilargi.footman.players.dto.PlayerSmallDto;
@@ -25,7 +26,6 @@ import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.model.PlayerStats;
 import com.hautilargi.footman.players.repository.PlayerRepository;
 import com.hautilargi.footman.players.repository.PlayerStatsRepository;
-import com.hautilargi.footman.core.util.PlayerStatus;
 
 @Service
 public class PlayerService {

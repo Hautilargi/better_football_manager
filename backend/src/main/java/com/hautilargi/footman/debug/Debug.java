@@ -13,7 +13,7 @@ import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.HistorySquadRepository;
 import com.hautilargi.footman.clubs.repository.SquadRepository;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
-import com.hautilargi.footman.core.util.MatchTypes;
+import com.hautilargi.footman.core.processing.MatchTypes;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.matches.services.MatchService;
 

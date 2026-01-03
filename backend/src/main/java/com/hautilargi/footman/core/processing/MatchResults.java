@@ -1,4 +1,4 @@
-package com.hautilargi.footman.core.util;
+package com.hautilargi.footman.core.processing;
 public enum MatchResults {
     WIN,
     DRAW,

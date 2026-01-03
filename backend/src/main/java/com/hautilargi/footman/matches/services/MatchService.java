@@ -10,8 +10,8 @@ import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.HistorySquadRepository;
-import com.hautilargi.footman.core.MatchProcessor;
-import com.hautilargi.footman.core.util.MatchTypes;
+import com.hautilargi.footman.core.processing.ComplexMatchProcessor;
+import com.hautilargi.footman.core.processing.MatchTypes;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.matches.model.MatchEvent;
 import com.hautilargi.footman.matches.repository.MatchRepository;
@@ -40,7 +40,7 @@ public class MatchService {
         HistorySquad homeHistorySquad = createHistorySquad(home.getSquads().get(matchType));
         HistorySquad awayHistorySquad = createHistorySquad(away.getSquads().get(matchType));
 
-        Match match = MatchProcessor.processMatch(home, away, homeHistorySquad, awayHistorySquad);
+        Match match = ComplexMatchProcessor.processMatch(home, away, homeHistorySquad, awayHistorySquad);
     
         if(persist){
             matchRepository.save(match);
@@ -52,7 +52,7 @@ public class MatchService {
         public Match updateMatch(Match match) {
         HistorySquad homeHistorySquad = createHistorySquad(match.getHomeTeam().getSquads().get(match.getMatchtype()));
         HistorySquad awayHistorySquad = createHistorySquad(match.getAwayTeam().getSquads().get(match.getMatchtype()));
-        Match processedMatch = MatchProcessor.processMatch(match.getHomeTeam(), match.getAwayTeam(), homeHistorySquad, awayHistorySquad);
+        Match processedMatch = ComplexMatchProcessor.processMatch(match.getHomeTeam(), match.getAwayTeam(), homeHistorySquad, awayHistorySquad);
         List<MatchEvent> events= processedMatch.getEvents();
         for(MatchEvent event:events){
             event.setMatch(match);
@@ -62,6 +62,8 @@ public class MatchService {
         match.setGoalsHome(processedMatch.getGoalsHome());
         match.setHomeSquad(homeHistorySquad);
         match.setAwaySquad(awayHistorySquad);
+        match.setGoalsAwayHalfTime(processedMatch.getGoalsAwayHalfTime());
+        match.setGoalsHomeHalfTime(processedMatch.getGoalsHomeHalfTime());
         match.setPlayed(true);
         matchRepository.save(match);   
         return match;
@@ -72,7 +74,7 @@ public class MatchService {
         ArrayList<HistoryPlayer> players = new ArrayList<>(); 
         hs.setFormation(squad.getFormation());
         for (Player p : squad.getSquadMembers()){ 
-            HistoryPlayer hp = new HistoryPlayer(p.getLastName(), p.getFirstName(), playerService.getEffectiveStrengthForPlayer(p, playerService.getPreferredPositionForPlayer(p)));
+            HistoryPlayer hp = new HistoryPlayer(p.getLastname(), p.getFirstName(), playerService.getEffectiveStrengthForPlayer(p, playerService.getPreferredPositionForPlayer(p)));
             hp.setTeam(squad.getTeam());
             //TODO get real position from squad
             hp.setPosition(playerService.getPreferredPositionForPlayer(p));

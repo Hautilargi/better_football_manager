@@ -1,6 +1,6 @@
 package com.hautilargi.footman.players.model;
 
-import com.hautilargi.footman.core.util.PlayerStatus;
+import com.hautilargi.footman.core.util.emum.PlayerStatus;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

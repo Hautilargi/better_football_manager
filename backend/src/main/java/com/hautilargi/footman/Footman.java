@@ -9,8 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
 import com.hautilargi.footman.config.model.GlobalConfiguration;
+import com.hautilargi.footman.core.processing.MatchTypes;
 import com.hautilargi.footman.core.service.ConfigurationService;
-import com.hautilargi.footman.core.util.MatchTypes;
 import com.hautilargi.footman.debug.DebugHelperService;
 import com.hautilargi.footman.matches.services.MatchService;
 import com.hautilargi.footman.services.RepositoryService;
@@ -56,12 +56,12 @@ public class Footman {
             cs.setCurrentDay(40);
             System.out.println("Created new base config");
             System.out.println("Adding Samples to Database...");
-            Team teamA = rs.addNewTeam("AC Alstaden 19",10);
-            Team teamB = rs.addNewTeam("Kloppertruppe AC Alstaden Ost",15);
+            Team teamA = rs.addNewTeam("AC Alstaden 19",25);
+            Team teamB = rs.addNewTeam("Kloppertruppe AC Alstaden Ost",25);
             debugHelperService.generateSomeTeams(14);
             System.out.println("Sample Teams created with IDs: " + teamA.getId() + " and " + teamB.getId());
             System.out.println(
-                    "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1));
+                    "Bulk Match Result:" + debugHelperService.evaluateMatch(teamA, teamB, MatchTypes.LEAGUE, 1000));
             User user= new User("admin","admin@hautilargi.de",passwordEncoder.encode("admin"),null);
             User user2= new User("papa","test@hautilargi.de",passwordEncoder.encode("papa"),null);
 

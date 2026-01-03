@@ -16,12 +16,12 @@ import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.SquadRepository;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
+import com.hautilargi.footman.core.processing.MatchTypes;
 import com.hautilargi.footman.core.service.ConfigurationService;
-import com.hautilargi.footman.core.util.Formations;
-import com.hautilargi.footman.core.util.MatchTypes;
 import com.hautilargi.footman.core.util.NameGenerator;
-import com.hautilargi.footman.core.util.PlayerStatus;
-import com.hautilargi.footman.core.util.Positions;
+import com.hautilargi.footman.core.util.emum.Formations;
+import com.hautilargi.footman.core.util.emum.PlayerStatus;
+import com.hautilargi.footman.core.util.emum.Positions;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.repository.PlayerRepository;
 
@@ -129,7 +129,7 @@ public class RepositoryService {
             var newPlayers = team.getPlayers();
             newPlayers.add(player);
             team.setPlayers(newPlayers);
-            System.out.println("Added player " + player.getFirstName() + " " + player.getLastName() + " to team "
+            System.out.println("Added player " + player.getFirstName() + " " + player.getLastname() + " to team "
                     + team.getName());
             teamRepository.save(team);
             return team;

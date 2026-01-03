@@ -1,6 +1,6 @@
 package com.hautilargi.footman.players.dto;
 
-import com.hautilargi.footman.core.util.PlayerStatus;
+import com.hautilargi.footman.core.util.emum.PlayerStatus;
 
 public record PlayerStatsDto(
      PlayerStatus playerStatus,

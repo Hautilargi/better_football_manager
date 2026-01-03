@@ -31,6 +31,7 @@ public class Scheduler {
 	@Autowired
 	PlayerService ps;
 
+	//@Scheduled(cron = "0 0 * * * *", zone = "Europe/Berlin")
 	@Scheduled(cron = "*/5 * * * * *", zone = "Europe/Berlin")
 	public void dayChangeProcessor(){
 
@@ -53,6 +54,7 @@ public class Scheduler {
 		if(currentDay>0 && currentDay<35){
 				ls.playMatchDay(currentDay);
 				//generate new tables
+				ps.updateSuspensions();
 			}
 		if(currentDay>=35 && currentDay <=40){
 						System.out.println("Summerbreak, nothing happens");

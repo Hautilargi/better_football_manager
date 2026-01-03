@@ -58,14 +58,6 @@ public abstract class AbstractPlayer {
         return id;
     }
 
-    public String getLastName() {
-        return lastname;
-    }
-
-    public void setLastName(String lastname) {
-        this.lastname = lastname;
-    }
-
     public String getNationality() {
         return nationality;
     }

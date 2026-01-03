@@ -16,8 +16,8 @@ import jakarta.persistence.ManyToOne;
 @JsonIncludeProperties({"id","event_minute","type","description","playerActive","playerPassive"})
 public class MatchEvent {
 
-    public enum Type { GOAL, YELLOW, RED, SHOT, FOUL, SUBSTITUTION, OFFSIDE, CORNER, PENALTY, SAVED_SHOT, SAVED_PENALTY, INJURY, OTHER }
-    
+    public enum Type { GOAL, YELLOW, RED, YELLOWRED, SHOT, SAVED_SHOT, FOUL, SUBSTITUTION, PENALTY, SAVED_PENALTY, INJURY, MISC, HALFTIME, KICKOFF, END }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -107,7 +107,7 @@ public class MatchEvent {
 
     @Override
     public String toString() {
-        return "Minute: " + event_minute + ", Type: " + type + ", Player: " + playerActive.getFirstName() + " " + playerActive.getLastName() + ", Description: " + description;
+        return "Minute: " + event_minute + ", Type: " + type + ", Player: " + playerActive.getFirstName() + " " + playerActive.getLastname() + ", Description: " + description;
     }
 
 }

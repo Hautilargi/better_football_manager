@@ -1,6 +1,6 @@
 package com.hautilargi.footman.clubs.model;
 
-import com.hautilargi.footman.core.util.Formations;
+import com.hautilargi.footman.core.util.emum.Formations;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

@@ -14,7 +14,8 @@ import com.hautilargi.footman.clubs.dto.ClubBasicDto;
 import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
-import com.hautilargi.footman.core.util.Positions;
+import com.hautilargi.footman.core.util.emum.PlayerStatus;
+import com.hautilargi.footman.core.util.emum.Positions;
 import com.hautilargi.footman.matches.model.MatchEvent;
 import com.hautilargi.footman.players.dto.PlayerFullDto;
 import com.hautilargi.footman.players.dto.PlayerSmallDto;
@@ -24,12 +25,16 @@ import com.hautilargi.footman.players.model.HistoryPlayer;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.model.PlayerStats;
 import com.hautilargi.footman.players.repository.PlayerRepository;
+import com.hautilargi.footman.players.repository.PlayerStatsRepository;
 
 @Service
 public class PlayerService {
 
     @Autowired
     PlayerRepository playerRepository;
+
+    @Autowired
+    PlayerStatsRepository playerStatsRepository;
 
     @Autowired
     TeamRepository teamRepository;
@@ -56,7 +61,17 @@ public class PlayerService {
             player.setStats(new PlayerStats());
         }
         playerRepository.saveAll(players);
+    }
 
+    public void updateSuspensions(){
+        List<PlayerStats> stats= playerStatsRepository.findByPlayerStatus(PlayerStatus.SUSPENDED);
+        for(PlayerStats stat:stats){
+            stat.setRemainingDaysForStatus(stat.getRemainingDaysForStatus()-1);
+            if(stat.getRemainingDaysForStatus()==0){
+                stat.setPlayerStatus(PlayerStatus.ACTIVE);
+            }
+        }
+        playerStatsRepository.saveAll(stats);
     }
 
     public void increaseGamesForSquad(HistorySquad squad) {

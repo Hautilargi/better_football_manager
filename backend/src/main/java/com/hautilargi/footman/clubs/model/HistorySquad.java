@@ -2,7 +2,7 @@ package com.hautilargi.footman.clubs.model;
 
 import java.util.List;
 
-import com.hautilargi.footman.core.util.Formations;
+import com.hautilargi.footman.core.util.emum.Formations;
 import com.hautilargi.footman.players.model.HistoryPlayer;
 
 import jakarta.persistence.CascadeType;
@@ -16,6 +16,7 @@ public class HistorySquad extends AbstractSquad {
 
     private boolean active = true;
 
+    //TODO Map Player to Position
     @OneToMany(mappedBy = "squad", cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<HistoryPlayer> players;
 

@@ -1,7 +1,7 @@
 package com.hautilargi.footman.players.model;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.hautilargi.footman.clubs.model.HistorySquad;
+import com.hautilargi.footman.core.util.emum.Positions;
 
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.JoinColumn;
@@ -19,6 +19,8 @@ public class HistoryPlayer extends AbstractPlayer {
     @ManyToOne
     @JoinColumn(name = "real_player_id")
     private Player realPlayer;
+
+    private Positions position;
 
     public HistoryPlayer() {
     }
@@ -51,4 +53,13 @@ public class HistoryPlayer extends AbstractPlayer {
     public void setSquad(HistorySquad squad) {
         this.squad =  squad;
     }
+
+    public Positions getPosition() {
+        return position;
+    }
+
+    public void setPosition(Positions position) {
+        this.position = position;
+    }
+
 }

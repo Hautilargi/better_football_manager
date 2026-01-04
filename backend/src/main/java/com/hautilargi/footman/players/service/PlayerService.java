@@ -195,7 +195,7 @@ public class PlayerService {
 
     private PlayerFullDto mapPlayerToPlayerFullDto(Player player, Team team) {
         return new PlayerFullDto(player.getId(), player.getFirstName(), player.getLastname(),
-                player.getNationality(), player.getSalery(), player.getSkillLevel(), player.getTalent(),
+                player.getNationality(), player.getSalery(), player.getSkillLevel(), getEffectiveStrengthForPlayer(player, getPreferredPositionForPlayer(player)),player.getTalent(),
                 player.getAge(), player.getSpeed(), player.getStamina(), player.getPassing(),
                 player.getShooting(), player.getDefense(), player.getDribbling(), player.getIntelligence(),
                 player.getGoalkeeping(), getPreferredPositionForPlayer(player), getStatsDtoForPlayer(player),

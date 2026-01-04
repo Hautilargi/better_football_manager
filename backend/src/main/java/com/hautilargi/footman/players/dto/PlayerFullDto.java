@@ -10,6 +10,7 @@ public record PlayerFullDto(
     String nationality,
     long salery,
     int skillLevel,
+    int effectiveStrength,
     int talent,
     int age,
     int speed,

@@ -43,6 +43,7 @@ function PlayerDetail() {
           <LinearProgress variant="determinate" value={player.talent} />
         </div>
         <div><strong>SkillBasis:</strong> {player.skillLevel}</div>
+        <div><strong>Effektiver Skill:</strong> {player.effectiveStrength}</div>
         <div><strong>Gehalt:</strong> {player.salery} €</div>
         <div><strong>Torwartspiel:</strong> {player.goalkeeping}</div>
         <div><strong>Schnelligkeit:</strong> {player.speed}</div>

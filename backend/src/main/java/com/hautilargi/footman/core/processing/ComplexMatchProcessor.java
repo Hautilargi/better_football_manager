@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.Future.State;
 
 import com.hautilargi.footman.FootmanConstants;
 import com.hautilargi.footman.clubs.model.HistorySquad;
@@ -55,11 +54,10 @@ public class ComplexMatchProcessor implements MatchProcessor {
         List<HistoryPlayer> passiveTeam = away.getPlayers();
 
         List<MatchEvent> events = new ArrayList<>();
-        
+
         MatchState matchState = new MatchState();
         matchState.setHometeamId(homeTeam.getId());
         matchState.setPlaytime(0);
-
 
         writeEvent(events, MatchEvent.Type.KICKOFF, activePlayer, activePlayer, matchState);
 
@@ -70,21 +68,24 @@ public class ComplexMatchProcessor implements MatchProcessor {
                 HistoryPlayer passivePlayer = pickPlayer(passiveTeam, zone, side, true);
                 MatchStepEvent stepResult = resolveStep(nextStep, activePlayer, passivePlayer, matchState);
 
-                /* 
-                System.out.println(
-                        String.format("Step for %s. %s with players %s vs %s. Ball currently in %s | %s. Result is %s ",
-                                activeTeam.getFirst().getTeam().getName(),
-                                nextStep,
-                                activePlayer.getLastname(),
-                                passivePlayer.getLastname(),
-                                zone,
-                                side,
-                                stepResult.getResult()));
-                */
+                /*
+                 * System.out.println(
+                 * String.
+                 * format("Step for %s. %s with players %s vs %s. Ball currently in %s | %s. Result is %s "
+                 * ,
+                 * activeTeam.getFirst().getTeam().getName(),
+                 * nextStep,
+                 * activePlayer.getLastname(),
+                 * passivePlayer.getLastname(),
+                 * zone,
+                 * side,
+                 * stepResult.getResult()));
+                 */
+
                 playInProgress = stepResult.isPlayContinued();
-                matchState.setPlaytime(matchState.getPlaytime()+stepResult.getTimeTaken());
+                matchState.setPlaytime(matchState.getPlaytime() + stepResult.getTimeTaken());
                 if (stepResult.getTriggeredEvent() != null) {
-                    //System.out.println("EVENT TRIGGERED " + stepResult.getTriggeredEvent());
+                    // System.out.println("EVENT TRIGGERED " + stepResult.getTriggeredEvent());
                     switch (stepResult.getTriggeredEvent()) {
                         case FOUL:
                             if (!maybeCard(passivePlayer, bookedPlayers, events, matchState)) {
@@ -94,9 +95,9 @@ public class ComplexMatchProcessor implements MatchProcessor {
                             break;
                         case GOAL:
                             if (activePlayer.getTeam().getName().equals(homeTeam.getName())) {
-                                matchState.setGoalsHome(matchState.getGoalsHome()+1);
+                                matchState.setGoalsHome(matchState.getGoalsHome() + 1);
                             } else {
-                                matchState.setGoalsAway(matchState.getGoalsAway()+1);
+                                matchState.setGoalsAway(matchState.getGoalsAway() + 1);
                             }
                             writeEvent(events, stepResult.getTriggeredEvent(), activePlayer, passivePlayer, matchState);
                             break;
@@ -147,10 +148,12 @@ public class ComplexMatchProcessor implements MatchProcessor {
                 writeEvent(events, MatchEvent.Type.HALFTIME, activePlayer, activePlayer, matchState);
             }
         }
-        Match match = new Match(homeTeam, awayTeam, home, away, matchState.getGoalsHome(), matchState.getGoalsAway(), matchState.getGoalsHomeHalfTime(),
+        Match match = new Match(homeTeam, awayTeam, home, away, matchState.getGoalsHome(), matchState.getGoalsAway(),
+                matchState.getGoalsHomeHalfTime(),
                 matchState.getGoalsAwayHalfTime(), events);
         match.setPlayed(true);
-        //System.out.println(String.format("Processed Match -  %s %s -  %s %s ", homeTeam.getName(), goalsHome, goalsAway, awayTeam.getName()));
+        // System.out.println(String.format("Processed Match - %s %s - %s %s ",
+        // homeTeam.getName(), goalsHome, goalsAway, awayTeam.getName()));
         writeEvent(events, MatchEvent.Type.END, activePlayer, activePlayer, matchState);
         return match;
     }
@@ -162,20 +165,17 @@ public class ComplexMatchProcessor implements MatchProcessor {
             weightedEvents.put(GameStep.CROSS, 2D);
             weightedEvents.put(GameStep.PASS_DEEP, 1D);
             weightedEvents.put(GameStep.DRIBBLE, 1D);
-        }
-        else if (PitchZone.OWN.equals(zone)) {
+        } else if (PitchZone.OWN.equals(zone)) {
             weightedEvents.put(GameStep.CROSS, 1D);
             weightedEvents.put(GameStep.PASS_DEEP, 1D);
             weightedEvents.put(GameStep.PASS_FLAT, 1D);
             weightedEvents.put(GameStep.DRIBBLE, 1D);
-        }
-        else if (PitchZone.CENTER.equals(zone)) {
+        } else if (PitchZone.CENTER.equals(zone)) {
             weightedEvents.put(GameStep.CROSS, 1D);
             weightedEvents.put(GameStep.PASS_DEEP, 1D);
             weightedEvents.put(GameStep.PASS_FLAT, 1D);
             weightedEvents.put(GameStep.DRIBBLE, 1D);
-        }
-        else if (PitchZone.ENEMY.equals(zone)) {
+        } else if (PitchZone.ENEMY.equals(zone)) {
             weightedEvents.put(GameStep.CROSS, 1D);
             weightedEvents.put(GameStep.PASS_FLAT, 1D);
             weightedEvents.put(GameStep.PASS_DEEP, 1D);
@@ -183,8 +183,7 @@ public class ComplexMatchProcessor implements MatchProcessor {
             if (PitchSide.CENTER.equals(side)) {
                 weightedEvents.put(GameStep.SHOOT, 1D);
             }
-        }
-        else if (PitchZone.BOXENEMY.equals(zone)) {
+        } else if (PitchZone.BOXENEMY.equals(zone)) {
             weightedEvents.put(GameStep.PASS_FLAT, 1D);
             weightedEvents.put(GameStep.SHOOT, 4D);
             if (!PitchSide.CENTER.equals(side)) {
@@ -197,7 +196,8 @@ public class ComplexMatchProcessor implements MatchProcessor {
         return WeightedRandom.getRandomByWeight(weightedEvents);
     }
 
-    private static MatchStepEvent resolveStep(GameStep step, HistoryPlayer player, HistoryPlayer playerAgainst, MatchState state) {
+    private static MatchStepEvent resolveStep(GameStep step, HistoryPlayer player, HistoryPlayer playerAgainst,
+            MatchState state) {
         // Stepspecific modifiers
         StepResult result = duell(getEffectiveStrenghtForStepAndMintute(player, step, true, state),
                 getEffectiveStrenghtForStepAndMintute(playerAgainst, step, false, state));
@@ -309,9 +309,11 @@ public class ComplexMatchProcessor implements MatchProcessor {
         if (reverse) {
             if (side.equals(PitchSide.LEFT)) {
                 side = PitchSide.RIGHT;
-            } else if (side.equals(PitchSide.RIGHT)) {
+            } 
+            else if (side.equals(PitchSide.RIGHT)) {
                 side = PitchSide.LEFT;
             }
+
             if (zone.equals(PitchZone.OWN)) {
                 zone = PitchZone.ENEMY;
             } else if (zone.equals(PitchZone.BOXOWN)) {
@@ -332,9 +334,9 @@ public class ComplexMatchProcessor implements MatchProcessor {
     private static double getWeightForPositionAndZone(Positions position, PitchZone zone, PitchSide side) {
         if (position.equals(Positions.GOALKEEPER)) {
             if (zone.equals(PitchZone.BOXOWN) && side.equals(PitchSide.CENTER)) {
-                return 1D;
-            } else {
-                return 0D;
+                return 2D;
+            } else if (zone.equals(PitchZone.BOXOWN) || (zone.equals(PitchZone.OWN)  && side.equals(PitchSide.CENTER) )){
+                return 3D; 
             }
         }
         if (position.equals(Positions.DEFENDER)) {
@@ -418,10 +420,10 @@ public class ComplexMatchProcessor implements MatchProcessor {
     }
 
     private static double getEffectiveStrenghtForStepAndMintute(HistoryPlayer player, GameStep step, boolean active,
-           MatchState state) {
-        int baseSkill=player.getSkillLevel();
-        if(player.getTeam().getId().equals(state.getHometeamId())){
-            baseSkill*=FootmanConstants.HOME_ADVANTAGE;
+            MatchState state) {
+        int baseSkill = player.getSkillLevel();
+        if (player.getTeam().getId().equals(state.getHometeamId())) {
+            baseSkill *= FootmanConstants.HOME_ADVANTAGE;
         }
         if (!active)
             return baseSkill;
@@ -429,15 +431,15 @@ public class ComplexMatchProcessor implements MatchProcessor {
             case CROSS:
                 return baseSkill * 0.9;
             case DRIBBLE:
-            return baseSkill;
+                return baseSkill;
             case SHOOT:
-            return baseSkill;
+                return baseSkill;
             case PASS_DEEP:
-            return baseSkill*0.8;
+                return baseSkill * 0.8;
             case PASS_FLAT:
-            return baseSkill*1.3;
+                return baseSkill * 1.3;
             default:
-            return baseSkill;
+                return baseSkill;
         }
     }
 
@@ -451,15 +453,16 @@ public class ComplexMatchProcessor implements MatchProcessor {
         weightedResults.put(StepResult.NEUTRAL, baseRatioActive * 0.05 + baseRatioPassive * 0.05);
         weightedResults.put(StepResult.FAILURE, baseRatioPassive * 0.9);
         weightedResults.put(StepResult.CRITICALFAIL, baseRatioPassive * 0.05);
+
         return WeightedRandom.getRandomByWeight(weightedResults);
     }
 
     private static boolean maybeCard(HistoryPlayer player, Set<HistoryPlayer> bookedPlayers, List<MatchEvent> events,
             MatchState state) {
-        if (RANDOM.nextDouble() < 0.01) {
+        if (RANDOM.nextDouble() < 0.02) {
             writeEvent(events, MatchEvent.Type.RED, player, null, state);
             return true;
-        } else if (RANDOM.nextDouble() < 0.2) {
+        } else if (RANDOM.nextDouble() < 0.25) {
             if (bookedPlayers.contains(player)) {
                 writeEvent(events, MatchEvent.Type.YELLOWRED, player, null, state);
                 return true;
@@ -493,7 +496,8 @@ public class ComplexMatchProcessor implements MatchProcessor {
                 break;
             case SHOT:
                 events.add(new MatchEvent(minute, nextEvent, activePlayer,
-                        String.format("Schussversuch für den %s durch %s %s - Leider daneben", activePlayer.getTeam().getName(), activePlayer.getFirstName(),
+                        String.format("Schussversuch für den %s durch %s %s - Leider daneben",
+                                activePlayer.getTeam().getName(), activePlayer.getFirstName(),
                                 activePlayer.getLastname())));
                 break;
             case GOAL:
@@ -503,7 +507,8 @@ public class ComplexMatchProcessor implements MatchProcessor {
                 break;
             case HALFTIME:
                 events.add(new MatchEvent(minute, nextEvent, activePlayer,
-                        String.format("Halbzeit zum Stand von %s : %s", state.getGoalsHomeHalfTime(),  state.getGoalsAwayHalfTime())));
+                        String.format("Halbzeit zum Stand von %s : %s", state.getGoalsHomeHalfTime(),
+                                state.getGoalsAwayHalfTime())));
                 break;
             case KICKOFF:
                 events.add(new MatchEvent(minute, nextEvent, activePlayer,

@@ -10,6 +10,8 @@ import com.hautilargi.footman.players.model.HistoryPlayer;
 
 public class MatchState {
         Set<HistoryPlayer> bookedPlayers = new HashSet<>();
+        Set<HistoryPlayer> suHistoryPlayers = new HashSet<>();
+
         HistoryPlayer activePlayer;
         PitchZone zone = PitchZone.CENTER;
         PitchSide side = PitchSide.CENTER;
@@ -17,6 +19,7 @@ public class MatchState {
         List<HistoryPlayer> activeTeam ;
         List<HistoryPlayer> passiveTeam ;
         long hometeamId;
+        double momentum=0D;
         int goalsHome = 0;
         int goalsAway = 0;
         int goalsHomeHalfTime = 0;

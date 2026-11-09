@@ -7,13 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hautilargi.footman.clubs.dto.ClubBasicDto;
 import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Team;
-import com.hautilargi.footman.clubs.repository.TeamRepository;
+import com.hautilargi.footman.clubs.service.TeamService;
 import com.hautilargi.footman.core.util.emum.PlayerStatus;
 import com.hautilargi.footman.core.util.emum.Positions;
 import com.hautilargi.footman.matches.model.MatchEvent;
@@ -30,14 +29,16 @@ import com.hautilargi.footman.players.repository.PlayerStatsRepository;
 @Service
 public class PlayerService {
 
-    @Autowired
-    PlayerRepository playerRepository;
+    private final PlayerRepository playerRepository;
+    private final PlayerStatsRepository playerStatsRepository;
+    private final TeamService teamService;
 
-    @Autowired
-    PlayerStatsRepository playerStatsRepository;
-
-    @Autowired
-    TeamRepository teamRepository;
+    public PlayerService(PlayerRepository playerRepository, PlayerStatsRepository playerStatsRepository,
+            TeamService teamService) {
+        this.playerRepository = playerRepository;
+        this.playerStatsRepository = playerStatsRepository;
+        this.teamService = teamService;
+    }
 
     // Helper Methods
     public void applyStatsUpdate(List<MatchEvent> events) {
@@ -162,7 +163,7 @@ public class PlayerService {
 
     public PlayerFullDto getPlayerAsDto(long id) {
         var player = playerRepository.findById(id);
-        var team = teamRepository.findByPlayers_id(id);
+        var team = teamService.getTeamByPlayerId(id);
         if (player.isPresent()) {
             return mapPlayerToPlayerFullDto(player.get(), team);
         } else

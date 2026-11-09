@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,23 +12,23 @@ import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.core.service.ConfigurationService;
 import com.hautilargi.footman.leagues.service.LeagueService;
 import com.hautilargi.footman.players.service.PlayerService;
-import com.hautilargi.footman.services.RepositoryService;
+import com.hautilargi.footman.clubs.service.TeamService;
 
 @Component
 public class Scheduler {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-	@Autowired
-    LeagueService ls;
+	private final LeagueService ls;
+	private final ConfigurationService cs;
+	private final TeamService teamService;
+	private final PlayerService ps;
 
-    @Autowired
-    ConfigurationService cs;
-
-    @Autowired
-    RepositoryService rs;
-
-	@Autowired
-	PlayerService ps;
+	public Scheduler(LeagueService ls, ConfigurationService cs, TeamService teamService, PlayerService ps) {
+		this.ls = ls;
+		this.cs = cs;
+		this.teamService = teamService;
+		this.ps = ps;
+	}
 
 	//@Scheduled(cron = "0 0 * * * *", zone = "Europe/Berlin")
 	@Scheduled(cron = "*/5 * * * * *", zone = "Europe/Berlin")
@@ -79,16 +78,16 @@ public class Scheduler {
 }
 
 	private void performRelegation(){
-					List<Team> allTeams= rs.getAllTeams(false,0);
+					List<Team> allTeams= teamService.getAllTeams(false,0);
 					for(Team nextTeam:allTeams){
 						if(nextTeam.getName().startsWith("Placeholder")){
-						rs.deactivateTeam(nextTeam);	
+						teamService.deactivateTeam(nextTeam);	
 					}
 				}
 	}
 
 	private void initNewLeagueTier(long season, int tier){
-			List<Team> allTeams= rs.getAllTeams(true,tier);
+			List<Team> allTeams= teamService.getAllTeams(true,tier);
 			Collections.shuffle(allTeams);
 			int teamcount=allTeams.size();
 			int noProcessedTeams = 0;

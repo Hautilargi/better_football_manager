@@ -1,15 +1,14 @@
-package com.hautilargi.footman.matches.services;
+package com.hautilargi.footman.matches.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
-import com.hautilargi.footman.clubs.repository.HistorySquadRepository;
 import com.hautilargi.footman.core.processing.ComplexMatchProcessor;
 import com.hautilargi.footman.core.processing.MatchTypes;
 import com.hautilargi.footman.matches.model.Match;
@@ -22,17 +21,20 @@ import com.hautilargi.footman.players.service.PlayerService;
 @Service
 public class MatchService {
 
-    @Autowired
-    MatchRepository matchRepository;
+    private final MatchRepository matchRepository;
+    private final PlayerService playerService;
 
-    @Autowired
-    HistorySquadRepository hsRepo ;
+    public MatchService(MatchRepository matchRepository, PlayerService playerService) {
+        this.matchRepository = matchRepository;
+        this.playerService = playerService;
+    }
 
-    @Autowired
-    PlayerService playerService;
+    public List<Match> getMatches(int matchday, long season, int leagueIndex) {
+        return matchRepository.findByMatchDayAndSeasonAndLeague_Index(matchday, season, leagueIndex);
+    }
 
-
-    public MatchService() {
+    public Optional<Match> findById(Long id) {
+        return matchRepository.findById(id);
     }
 
     public Match playMatch(Team home, Team away, MatchTypes matchType, boolean persist) {

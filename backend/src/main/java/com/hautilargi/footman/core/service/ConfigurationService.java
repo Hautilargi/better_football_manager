@@ -1,6 +1,5 @@
 package com.hautilargi.footman.core.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hautilargi.footman.config.model.GlobalConfiguration;
@@ -10,11 +9,10 @@ import com.hautilargi.footman.config.repository.GlobalConfigurationRepository;
 @Service
 public class ConfigurationService {
 
-    @Autowired
-    GlobalConfigurationRepository  globalConfiguationRepository;
+    private final GlobalConfigurationRepository globalConfiguationRepository;
 
-
-    public ConfigurationService() {
+    public ConfigurationService(GlobalConfigurationRepository globalConfiguationRepository) {
+        this.globalConfiguationRepository = globalConfiguationRepository;
     }
 
     public GlobalConfiguration getGlobalConfiguration(){

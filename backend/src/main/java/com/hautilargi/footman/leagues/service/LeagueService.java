@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.hautilargi.footman.api.Players;
+import com.hautilargi.footman.leagues.dto.LeagueDto;
+import com.hautilargi.footman.leagues.mapper.LeagueMapper;
 import com.hautilargi.footman.clubs.model.HistorySquad;
 import com.hautilargi.footman.clubs.model.Team;
 import com.hautilargi.footman.core.processing.MatchResults;
@@ -22,25 +24,42 @@ import com.hautilargi.footman.leagues.model.LeagueTableEntry;
 import com.hautilargi.footman.leagues.repository.LeagueRepository;
 import com.hautilargi.footman.matches.model.Match;
 import com.hautilargi.footman.matches.repository.MatchRepository;
-import com.hautilargi.footman.matches.services.MatchService;
+import com.hautilargi.footman.matches.service.MatchService;
 import com.hautilargi.footman.players.service.PlayerService;
-import com.hautilargi.footman.services.RepositoryService;
+import com.hautilargi.footman.clubs.service.TeamService;
 
 @Service
 public class LeagueService {
 
-    @Autowired
-    LeagueRepository leagueRepository;
-    @Autowired
-    MatchRepository matchRepository;
-    @Autowired
-    RepositoryService rs;
-    @Autowired
-    ConfigurationService cs;
-    @Autowired
-    MatchService ms;
-    @Autowired
-    PlayerService ps;
+    private final LeagueRepository leagueRepository;
+    private final MatchRepository matchRepository;
+    private final TeamService teamService;
+    private final ConfigurationService cs;
+    private final MatchService ms;
+    private final PlayerService ps;
+    private final LeagueMapper leagueMapper;
+
+    public LeagueService(LeagueRepository leagueRepository, MatchRepository matchRepository,
+            TeamService teamService, ConfigurationService cs, MatchService ms, PlayerService ps,
+            LeagueMapper leagueMapper) {
+        this.leagueRepository = leagueRepository;
+        this.matchRepository = matchRepository;
+        this.teamService = teamService;
+        this.cs = cs;
+        this.ms = ms;
+        this.ps = ps;
+        this.leagueMapper = leagueMapper;
+    }
+
+    public List<LeagueDto> getLeagues(long season, int tier) {
+        return leagueMapper.toDtos(leagueRepository.findBySeasonNoAndTier(season, tier));
+    }
+
+    public LeagueDto getLeagueById(Long id) {
+        return leagueRepository.findById(id)
+                .map(leagueMapper::toDto)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
 
     public MatchDayTableDto getTableForMatchDay(long season, int league, int matchday) {
         return new MatchDayTableDto(season,league,matchday,     
@@ -57,7 +76,7 @@ public class LeagueService {
         newLeague.setTier(tier);
         newLeague.setIndex(index);
         while (teams.size() < 18) {
-            teams.add(rs.addNewTeam("Placeholder " + (teams.size() + 1),0));
+            teams.add(teamService.addNewTeam("Placeholder " + (teams.size() + 1),0));
             System.out.println("Filling Team with Placeholder " + teams.size());
         }
         System.out.println(teams.size());

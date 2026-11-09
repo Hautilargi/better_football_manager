@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hautilargi.footman.clubs.model.Squad;
@@ -20,34 +19,48 @@ import com.hautilargi.footman.core.util.emum.Positions;
 import com.hautilargi.footman.leagues.model.League;
 import com.hautilargi.footman.leagues.service.LeagueService;
 import com.hautilargi.footman.matches.model.Match;
-import com.hautilargi.footman.matches.services.MatchService;
+import com.hautilargi.footman.matches.service.MatchService;
 import com.hautilargi.footman.players.model.Player;
-import com.hautilargi.footman.services.RepositoryService;
+import com.hautilargi.footman.clubs.repository.SquadRepository;
+import com.hautilargi.footman.clubs.service.TeamService;
 
 @Service
 public class DebugHelperService {
 
-    @Autowired
-    MatchService ms;
+    private final MatchService ms;
+    private final TeamService teamService;
+    private final LeagueService ls;
+    private final ConfigurationService cs;
+    private final SquadRepository squadRepository;
 
-    @Autowired 
-    RepositoryService rs;
+    public DebugHelperService(MatchService ms, TeamService teamService, LeagueService ls,
+            ConfigurationService cs, SquadRepository squadRepository) {
+        this.ms = ms;
+        this.teamService = teamService;
+        this.ls = ls;
+        this.cs = cs;
+        this.squadRepository = squadRepository;
+    }
 
-    @Autowired
-    LeagueService ls;
+    public String playTestMatch(Long homeId, Long awayId) {
+        Team homeTeam = teamService.findById(homeId).orElseThrow();
+        Team awayTeam = teamService.findById(awayId).orElseThrow();
+        return ms.playMatch(homeTeam, awayTeam, MatchTypes.LEAGUE, false).toString();
+    }
 
-        @Autowired
-    ConfigurationService cs;
-
-
-    public DebugHelperService() {
+    public String describeSquads() {
+        List<Squad> squads = squadRepository.findAll();
+        for (Squad s : squads) {
+            System.out.println("Squad id=" + s.getId() + " has " + s.getSquadMembers().size() + " players.");
+        }
+        return squads.toString();
     }
 
        public void generateSomeTeams(int no){
         for(int i =0; i<no;i++){
             Random random = new Random();
             int bias = random.nextInt(0,20);
-            rs.addNewTeam(String.format("TT_%s_Stärke+%s", i, bias),bias);
+            teamService.addNewTeam(String.format("TT_%s_Stärke+%s", i, bias),bias);
         }
    }
     
@@ -55,7 +68,7 @@ public class DebugHelperService {
         //18 Teams generieren
         List<Team> testTeams = new ArrayList<>();
         for(int i =0; i<16;i++){
-            testTeams.add(rs.addNewTeam("TestTeam_"+i,0));
+            testTeams.add(teamService.addNewTeam("TestTeam_"+i,0));
         }
         //Saison generieren
        long season= cs.increaseCurrentSeason();
@@ -67,7 +80,7 @@ public class DebugHelperService {
         //18 Teams generieren
         List<Team> testTeams = new ArrayList<>();
         for(int i =0; i<16;i++){
-            testTeams.add(rs.addNewTeam("TestTeam_"+i,0));
+            testTeams.add(teamService.addNewTeam("TestTeam_"+i,0));
         }
         //Saison generieren
         long testSeason= cs.increaseCurrentSeason();

@@ -1,8 +1,7 @@
-package com.hautilargi.footman.api;
+package com.hautilargi.footman.players.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,11 +11,13 @@ import com.hautilargi.footman.players.dto.PlayerSmallDto;
 import com.hautilargi.footman.players.service.PlayerService;
 
 @RestController
-public class Players {
+public class PlayerController {
 
+    private final PlayerService playerService;
 
-    @Autowired
-    PlayerService playerService;
+    public PlayerController(PlayerService playerService) {
+        this.playerService = playerService;
+    }
 
     @GetMapping("/api/players")
     public List<PlayerSmallDto> getAllPlayers() {
@@ -25,7 +26,6 @@ public class Players {
 
     @GetMapping("/api/players/{id}")
     public PlayerFullDto getPlayerById(@PathVariable Long id) {
-        var player = playerService.getPlayerAsDto(id);
-        return player;
+        return playerService.getPlayerAsDto(id);
     }
 }

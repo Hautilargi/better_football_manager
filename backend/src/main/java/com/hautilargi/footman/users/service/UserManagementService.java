@@ -1,15 +1,16 @@
 package com.hautilargi.footman.users.service;
+
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.hautilargi.footman.clubs.model.Team;
-import com.hautilargi.footman.clubs.repository.TeamRepository;
-import com.hautilargi.footman.services.RepositoryService;
+import com.hautilargi.footman.clubs.service.TeamService;
+import com.hautilargi.footman.users.dto.UserDto;
+import com.hautilargi.footman.users.mapper.UserMapper;
 import com.hautilargi.footman.users.model.User;
 import com.hautilargi.footman.users.repository.UserRepository;
 
@@ -19,41 +20,63 @@ import jakarta.servlet.http.HttpSession;
 @Service
 public class UserManagementService {
 
-    @Autowired
-    TeamRepository teamRepository;
+    private static final String SESSION_USER_ID = "USER_ID";
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final TeamService teamService;
+    private final UserMapper userMapper;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    RepositoryService rs;
-
-    public UserManagementService() {
+    public UserManagementService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+            TeamService teamService, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.teamService = teamService;
+        this.userMapper = userMapper;
     }
 
     public User registerUser(String name, String email, String password, String teamName) {
 
         User user = new User(name, email, passwordEncoder.encode(password), null);
-        Team newTeam = rs.addNewTeam(teamName,0);
+        Team newTeam = teamService.addNewTeam(teamName,0);
         user.setTeam(newTeam);
         userRepository.save(user);
 
         newTeam.setOwner(user);
         newTeam.setActive(true);
-        teamRepository.save(newTeam);
+        teamService.save(newTeam);
         return user;
 
     }
 
-    public User getUserFromSession(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("USER_ID") == null) {
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public User authenticate(String username, String password) {
+        User user = userRepository.findByName(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            System.out.println("Password wrong!");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        Long userId = (Long) session.getAttribute("USER_ID");
+        return user;
+    }
+
+    public void startSession(HttpServletRequest request, User user) {
+        request.getSession(true).setAttribute(SESSION_USER_ID, user.getId());
+    }
+
+    public UserDto getUserDtoFromSession(HttpServletRequest request) {
+        return userMapper.toDto(getUserFromSession(request));
+    }
+
+    public User getUserFromSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute(SESSION_USER_ID) == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        Long userId = (Long) session.getAttribute(SESSION_USER_ID);
         Optional<User> maybeUser = userRepository.findById(userId);
         if (maybeUser.isPresent()) {
             return maybeUser.get();
@@ -64,10 +87,10 @@ public class UserManagementService {
 
     public long getUserIdFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("USER_ID") == null) {
+        if (session == null || session.getAttribute(SESSION_USER_ID) == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        return (Long) session.getAttribute("USER_ID");
+        return (Long) session.getAttribute(SESSION_USER_ID);
     }
 
 }

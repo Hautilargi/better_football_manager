@@ -1,20 +1,22 @@
-package com.hautilargi.footman.services;
+package com.hautilargi.footman.clubs.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.hautilargi.footman.FootmanConstants;
+import com.hautilargi.footman.clubs.dto.ClubBasicDto;
 import com.hautilargi.footman.clubs.dto.ClubDto;
 import com.hautilargi.footman.clubs.mapper.ClubMapper;
 import com.hautilargi.footman.clubs.model.Squad;
 import com.hautilargi.footman.clubs.model.Team;
-import com.hautilargi.footman.clubs.repository.SquadRepository;
 import com.hautilargi.footman.clubs.repository.TeamRepository;
 import com.hautilargi.footman.core.processing.MatchTypes;
 import com.hautilargi.footman.core.service.ConfigurationService;
@@ -24,23 +26,22 @@ import com.hautilargi.footman.core.util.emum.PlayerStatus;
 import com.hautilargi.footman.core.util.emum.Positions;
 import com.hautilargi.footman.players.model.Player;
 import com.hautilargi.footman.players.repository.PlayerRepository;
+import com.hautilargi.footman.users.model.User;
 
 @Service
-public class RepositoryService {
+public class TeamService {
 
-    @Autowired
-    TeamRepository teamRepository;
+    private final TeamRepository teamRepository;
+    private final PlayerRepository playerRepository;
+    private final ConfigurationService cs;
+    private final ClubMapper clubMapper;
 
-    @Autowired
-    PlayerRepository playerRepository;
-
-    @Autowired
-    SquadRepository squadRepository;
-
-    @Autowired
-    ConfigurationService cs;
-
-    public RepositoryService() {
+    public TeamService(TeamRepository teamRepository, PlayerRepository playerRepository,
+            ConfigurationService cs, ClubMapper clubMapper) {
+        this.teamRepository = teamRepository;
+        this.playerRepository = playerRepository;
+        this.cs = cs;
+        this.clubMapper = clubMapper;
     }
 
     public Team addNewTeam(String name, int bias) {
@@ -82,6 +83,14 @@ public class RepositoryService {
         return newTeam;
     }
 
+    public Team save(Team team) {
+        return teamRepository.save(team);
+    }
+
+    public List<Team> getAllTeams() {
+        return teamRepository.findAll();
+    }
+
     public List<Team> getAllTeams(boolean onlyActive, int tier) {
         if (tier == 0 && onlyActive == false) {
             return teamRepository.findAll();
@@ -96,6 +105,38 @@ public class RepositoryService {
             return teamRepository.findByActive(onlyActive);
         }
         throw new UnsupportedOperationException("Unsupported combonation of Query Parameters");
+    }
+
+    public List<ClubBasicDto> getAllClubs() {
+        return clubMapper.toBasicDtos(teamRepository.findAll());
+    }
+
+    public ClubBasicDto getClubBasicById(Long id) {
+        return teamRepository.findById(id)
+                .map(clubMapper::toBasicDto)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    public Optional<Team> findById(Long id) {
+        return teamRepository.findById(id);
+    }
+
+    public Team getTeamByPlayerId(long playerId) {
+        return teamRepository.findByPlayers_id(playerId);
+    }
+
+    public Team getTeamOwnedBy(User owner) {
+        return teamRepository.findByOwner(owner).getFirst();
+    }
+
+    public ClubDto getClubOwnedBy(User owner) {
+        return clubMapper.toDto(getTeamOwnedBy(owner));
+    }
+
+    public ClubDto getClubById(Long id) {
+        return teamRepository.findById(id)
+                .map(clubMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("Team not found: " + id));
     }
 
     public void relegateTeam(Team team) {
@@ -136,11 +177,5 @@ public class RepositoryService {
         } else {
             throw new IllegalStateException("Team has reached maximum size of " + FootmanConstants.MAX_TEAMSIZE);
         }
-    }
-
-    public ClubDto getClubById(Long id, ClubMapper mapper) {
-        return teamRepository.findById(id)
-                .map(mapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Team not found: " + id));
     }
 }
